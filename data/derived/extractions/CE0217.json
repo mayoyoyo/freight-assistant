@@ -1,0 +1,24 @@
+{
+  "id": "CE0217",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1969,
+    "output": 152
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": 540,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Mike Harrington",
+    "company_name": "Keystone Freight LLC",
+    "questions": [
+      "Any room on your end?"
+    ],
+    "notes": "Carrier rejects posted rate and counters at $540 for a Dover to Cherry Hill box truck run."
+  }
+}

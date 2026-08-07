@@ -1,0 +1,22 @@
+{
+  "id": "CE0135",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1963,
+    "output": 109
+  },
+  "extraction": {
+    "mc_number": "723891",
+    "load_reference": "29000392",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Shaun McIntyre",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier confirms booking and will send BOL info shortly."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0115",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1958,
+    "output": 122
+  },
+  "extraction": {
+    "mc_number": "218765",
+    "load_reference": "29000196",
+    "rate_usd": null,
+    "equipment": "Refrigerated",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "William Osei",
+    "company_name": "Tidewater Carriers",
+    "questions": [
+      "What does it pay?"
+    ],
+    "notes": "Carrier expressed interest in the load and asked for the rate."
+  }
+}

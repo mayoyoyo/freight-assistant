@@ -1,0 +1,24 @@
+{
+  "id": "CE0247",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1975,
+    "output": 129
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000948",
+    "rate_usd": 650,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Baraka Mwangi",
+    "company_name": null,
+    "questions": [
+      "Any room on your end?"
+    ],
+    "notes": "Carrier rejects posted rate for Brooklyn to Worcester lane and counters at $650."
+  }
+}

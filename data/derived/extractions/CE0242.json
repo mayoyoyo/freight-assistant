@@ -1,0 +1,22 @@
+{
+  "id": "CE0242",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1973,
+    "output": 120
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000948",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Jason Tran",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier confirms booking and requests rate confirmation be sent to jtran@velocityfreight.net."
+  }
+}

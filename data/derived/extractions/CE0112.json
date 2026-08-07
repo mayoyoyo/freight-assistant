@@ -1,0 +1,24 @@
+{
+  "id": "CE0112",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1942,
+    "output": 144
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "load_question",
+    "availability": "unknown",
+    "caller_name": "Angela Kim",
+    "company_name": "Coastal Express Transport",
+    "questions": [
+      "Still available on this one?"
+    ],
+    "notes": "Carrier asks whether the Newark to Brooklyn load is still available; no MC, load ID, rate, or equipment given."
+  }
+}

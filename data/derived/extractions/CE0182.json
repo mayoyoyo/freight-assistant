@@ -1,0 +1,22 @@
+{
+  "id": "CE0182",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1997,
+    "output": 132
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000689",
+    "rate_usd": 425,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Lilly Morgan",
+    "company_name": "DEMIX TRANSPORT",
+    "questions": [],
+    "notes": "Carrier counters broker's posted $390 with a $425 minimum on the PA to NJ lane."
+  }
+}

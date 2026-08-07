@@ -1,0 +1,22 @@
+{
+  "id": "CE0153",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1978,
+    "output": 123
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000496",
+    "rate_usd": 225,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Simone Archer",
+    "company_name": "Liberty Freight Solutions",
+    "questions": [],
+    "notes": "Carrier requests load details be emailed; driver confirmed for 2026-05-11."
+  }
+}

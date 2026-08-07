@@ -1,0 +1,22 @@
+{
+  "id": "CE0090",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2013,
+    "output": 150
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": 320,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Frank Kowalczyk",
+    "company_name": "SUMMIT RIDGE CARRIERS INC",
+    "questions": [],
+    "notes": "Carrier counters broker's posted $285 with a $320 ask on Philadelphia to Elizabeth lane."
+  }
+}

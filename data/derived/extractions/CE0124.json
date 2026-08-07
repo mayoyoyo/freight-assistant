@@ -1,0 +1,24 @@
+{
+  "id": "CE0124",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1940,
+    "output": 135
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Marie Vale",
+    "company_name": null,
+    "questions": [
+      "Rate?"
+    ],
+    "notes": "Carrier states availability for a Harrisburg to Trenton lane and asks for the rate; no MC, load ID, or equipment given."
+  }
+}

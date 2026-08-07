@@ -1,0 +1,24 @@
+{
+  "id": "CE0270",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1961,
+    "output": 124
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29001091",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Baraka Mwangi",
+    "company_name": null,
+    "questions": [
+      "What's the rate?"
+    ],
+    "notes": "Carrier says they can cover the Pittsburgh to Camden load and is asking for the rate."
+  }
+}

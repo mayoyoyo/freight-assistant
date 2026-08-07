@@ -1,0 +1,25 @@
+{
+  "id": "call_040_compliance_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2551,
+    "output": 139
+  },
+  "extraction": {
+    "mc_number": "329876",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "rate_question",
+    "availability": "unknown",
+    "caller_name": "Benny",
+    "company_name": "Known Company",
+    "questions": [
+      "I need to ask about your payment process",
+      "Can I call you back?"
+    ],
+    "notes": "Carrier will check with dispatcher about factoring/NOA and have billing contact the broker before confirming a load."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "call_016_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2901,
+    "output": 175
+  },
+  "extraction": {
+    "mc_number": "891234",
+    "load_reference": null,
+    "rate_usd": 298,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Ivan",
+    "company_name": "TriStar Transport Incorporated",
+    "questions": [
+      "What's the best email?"
+    ],
+    "notes": "Carrier counters broker's posted $270 with a $298 minimum on the PA-New Jersey lane; broker to reply by email after checking with ops."
+  }
+}

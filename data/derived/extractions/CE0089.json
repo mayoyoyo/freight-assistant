@@ -1,0 +1,24 @@
+{
+  "id": "CE0089",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1968,
+    "output": 131
+  },
+  "extraction": {
+    "mc_number": "456012",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Frank Kowalczyk",
+    "company_name": null,
+    "questions": [
+      "What does it pay?"
+    ],
+    "notes": "Carrier interested in Philadelphia to Elizabeth lane and asking for the rate."
+  }
+}

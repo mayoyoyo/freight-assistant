@@ -1,0 +1,22 @@
+{
+  "id": "CE0108",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1996,
+    "output": 143
+  },
+  "extraction": {
+    "mc_number": "789012",
+    "load_reference": "29000138",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "booking_confirm",
+    "availability": "unknown",
+    "caller_name": "Amara Diallo",
+    "company_name": "QUICK SHIFT LOGISTICS",
+    "questions": [],
+    "notes": "Carrier factors through TCI Business Capital; payment should be sent to the factor."
+  }
+}

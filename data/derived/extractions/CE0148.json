@@ -1,0 +1,24 @@
+{
+  "id": "CE0148",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1948,
+    "output": 132
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000496",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Priyanka Mehta",
+    "company_name": "Northbound Express",
+    "questions": [
+      "When's pickup?"
+    ],
+    "notes": "Email references a DE to NJ lane; no MC, rate, or equipment provided."
+  }
+}

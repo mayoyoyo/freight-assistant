@@ -1,0 +1,22 @@
+{
+  "id": "CE0133",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1965,
+    "output": 134
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000392",
+    "rate_usd": null,
+    "equipment": "Flatbed",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Clint Beauregard",
+    "company_name": "Frontier Hauling LLC",
+    "questions": [],
+    "notes": "Email offers a flatbed for a Trenton to Brooklyn load; no MC number or rate provided."
+  }
+}

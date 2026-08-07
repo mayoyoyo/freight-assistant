@@ -1,0 +1,22 @@
+{
+  "id": "CE0096",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1973,
+    "output": 111
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000096",
+    "rate_usd": 250,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Marie Vale",
+    "company_name": null,
+    "questions": [],
+    "notes": "Driver confirmed for 2026-03-12; requests load details sent to this email."
+  }
+}

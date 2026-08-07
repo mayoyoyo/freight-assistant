@@ -1,0 +1,24 @@
+{
+  "id": "CE0186",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1952,
+    "output": 154
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Carlos Mendez",
+    "company_name": null,
+    "questions": [
+      "Rate?"
+    ],
+    "notes": "Reply to a subject line referencing a Sprinter Van load from Allentown to Woodbridge; no MC, load ID, or rate provided."
+  }
+}

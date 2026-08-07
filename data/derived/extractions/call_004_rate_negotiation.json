@@ -1,0 +1,24 @@
+{
+  "id": "call_004_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2917,
+    "output": 144
+  },
+  "extraction": {
+    "mc_number": "945231",
+    "load_reference": null,
+    "rate_usd": 530,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Dave",
+    "company_name": "Eagle Express LLC",
+    "questions": [
+      "Which load are you looking at?"
+    ],
+    "notes": "Carrier says broker's posted $480 is too low and needs $530 minimum; broker to follow up by email."
+  }
+}

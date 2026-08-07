@@ -1,0 +1,25 @@
+{
+  "id": "call_017_availability_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2679,
+    "output": 145
+  },
+  "extraction": {
+    "mc_number": "776491",
+    "load_reference": "29372343",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Rami",
+    "company_name": "SMR Trucking Incorporated",
+    "questions": [
+      "Still open?",
+      "Can you confirm by email?"
+    ],
+    "notes": "Driver already in the area for tomorrow's PA pickup; carrier wants load details emailed."
+  }
+}

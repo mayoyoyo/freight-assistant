@@ -1,0 +1,22 @@
+{
+  "id": "CE0083",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1972,
+    "output": 137
+  },
+  "extraction": {
+    "mc_number": "678901",
+    "load_reference": "29000096",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Robert Nguyen",
+    "company_name": "Chesapeake Haulers LLC",
+    "questions": [],
+    "notes": "Carrier confirms booking on load 29000096 with a box truck; no rate discussed."
+  }
+}

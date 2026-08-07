@@ -1,0 +1,24 @@
+{
+  "id": "CE0195",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1995,
+    "output": 140
+  },
+  "extraction": {
+    "mc_number": "166960",
+    "load_reference": null,
+    "rate_usd": 450,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Marie Vale",
+    "company_name": "LANDSTAR RANGER INC",
+    "questions": [
+      "Can you do $450?"
+    ],
+    "notes": "Driver available for Allentown to Woodbridge but says posted $390 won't cover fuel and tolls."
+  }
+}

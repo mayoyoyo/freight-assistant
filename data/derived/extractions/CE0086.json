@@ -1,0 +1,22 @@
+{
+  "id": "CE0086",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1977,
+    "output": 127
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000096",
+    "rate_usd": 255,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Hector Morales",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier requests load details be sent to hector.valleyrun@gmail.com; driver confirmed for 2026-03-12."
+  }
+}

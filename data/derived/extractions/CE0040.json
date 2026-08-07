@@ -1,0 +1,22 @@
+{
+  "id": "CE0040",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1963,
+    "output": 126
+  },
+  "extraction": {
+    "mc_number": "567123",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Vincent Caruso",
+    "company_name": "Metro Delivery Solutions",
+    "questions": [],
+    "notes": "Lane stated in subject line: Bethlehem to Camden."
+  }
+}

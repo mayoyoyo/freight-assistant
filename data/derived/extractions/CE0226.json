@@ -1,0 +1,24 @@
+{
+  "id": "CE0226",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1955,
+    "output": 132
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000873",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Colleen Fitzgerald",
+    "company_name": "Birch Hill Carriers",
+    "questions": [
+      "What's the rate?"
+    ],
+    "notes": "Email references a Dover to Elizabeth lane; no MC or equipment provided."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0188",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1997,
+    "output": 139
+  },
+  "extraction": {
+    "mc_number": "765432",
+    "load_reference": null,
+    "rate_usd": 435,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Hector Morales",
+    "company_name": "Valley Run Freight LLC",
+    "questions": [
+      "Can you do $435?"
+    ],
+    "notes": "Carrier says posted $390 won't cover fuel and tolls on the Allentown to Woodbridge run."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0201",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1972,
+    "output": 128
+  },
+  "extraction": {
+    "mc_number": "456789",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "load_question",
+    "availability": "unknown",
+    "caller_name": "Jason Tran",
+    "company_name": null,
+    "questions": [
+      "Does delivery require an appointment?"
+    ],
+    "notes": "Inquiring about an Allentown to Woodbridge lane; driver is local to Woodbridge."
+  }
+}

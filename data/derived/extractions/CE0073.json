@@ -1,0 +1,24 @@
+{
+  "id": "CE0073",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1951,
+    "output": 120
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372515",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Patricia Ramos",
+    "company_name": null,
+    "questions": [
+      "When's pickup?"
+    ],
+    "notes": "Email references a New York to Boston lane; no MC, rate, or equipment provided."
+  }
+}

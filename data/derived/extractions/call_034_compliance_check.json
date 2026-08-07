@@ -1,0 +1,25 @@
+{
+  "id": "call_034_compliance_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2671,
+    "output": 166
+  },
+  "extraction": {
+    "mc_number": "885432",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "compliance_update",
+    "availability": "unknown",
+    "caller_name": "Clint",
+    "company_name": "Frontier Hauling LLC",
+    "questions": [
+      "What's your MC?",
+      "Conditional? That should be resolved."
+    ],
+    "notes": "Broker declined to book because FMCSA shows the carrier's authority as conditional; carrier says paperwork was filed weeks ago and will follow up with FMCSA."
+  }
+}

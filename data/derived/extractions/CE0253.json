@@ -1,0 +1,24 @@
+{
+  "id": "CE0253",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1943,
+    "output": 132
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Flatbed",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Marie Vale",
+    "company_name": null,
+    "questions": [
+      "What's the all-in?"
+    ],
+    "notes": "Subject line indicates flatbed available for Reading to Columbus; carrier asks for all-in rate."
+  }
+}

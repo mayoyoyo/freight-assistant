@@ -1,0 +1,24 @@
+{
+  "id": "call_026_availability_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2629,
+    "output": 136
+  },
+  "extraction": {
+    "mc_number": "321654",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Sandra",
+    "company_name": "Route 1 Transporting",
+    "questions": [
+      "Still open?"
+    ],
+    "notes": "Carrier's driver is already near the New Jersey pickup area; broker to email full load details for confirmation."
+  }
+}

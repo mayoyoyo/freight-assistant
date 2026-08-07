@@ -1,0 +1,22 @@
+{
+  "id": "CE0022",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1983,
+    "output": 126
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372289",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Raj Patel",
+    "company_name": null,
+    "questions": [],
+    "notes": "Requests rate confirmation be sent to raj.pinnaclefreight@gmail.com; driver will be at pickup window."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0164",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1948,
+    "output": 135
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": null,
+    "company_name": null,
+    "questions": [
+      "What's the all-in?"
+    ],
+    "notes": "Reply to a Box Truck Harrisburg to Dover load; carrier says they can cover but asks for the all-in rate."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0042",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1967,
+    "output": 128
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372312",
+    "rate_usd": 280,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Priyanka Mehta",
+    "company_name": "Northbound Express",
+    "questions": [
+      "Worth discussing?"
+    ],
+    "notes": "Carrier can cover only at their $280 lane floor, above the broker's $240."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "call_030_availability_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2612,
+    "output": 166
+  },
+  "extraction": {
+    "mc_number": "109876",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": null,
+    "company_name": "Sharp Arrow Logistics LLC",
+    "questions": [
+      "Still open?",
+      "Can you confirm by email?"
+    ],
+    "notes": "Carrier's driver is already in the New Jersey area for the NJ-to-NY box truck load; broker to email full load details."
+  }
+}

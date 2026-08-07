@@ -1,0 +1,22 @@
+{
+  "id": "CE0200",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1993,
+    "output": 149
+  },
+  "extraction": {
+    "mc_number": "789012",
+    "load_reference": "29000689",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "factoring_notice",
+    "availability": "unknown",
+    "caller_name": "Amara Diallo",
+    "company_name": "QUICK SHIFT LOGISTICS",
+    "questions": [],
+    "notes": "Carrier accepts posted rate on load 29000689 and requests NOA be sent to factor TCI Business Capital with a cc to them."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "call_011_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2937,
+    "output": 149
+  },
+  "extraction": {
+    "mc_number": "678901",
+    "load_reference": null,
+    "rate_usd": 415,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Robert",
+    "company_name": "Chesapeake Haulers LLC",
+    "questions": [
+      "What's the best email?"
+    ],
+    "notes": "Carrier counters the posted $380 to $415 minimum on the MD-PA lane; broker to reply by email within the hour."
+  }
+}

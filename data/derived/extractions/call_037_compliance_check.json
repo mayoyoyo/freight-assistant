@@ -1,0 +1,25 @@
+{
+  "id": "call_037_compliance_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2547,
+    "output": 158
+  },
+  "extraction": {
+    "mc_number": "678234",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "rate_question",
+    "availability": "unknown",
+    "caller_name": "Mohammed",
+    "company_name": "Anokhan Company",
+    "questions": [
+      "Can I ask about your payment process?",
+      "Can I call you back?"
+    ],
+    "notes": "Carrier must confirm factoring/NOA details with dispatcher before booking; broker offers net 21 standard or QuickPay at 2% fee."
+  }
+}

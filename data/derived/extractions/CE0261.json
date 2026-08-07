@@ -1,0 +1,22 @@
+{
+  "id": "CE0261",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1952,
+    "output": 125
+  },
+  "extraction": {
+    "mc_number": "876543",
+    "load_reference": "29001091",
+    "rate_usd": null,
+    "equipment": "Refrigerated",
+    "intent": "availability_offer",
+    "availability": "unknown",
+    "caller_name": "Diane Worthington",
+    "company_name": "Capital City Transport",
+    "questions": [],
+    "notes": "Carrier expressed interest in the load; no rate or specific truck availability stated."
+  }
+}

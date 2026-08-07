@@ -1,0 +1,22 @@
+{
+  "id": "CE0214",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1960,
+    "output": 140
+  },
+  "extraction": {
+    "mc_number": "345678",
+    "load_reference": "29000791",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "unknown",
+    "caller_name": "Patricia Ramos",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier expressed interest in load #29000791 (DE to NJ) with a Sprinter Van; no rate discussed."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "CE0272",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1981,
+    "output": 118
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29001091",
+    "rate_usd": 180,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Baraka Mwangi",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier requests load details be sent to this email; driver confirmed for 2026-03-31."
+  }
+}

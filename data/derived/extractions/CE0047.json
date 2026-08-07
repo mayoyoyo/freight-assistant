@@ -1,0 +1,22 @@
+{
+  "id": "CE0047",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1944,
+    "output": 100
+  },
+  "extraction": {
+    "mc_number": "774321",
+    "load_reference": "29372399",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Priyanka Mehta",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier requests load details be sent."
+  }
+}

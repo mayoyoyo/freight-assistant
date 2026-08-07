@@ -1,0 +1,22 @@
+{
+  "id": "CE0206",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1954,
+    "output": 112
+  },
+  "extraction": {
+    "mc_number": "218765",
+    "load_reference": "29000791",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "William Osei",
+    "company_name": "Tidewater Carriers",
+    "questions": [],
+    "notes": "Carrier confirms booking and will send BOL info shortly."
+  }
+}

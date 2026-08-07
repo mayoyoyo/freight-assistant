@@ -1,0 +1,22 @@
+{
+  "id": "call_052_voicemail",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2501,
+    "output": 144
+  },
+  "extraction": {
+    "mc_number": "1480355",
+    "load_reference": null,
+    "rate_usd": 380,
+    "equipment": "Sprinter Van",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Lily",
+    "company_name": "Demicks Transport",
+    "questions": [],
+    "notes": "Carrier wants $380 vs posted $340 on NJ-NY lane; requests callback or email."
+  }
+}

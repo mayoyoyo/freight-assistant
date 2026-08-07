@@ -1,0 +1,24 @@
+{
+  "id": "call_036_compliance_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2648,
+    "output": 157
+  },
+  "extraction": {
+    "mc_number": "456012",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "compliance_update",
+    "availability": "unknown",
+    "caller_name": "Frank",
+    "company_name": "Summit Ridge Carriers Incorporated",
+    "questions": [
+      "Can I email you the new cert today?"
+    ],
+    "notes": "Insurance cert on file is expired/expiring; carrier says renewal is in process and will email updated COI, and cannot be booked until compliance approves."
+  }
+}

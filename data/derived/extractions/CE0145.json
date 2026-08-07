@@ -1,0 +1,22 @@
+{
+  "id": "CE0145",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1981,
+    "output": 122
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000496",
+    "rate_usd": 240,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Tariq Hassan",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier agreed to $240 with driver confirmed for 2026-05-11 and requests load details by email."
+  }
+}

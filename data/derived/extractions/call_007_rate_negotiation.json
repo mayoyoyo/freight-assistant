@@ -1,0 +1,24 @@
+{
+  "id": "call_007_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2956,
+    "output": 163
+  },
+  "extraction": {
+    "mc_number": "456789",
+    "load_reference": null,
+    "rate_usd": 215,
+    "equipment": "Sprinter Van",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Jason",
+    "company_name": "Velocity Freight Incorporated",
+    "questions": [
+      "Which load are you looking at?"
+    ],
+    "notes": "Carrier counters the posted $195 on the NJ-NY lane, needs $215 minimum due to fuel; broker to reply by email."
+  }
+}

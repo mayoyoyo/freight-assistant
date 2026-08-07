@@ -1,0 +1,24 @@
+{
+  "id": "CE0250",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2005,
+    "output": 155
+  },
+  "extraction": {
+    "mc_number": "1480355",
+    "load_reference": null,
+    "rate_usd": 675,
+    "equipment": "Sprinter Van",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Lilly Morgan",
+    "company_name": "DEMIX TRANSPORT",
+    "questions": [
+      "Can you do $675?"
+    ],
+    "notes": "Carrier says broker's posted $560 won't cover fuel and tolls on the Brooklyn to Worcester run."
+  }
+}

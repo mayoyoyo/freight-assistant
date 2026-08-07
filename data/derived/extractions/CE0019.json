@@ -1,0 +1,22 @@
+{
+  "id": "CE0019",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1982,
+    "output": 115
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372289",
+    "rate_usd": 295,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Shaun McIntyre",
+    "company_name": null,
+    "questions": [],
+    "notes": "Requests load details be sent to this email; driver confirmed for 2026-05-20."
+  }
+}

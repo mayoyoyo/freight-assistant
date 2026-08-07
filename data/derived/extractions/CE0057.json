@@ -1,0 +1,24 @@
+{
+  "id": "CE0057",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1949,
+    "output": 123
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372450",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "load_question",
+    "availability": "unknown",
+    "caller_name": "Reed Barlus",
+    "company_name": null,
+    "questions": [
+      "Still available on this one?"
+    ],
+    "notes": "Carrier inquiring whether the Philadelphia to New York load is still open."
+  }
+}

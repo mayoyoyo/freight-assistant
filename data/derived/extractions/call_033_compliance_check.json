@@ -1,0 +1,24 @@
+{
+  "id": "call_033_compliance_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2683,
+    "output": 150
+  },
+  "extraction": {
+    "mc_number": "219876",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "compliance_update",
+    "availability": "unknown",
+    "caller_name": "Baraka",
+    "company_name": "Tradewind Transport Incorporated",
+    "questions": [
+      "Can I email you the new cert today?"
+    ],
+    "notes": "Insurance cert expired/expiring; carrier says renewal in process and will email updated COI, blocked from booking until compliance approves."
+  }
+}

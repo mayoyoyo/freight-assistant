@@ -1,0 +1,24 @@
+{
+  "id": "CE0041",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2006,
+    "output": 152
+  },
+  "extraction": {
+    "mc_number": "774321",
+    "load_reference": "29372312",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Priyanka Mehta",
+    "company_name": "Northbound Express",
+    "questions": [
+      "Please confirm rate and any special requirements."
+    ],
+    "notes": "Sprinter van in area on 2026-05-21 for Bethlehem to Camden lane."
+  }
+}

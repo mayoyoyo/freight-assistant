@@ -1,0 +1,24 @@
+{
+  "id": "CE0013",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1948,
+    "output": 148
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Hector Morales",
+    "company_name": null,
+    "questions": [
+      "What's the all-in?"
+    ],
+    "notes": "Subject line indicates a box truck available for a Reading to Wilmington run; carrier says 'Can do' and asks for the all-in rate."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0104",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1950,
+    "output": 101
+  },
+  "extraction": {
+    "mc_number": "166960",
+    "load_reference": "29000138",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "other",
+    "availability": "available",
+    "caller_name": "Marie Vale",
+    "company_name": null,
+    "questions": [
+      "What does it pay?"
+    ],
+    "notes": null
+  }
+}

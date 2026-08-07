@@ -1,0 +1,24 @@
+{
+  "id": "call_049_load_details",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2630,
+    "output": 142
+  },
+  "extraction": {
+    "mc_number": "876543",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Refrigerated",
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Diane",
+    "company_name": "Capital City Transport",
+    "questions": [
+      "What about the temp range confirmation?"
+    ],
+    "notes": "Broker confirmed 34-38F with carrier providing temp logs at delivery; rate confirmation to be sent."
+  }
+}

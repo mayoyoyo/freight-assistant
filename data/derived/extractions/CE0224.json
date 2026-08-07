@@ -1,0 +1,22 @@
+{
+  "id": "CE0224",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1999,
+    "output": 131
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000873",
+    "rate_usd": 465,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Omar Washington",
+    "company_name": "LAKESIDE FREIGHT LLC",
+    "questions": [],
+    "notes": "Carrier counters broker's posted $405 with a $465 ask and asks about flexibility."
+  }
+}

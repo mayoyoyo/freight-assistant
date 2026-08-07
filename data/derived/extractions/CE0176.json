@@ -1,0 +1,24 @@
+{
+  "id": "CE0176",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2003,
+    "output": 143
+  },
+  "extraction": {
+    "mc_number": "1023456",
+    "load_reference": "29000660",
+    "rate_usd": 775,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Anya Volkov",
+    "company_name": "Prime Horizon Logistics",
+    "questions": [
+      "Can you do $775?"
+    ],
+    "notes": "Carrier says broker's posted $635 won't cover fuel and tolls; driver available pending rate agreement."
+  }
+}

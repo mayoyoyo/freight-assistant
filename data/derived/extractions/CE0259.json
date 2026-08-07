@@ -1,0 +1,24 @@
+{
+  "id": "CE0259",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1958,
+    "output": 151
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Mohammed Al-Rashid",
+    "company_name": null,
+    "questions": [
+      "What's the all-in?"
+    ],
+    "notes": "Subject line indicates a Box Truck available for a Pittsburgh to Camden run; no MC, load ID, or rate stated."
+  }
+}

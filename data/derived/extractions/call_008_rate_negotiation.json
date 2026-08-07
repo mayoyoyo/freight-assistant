@@ -1,0 +1,24 @@
+{
+  "id": "call_008_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2915,
+    "output": 151
+  },
+  "extraction": {
+    "mc_number": "234891",
+    "load_reference": null,
+    "rate_usd": 340,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Mike",
+    "company_name": "Keystone Freight LLC",
+    "questions": [
+      "What's the best email?"
+    ],
+    "notes": "Carrier says broker-posted $310 is too low and needs $340 minimum on this lane; broker to reply by email."
+  }
+}

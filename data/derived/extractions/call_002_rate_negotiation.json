@@ -1,0 +1,22 @@
+{
+  "id": "call_002_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2905,
+    "output": 147
+  },
+  "extraction": {
+    "mc_number": "538772",
+    "load_reference": null,
+    "rate_usd": 290,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": null,
+    "company_name": "Chahal Trucking Inc",
+    "questions": [],
+    "notes": "Carrier counters broker's posted $250 on the PA/NJ box truck lane, needs $290 minimum; broker to respond by email within the hour."
+  }
+}

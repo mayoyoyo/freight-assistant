@@ -1,0 +1,22 @@
+{
+  "id": "CE0190",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1965,
+    "output": 136
+  },
+  "extraction": {
+    "mc_number": "567123",
+    "load_reference": "29000689",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "unknown",
+    "caller_name": "Vincent Caruso",
+    "company_name": "Metro Delivery Solutions",
+    "questions": [],
+    "notes": "Email expresses interest in Allentown to Woodbridge load; no rate discussed."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0154",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1978,
+    "output": 150
+  },
+  "extraction": {
+    "mc_number": "456789",
+    "load_reference": "29000496",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "conditional",
+    "caller_name": "Jason Tran",
+    "company_name": "Velocity Freight",
+    "questions": [
+      "Just need to make sure that's okay before we confirm — we use OTR Solutions for factoring"
+    ],
+    "notes": "Carrier can cover load pending broker approval of OTR Solutions factoring."
+  }
+}

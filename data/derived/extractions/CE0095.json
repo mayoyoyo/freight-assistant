@@ -1,0 +1,24 @@
+{
+  "id": "CE0095",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1959,
+    "output": 127
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000096",
+    "rate_usd": 310,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Marie Vale",
+    "company_name": null,
+    "questions": [
+      "any room on your end?"
+    ],
+    "notes": "Carrier rejects posted rate and counters at $310 for a PA to NJ load."
+  }
+}

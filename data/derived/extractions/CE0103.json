@@ -1,0 +1,22 @@
+{
+  "id": "CE0103",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1978,
+    "output": 111
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000138",
+    "rate_usd": 710,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Reed",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier requests load details sent to this email; driver confirmed for 2026-05-15."
+  }
+}

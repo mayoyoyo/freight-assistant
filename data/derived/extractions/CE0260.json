@@ -1,0 +1,22 @@
+{
+  "id": "CE0260",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1987,
+    "output": 120
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29001091",
+    "rate_usd": 175,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Mohammed Al-Rashid",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier requests load details sent to this email; driver confirmed for 2026-03-31."
+  }
+}

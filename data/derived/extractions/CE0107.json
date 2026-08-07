@@ -1,0 +1,24 @@
+{
+  "id": "CE0107",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1969,
+    "output": 124
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000138",
+    "rate_usd": 860,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Amara Diallo",
+    "company_name": null,
+    "questions": [
+      "Any room on your end?"
+    ],
+    "notes": "Carrier rejected posted rate and countered at $860 for Camden to Yonkers."
+  }
+}

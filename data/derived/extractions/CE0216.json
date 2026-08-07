@@ -1,0 +1,22 @@
+{
+  "id": "CE0216",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1952,
+    "output": 95
+  },
+  "extraction": {
+    "mc_number": "234891",
+    "load_reference": "29000791",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Mike Harrington",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier requests load details."
+  }
+}

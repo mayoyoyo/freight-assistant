@@ -1,0 +1,24 @@
+{
+  "id": "CE0139",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1944,
+    "output": 135
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000392",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Omar Washington",
+    "company_name": null,
+    "questions": [
+      "What's the all-in?"
+    ],
+    "notes": "Carrier says they can cover load #29000392 and asks for the all-in rate; no MC, rate, or equipment given."
+  }
+}

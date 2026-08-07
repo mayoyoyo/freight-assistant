@@ -1,0 +1,22 @@
+{
+  "id": "call_055_voicemail",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2469,
+    "output": 147
+  },
+  "extraction": {
+    "mc_number": "456789",
+    "load_reference": null,
+    "rate_usd": 210,
+    "equipment": "Sprinter Van",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Jason",
+    "company_name": "Velocity Freight Incorporated",
+    "questions": [],
+    "notes": "Carrier countering broker's posted $185 rate on NJ-NY sprinter van lane; requests callback or email."
+  }
+}

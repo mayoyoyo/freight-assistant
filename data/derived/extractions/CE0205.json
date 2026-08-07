@@ -1,0 +1,24 @@
+{
+  "id": "CE0205",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1993,
+    "output": 137
+  },
+  "extraction": {
+    "mc_number": "218765",
+    "load_reference": "29000791",
+    "rate_usd": 525,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "William Osei",
+    "company_name": "Tidewater Carriers Inc",
+    "questions": [
+      "Can you do $525?"
+    ],
+    "notes": "Carrier says posted $455 won't cover fuel and tolls; driver available pending rate agreement."
+  }
+}

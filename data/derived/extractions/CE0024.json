@@ -1,0 +1,24 @@
+{
+  "id": "CE0024",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1967,
+    "output": 148
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": 345,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Fatima Diarra",
+    "company_name": "Red Oak Freight",
+    "questions": [
+      "Any room on your end?"
+    ],
+    "notes": "Carrier rejects posted rate and counters at $345 for Reading to Wilmington box truck load."
+  }
+}

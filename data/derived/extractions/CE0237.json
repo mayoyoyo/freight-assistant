@@ -1,0 +1,22 @@
+{
+  "id": "CE0237",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1965,
+    "output": 117
+  },
+  "extraction": {
+    "mc_number": "876543",
+    "load_reference": "29000873",
+    "rate_usd": null,
+    "equipment": "Refrigerated",
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Diane",
+    "company_name": "Capital City Transport",
+    "questions": [],
+    "notes": "Short email confirming booking on load #29000873 with reefer equipment."
+  }
+}

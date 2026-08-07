@@ -1,0 +1,24 @@
+{
+  "id": "call_014_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2894,
+    "output": 157
+  },
+  "extraction": {
+    "mc_number": "109876",
+    "load_reference": null,
+    "rate_usd": 345,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": null,
+    "company_name": "Shark Arrow Logistics LLC",
+    "questions": [
+      "Which load are you looking at?"
+    ],
+    "notes": "Carrier says broker's posted $310 doesn't work and needs at least $345 on the NJ lane; broker to follow up by email within the hour."
+  }
+}

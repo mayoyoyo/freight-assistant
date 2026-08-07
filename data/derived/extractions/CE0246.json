@@ -1,0 +1,22 @@
+{
+  "id": "CE0246",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1950,
+    "output": 127
+  },
+  "extraction": {
+    "mc_number": "219876",
+    "load_reference": "29000948",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Baraka Mwangi",
+    "company_name": null,
+    "questions": [],
+    "notes": "Terse follow-up email on load #29000948; no rate discussed."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "call_047_load_details",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2588,
+    "output": 162
+  },
+  "extraction": {
+    "mc_number": "774321",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Priyanka",
+    "company_name": "Northbound Express LLC",
+    "questions": [
+      "I wanted to ask about the delivery appointment"
+    ],
+    "notes": "Carrier confirmed the NJCT Sprinter van load after learning delivery requires an appointment with consignee contact provided by broker."
+  }
+}

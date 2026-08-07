@@ -1,0 +1,22 @@
+{
+  "id": "CE0219",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2002,
+    "output": 140
+  },
+  "extraction": {
+    "mc_number": "456789",
+    "load_reference": "29000844",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "factoring_notice",
+    "availability": "unknown",
+    "caller_name": "Jason Tran",
+    "company_name": "VELOCITY FREIGHT INC",
+    "questions": [],
+    "notes": "Carrier accepts posted rate and requests NOA be sent to factoring company OTR Solutions with a cc to them."
+  }
+}

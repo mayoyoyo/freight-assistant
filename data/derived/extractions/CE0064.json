@@ -1,0 +1,24 @@
+{
+  "id": "CE0064",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1954,
+    "output": 132
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372475",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "load_question",
+    "availability": "available",
+    "caller_name": "Amara Diallo",
+    "company_name": null,
+    "questions": [
+      "What's the rate?"
+    ],
+    "notes": "Subject line references a Box Truck load Newark to Bridgeport."
+  }
+}

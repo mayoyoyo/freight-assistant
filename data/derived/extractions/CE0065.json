@@ -1,0 +1,22 @@
+{
+  "id": "CE0065",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1960,
+    "output": 148
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372475",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Thomas Pietrzak",
+    "company_name": "Clearview Hauling Inc",
+    "questions": [],
+    "notes": "Carrier reports an available box truck for load 29372475; no rate or MC number provided."
+  }
+}

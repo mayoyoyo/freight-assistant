@@ -1,0 +1,22 @@
+{
+  "id": "CE0150",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1980,
+    "output": 120
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000496",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Priyanka Mehta",
+    "company_name": "Northbound Express",
+    "questions": [],
+    "notes": "Requests rate confirmation be sent to pmehta@northboundexpress.com."
+  }
+}

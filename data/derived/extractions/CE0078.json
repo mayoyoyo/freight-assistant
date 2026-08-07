@@ -1,0 +1,22 @@
+{
+  "id": "CE0078",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1988,
+    "output": 122
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000096",
+    "rate_usd": 320,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "William Osei",
+    "company_name": "Tidewater Carriers Inc",
+    "questions": [],
+    "notes": "Carrier says broker's posted $285 is too low and asks about rate flexibility."
+  }
+}

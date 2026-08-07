@@ -1,0 +1,24 @@
+{
+  "id": "CE0119",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1957,
+    "output": 132
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000196",
+    "rate_usd": null,
+    "equipment": "Refrigerated",
+    "intent": "load_question",
+    "availability": "available",
+    "caller_name": "Robert Nguyen",
+    "company_name": null,
+    "questions": [
+      "What's the rate?"
+    ],
+    "notes": "Carrier can cover the Newark to Brooklyn reefer load but asks for the rate."
+  }
+}

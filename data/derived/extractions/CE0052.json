@@ -1,0 +1,24 @@
+{
+  "id": "CE0052",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1984,
+    "output": 139
+  },
+  "extraction": {
+    "mc_number": "1198743",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "load_question",
+    "availability": "unknown",
+    "caller_name": "Rob Galloway",
+    "company_name": "Mountain State Transport",
+    "questions": [
+      "Can you confirm weight?"
+    ],
+    "notes": "Posting lists weight as 3200 lbs; carrier needs confirmation before dispatch."
+  }
+}

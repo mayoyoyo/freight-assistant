@@ -1,0 +1,22 @@
+{
+  "id": "CE0227",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1964,
+    "output": 120
+  },
+  "extraction": {
+    "mc_number": "330987",
+    "load_reference": "29000873",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Colleen Fitzgerald",
+    "company_name": "Birch Hill Carriers",
+    "questions": [],
+    "notes": "Carrier confirms booking and will send BOL info shortly."
+  }
+}

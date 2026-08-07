@@ -1,0 +1,24 @@
+{
+  "id": "CE0140",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2004,
+    "output": 150
+  },
+  "extraction": {
+    "mc_number": "441098",
+    "load_reference": null,
+    "rate_usd": 610,
+    "equipment": "Flatbed",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Omar Washington",
+    "company_name": "LAKESIDE FREIGHT LLC",
+    "questions": [
+      "Can you do $610?"
+    ],
+    "notes": "Carrier says broker's posted $525 won't cover fuel and tolls on Trenton to Brooklyn run."
+  }
+}

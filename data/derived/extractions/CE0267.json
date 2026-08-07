@@ -1,0 +1,24 @@
+{
+  "id": "CE0267",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1948,
+    "output": 124
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29001091",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Patricia Ramos",
+    "company_name": null,
+    "questions": [
+      "When's pickup?"
+    ],
+    "notes": "Email references a PA to NJ load; no MC, rate, or equipment provided."
+  }
+}

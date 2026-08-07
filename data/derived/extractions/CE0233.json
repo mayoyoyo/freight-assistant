@@ -1,0 +1,24 @@
+{
+  "id": "CE0233",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1941,
+    "output": 121
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000873",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Baraka Mwangi",
+    "company_name": null,
+    "questions": [
+      "Rate?"
+    ],
+    "notes": "Follow-up email on load #29000873 asking for the rate; no MC or equipment provided."
+  }
+}

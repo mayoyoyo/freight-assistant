@@ -1,0 +1,24 @@
+{
+  "id": "CE0134",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1942,
+    "output": 127
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000392",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Shaun McIntyre",
+    "company_name": null,
+    "questions": [
+      "Rate?"
+    ],
+    "notes": "Carrier follows up on load #29000392 asking for the rate; no MC or equipment given."
+  }
+}

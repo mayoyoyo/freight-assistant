@@ -1,0 +1,22 @@
+{
+  "id": "CE0137",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1946,
+    "output": 105
+  },
+  "extraction": {
+    "mc_number": "68333",
+    "load_reference": "29000392",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Reed Barlus",
+    "company_name": null,
+    "questions": [],
+    "notes": null
+  }
+}

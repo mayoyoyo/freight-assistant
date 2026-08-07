@@ -1,0 +1,24 @@
+{
+  "id": "CE0181",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1996,
+    "output": 142
+  },
+  "extraction": {
+    "mc_number": "1480355",
+    "load_reference": "29000689",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Lilly Morgan",
+    "company_name": "Demix Transport",
+    "questions": [
+      "Please confirm rate and any special requirements."
+    ],
+    "notes": "Sprinter van in area on 2026-04-02 for PA to NJ lane."
+  }
+}

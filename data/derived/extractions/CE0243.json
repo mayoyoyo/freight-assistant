@@ -1,0 +1,24 @@
+{
+  "id": "CE0243",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1960,
+    "output": 132
+  },
+  "extraction": {
+    "mc_number": "789012",
+    "load_reference": "29000948",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Amara Diallo",
+    "company_name": null,
+    "questions": [
+      "What does it pay?"
+    ],
+    "notes": "Carrier interested in NY to MA load, asking for rate."
+  }
+}

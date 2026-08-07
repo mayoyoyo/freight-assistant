@@ -1,0 +1,22 @@
+{
+  "id": "CE0232",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1980,
+    "output": 138
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000873",
+    "rate_usd": 385,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Carlos Mendez",
+    "company_name": "Blue Ridge Transport",
+    "questions": [],
+    "notes": "Carrier requests load details be sent to cmendez@blueridgetransport.com; driver confirmed for 2026-05-02."
+  }
+}

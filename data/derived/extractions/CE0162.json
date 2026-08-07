@@ -1,0 +1,24 @@
+{
+  "id": "CE0162",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1973,
+    "output": 134
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000614",
+    "rate_usd": 865,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Patricia Ramos",
+    "company_name": "Garden State Xpress",
+    "questions": [
+      "Any room on your end?"
+    ],
+    "notes": "Carrier rejects posted rate on Harrisburg to Dover lane and counters at $865."
+  }
+}

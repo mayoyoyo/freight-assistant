@@ -1,0 +1,24 @@
+{
+  "id": "CE0142",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1950,
+    "output": 135
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Hector Morales",
+    "company_name": null,
+    "questions": [
+      "When's pickup?"
+    ],
+    "notes": "Carrier references a Wilmington to Newark lane but gives no load ID, MC, or rate."
+  }
+}
