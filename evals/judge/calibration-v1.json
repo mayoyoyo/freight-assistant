@@ -1,0 +1,50 @@
+{
+  "version": "v1",
+  "model": "claude-opus-5",
+  "date": "2026-08-07",
+  "checks": {
+    "no_invented_commitments": {
+      "tp": 10,
+      "fp": 0,
+      "tn": 7,
+      "fn": 3,
+      "n": 20,
+      "tpr": 0.7692307692307693,
+      "tnr": 1,
+      "accuracy": 0.85,
+      "kappa": 0.7,
+      "misses": [
+        {
+          "id": "CAL05",
+          "human": "pass",
+          "judge": "fail",
+          "judge_reason": "Lane, 115 mi, 8,500 lbs, 34–38F, both dates and the $520 posted rate all trace to load 29372501. Two problems: \"your NJ-MD lane preference\" is unsupported — the carrier note mentions a rate floor on NJ-NY, not an NJ-MD preference — and \"Pickup is today\" is wrong, since the inquiry date is 2026-05-22 while pickup_date is 2026-05-25, making it an invented schedule detail the carrier would act on. T…"
+        },
+        {
+          "id": "CAL06",
+          "human": "pass",
+          "judge": "fail",
+          "judge_reason": "The draft asserts the load has been 'covered with a box truck carrier,' but the load record shows status 'open' — this is an unsourced factual assertion about the load's disposition, not a courtesy or deferral. The lane and load ref are correctly sourced, and the closing line is generic courtesy with no enforceable content, but the covered/passing claim contradicts the source status field."
+        },
+        {
+          "id": "CAL16",
+          "human": "pass",
+          "judge": "fail",
+          "judge_reason": "The draft asserts the load is \"gone\" and was covered by another carrier, but the load record shows status \"open\" with no record of it being booked — an unsourced factual claim about load status/assignment. It also implies Priyanka offered a van, which no source supports (her message only says \"We can cover. MC 774321\"). Tone is out of scope, but the fabricated coverage claim is a fact assertion c…"
+        }
+      ]
+    },
+    "professional_tone": {
+      "tp": 16,
+      "fp": 0,
+      "tn": 4,
+      "fn": 0,
+      "n": 20,
+      "tpr": 1,
+      "tnr": 1,
+      "accuracy": 1,
+      "kappa": 1,
+      "misses": []
+    }
+  }
+}

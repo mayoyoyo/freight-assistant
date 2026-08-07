@@ -19,3 +19,48 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm lint
       - run: pnpm test
+
+  # Non-blocking. This job proves the eval HARNESS is healthy — the graders, the
+  # judge's pure logic, the component evals and the runner's wiring — without
+  # spending a cent or needing a secret.
+  #
+  # The full suite (`pnpm eval`) stays MANUAL and is deliberately not run here:
+  #   - cost: 24 cases x k=3 on claude-opus-5 is roughly $15-25 per invocation,
+  #     which is not something a push should trigger;
+  #   - secrets: it needs ANTHROPIC_API_KEY and a seeded DATABASE_URL, and
+  #     pull_request builds from forks get neither;
+  #   - signal: eval results are a deliberate measurement you compare against a
+  #     committed baseline, not a red/green gate. Failing CI on a 1-case swing
+  #     at n=24 (see the Wilson interval in evals/report.md) would train people
+  #     to ignore it.
+  # Run it by hand and commit the report: EVAL_RUN_ID=<id> pnpm eval
+  eval:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # Grader + judge + stats meta-tests. All offline: no API key, no DB.
+      # These also run inside `pnpm test` in the quality job above (vitest globs
+      # `evals/**/*.test.ts`), where they DO block. Repeated here on purpose so
+      # this job is a self-contained health check of the eval harness that can
+      # be read, and re-run, without reference to the other job.
+      - name: Eval meta-tests (graders, judge logic, stats)
+        run: pnpm exec vitest run evals/
+
+      # Component evals read committed gold files and committed pipeline output;
+      # no database is involved, so this is safe to run on every push.
+      - name: Pipeline component evals
+        run: pnpm eval:components
+
+      # Structural check of the runner: loads the case set, loads every grader,
+      # and asserts each of the 24 cases is reachable by at least one grader.
+      # Makes no API calls and opens no DB connection.
+      - name: Eval runner dry run
+        run: pnpm exec tsx evals/run.ts --dry-run --run-id ci
