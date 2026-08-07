@@ -57,17 +57,43 @@ Phase 2: Ingestion pipeline — 2a DONE, 2b agent running
       "no carrier has quoted").
 
 ## Current Phase
-Phase 4: Error analysis → eval harness → report (THE emphasized deliverable)
+Phase 4: Eval (THE emphasized deliverable) — 4A+4C done, 4B (harness+judge+baseline) running
 
-**Scope addition (Hanson, this session): model-comparison eval run** — same harness over
-claude-opus-5 vs claude-sonnet-5 vs claude-haiku-4-5 vs OpenAI **Codex 5.6 "Luna"**
-(cross-provider via @ai-sdk/openai; verify exact model ID + pricing via web search at run
-time — post-cutoff model; needs OPENAI_API_KEY from Hanson). Output: pass-rate vs cost/query
-table in evals/report.md.
+- [x] 4A error analysis (40 traces): 6 named failure modes. Top root cause: equipment/lane
+      filters see only inquiry-level extracted fields (NULL on 169/329) → truncated sets
+      reported as complete ("equipment-blind" 5, "lane-join-blind" 2). Also: phantom-total
+      (20-row cap), unreachable null-MC carriers (carrier_history is MC-keyed), ASR-name echo,
+      verdict-flip. Abstention 10/10 clean; citations/figures all spot-check correct — the
+      weakness is FINDING what's there, not inventing. 24 cases (8 regression-origin) +
+      20-item calibration set (10 clean/10 corrupted, disjoint from cases).
+      **My review of its 7 gold judgment calls: ALL ACCEPTED** (inclusive week boundary;
+      load-equipment semantics; posted-rate-passes; no-provisional-when-flag-false; S05 set
+      semantics; S04 week-scoped for row cap; A05 refusal-passes).
+- [x] 4C component evals: extraction 75/75 vs gold (Wilson [79.6,100]) + meta-tests proving
+      the comparator catches corruption; MC resolution 75/75 incl. 19-case hard set (scores
+      carrier IDENTITY not MC string — 3 null-MC carriers make that load-bearing); FTS: 38/55
+      calls unfindable by FTS on own MC (measured "why typed columns" defense); 4-min human
+      listen list in evals/components/wer-check.md (call_006 645678 confirm etc.).
+      New: "Chesapeake Haulers" only real ASR word error (both tracks wrong differently);
+      extractor can hallucinate company names from ASR noise (latent name_fuzzy risk);
+      5 emails say "MC #N/A" (all Blue Eagle).
+- [ ] 4B (agent running): graders+meta-tests, judge calibrated on calibration.jsonl
+      (TPR/TNR>80%, repeat-stability substitute for temp-0 — Opus 5 rejects temperature),
+      runner k=3 + Wilson + localizer, report gen, BASELINE run (failures expected —
+      before/after comes later), CI non-blocking job, compare.ts scaffold.
+
+**FIX ROUND after baseline (do NOT fix before)**: equipment filter joins through loads;
+CE0027 10× extraction bug ($280→2800, locked as case L08); weightedAvg misnomer in tools.ts;
+then re-run eval → before/after row. Live-extension rehearsal candidates: name-keyed
+carrier lookup (fixes unreachable-carrier + A05), chat persistence.
+
+**Model comparison (after fix round)**: opus-5 / sonnet-5 / haiku-4.5 / OpenAI Codex 5.6
+"Luna" (verify model ID+pricing via web search — post-cutoff; needs OPENAI_API_KEY).
 
 ## Blockers
-- (none) PRs #1→#2→#3 stacked, awaiting Hanson review/merge in order.
-- OPENAI_API_KEY needed only when the model-comparison run starts (late Phase 4).
+- PRs #1→#2→#3 stacked, awaiting Hanson review/merge in order.
+- OPENAI_API_KEY needed before the Codex leg of the model comparison.
+- Optional 4-min human listen: evals/components/wer-check.md.
 
 ## Deviations from Plan
 - Next.js 16.3 instead of 15 (create-next-app@latest current stable; plan predates 16; no API concerns —
