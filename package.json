@@ -14,6 +14,7 @@
     "eval:components": "tsx evals/components/run.ts",
     "eval:report": "tsx evals/report.ts",
     "seed": "tsx scripts/seed.ts",
+    "re-extract": "tsx scripts/re-extract.ts",
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
