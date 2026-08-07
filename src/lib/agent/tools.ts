@@ -510,7 +510,23 @@ const marketRate = tool({
     }
 
     const volume = rows.reduce((sum, r) => sum + r.loadVolume, 0);
-    const weightedAvg =
+    /**
+     * The UNWEIGHTED mean of the weekly averages — every week counts once,
+     * regardless of how many loads moved that week. Named for what it computes:
+     * an earlier `weightedAvg` was a mislabel, since nothing here weights by
+     * `loadVolume`, and a reader who trusted the name would have misread the
+     * reported `avg_rate_per_mile`.
+     *
+     * A volume-weighted variant (sum(avg * volume) / sum(volume)) is a
+     * DELIBERATE NON-GOAL, not an oversight. Weekly volumes in this corpus are
+     * small and tightly clustered, so the two estimators agree to well inside
+     * the precision a broker quotes rates at, while a weighted figure would owe
+     * the reader an explanation of which weeks it leaned on. Documenting the
+     * estimator beats silently swapping it. If volumes ever spread out, change
+     * the math and say so in the tool description — the callers read this
+     * number as "the market rate".
+     */
+    const meanOfWeeklyAvgs =
       rows.reduce((sum, r) => sum + r.avgRatePerMile, 0) / rows.length;
 
     return {
@@ -519,7 +535,7 @@ const marketRate = tool({
       reference_date: REFERENCE_DATE,
       window_weeks: input.window_weeks,
       weeks_found: rows.length,
-      avg_rate_per_mile: Number(weightedAvg.toFixed(3)),
+      avg_rate_per_mile: Number(meanOfWeeklyAvgs.toFixed(3)),
       min_rate_per_mile: Math.min(...rows.map((r) => r.minRatePerMile)),
       max_rate_per_mile: Math.max(...rows.map((r) => r.maxRatePerMile)),
       total_load_volume: volume,
