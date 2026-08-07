@@ -1,6 +1,6 @@
 # Implementation Status: Goodlane Freight Carrier Agent
 Plan: .claude/plans/goodlane-freight-agent-2026-08-06.md
-Last Updated: 2026-08-06 (session 2)
+Last Updated: 2026-08-07 (session 3 — OpenAI comparison leg wired)
 
 ## Pre-implementation (done)
 - [x] Architecture diagram `docs/architecture.svg` — APPROVED by Hanson
@@ -105,8 +105,13 @@ Phase 4: Eval (THE emphasized deliverable) — 4A+4C done, 4B (harness+judge+bas
 2. Finish baseline: `EVAL_RUN_ID=<id> pnpm eval` (48 remaining runs; baseline label!)
 3. Judge: `calibrate.ts --version v2` (target TPR>80 on commitments) + `stability.ts`
 4. Post-fix full run → before/after table into report (expect L05 3/3→0/3 etc.)
-5. Model comparison: compare.ts --models opus-5,sonnet-5,haiku-4.5 + OpenAI Codex 5.6
-   "Luna" leg (verify model ID via web search; needs OPENAI_API_KEY in .env)
+5. Model comparison: compare.ts --models claude-opus-5,claude-sonnet-5,claude-haiku-4-5,gpt-5.6-luna
+   — OpenAI leg READY (2026-08-07): key in .env (verified live), @ai-sdk/openai@4.0.33
+   installed, run-agent.ts routes gpt-* → openai provider, pricing verified
+   $0.20/$1.20 per MTok (developers.openai.com; post 2026-07-30 cut), smoke-tested
+   end-to-end through the real tool loop against local DB. NOTE: "Codex 5.6 Luna"
+   was a misnomer — the model is GPT-5.6 Luna, id `gpt-5.6-luna` (Codex line stops
+   at 5.3; confirmed against the key's /v1/models list).
 6. Fill ADR 003/004 pending numbers; then Phase 5 (deploy/README/PR merges).
 
 ## ⛔ HARD BLOCKER — Anthropic org monthly spend cap exhausted
@@ -127,8 +132,10 @@ carrier lookup (fixes unreachable-carrier + A05), chat persistence.
 "Luna" (verify model ID+pricing via web search — post-cutoff; needs OPENAI_API_KEY).
 
 ## Blockers
+- ⛔ Anthropic spend cap still in effect (re-verified 2026-08-07 with 1-token haiku
+  probe: 400, regain 2026-09-01) — Hanson must raise the limit at console.anthropic.com.
 - PRs #1→#2→#3 stacked, awaiting Hanson review/merge in order.
-- OPENAI_API_KEY needed before the Codex leg of the model comparison.
+- ~~OPENAI_API_KEY needed~~ RESOLVED 2026-08-07: key in .env, leg wired + smoke-tested.
 - Optional 4-min human listen: evals/components/wer-check.md.
 
 ## Deviations from Plan

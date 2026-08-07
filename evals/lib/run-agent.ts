@@ -12,6 +12,7 @@
  * is the latency measurement, which never reaches the model.
  */
 import { anthropic } from "@ai-sdk/anthropic";
+import { openai } from "@ai-sdk/openai";
 import { generateText, stepCountIs } from "ai";
 import { SYSTEM_PROMPT } from "@/lib/agent/system-prompt";
 import { freightTools } from "@/lib/agent/tools";
@@ -37,6 +38,15 @@ export const MAX_STEPS = 6;
 export const MAX_OUTPUT_TOKENS = 8192;
 
 export const DEFAULT_MODEL = "claude-opus-5";
+
+/**
+ * The shipped agent is Anthropic-only; OpenAI models exist here solely for the
+ * cross-provider leg of `evals/compare.ts`. Routing on the id prefix keeps the
+ * route-mirroring contract above intact for every claude-* model.
+ */
+export function resolveModel(model: string) {
+  return model.startsWith("gpt-") ? openai(model) : anthropic(model);
+}
 
 export type AgentRun = {
   text: string;
@@ -65,7 +75,7 @@ export async function runAgent(
 
   try {
     const result = await generateText({
-      model: anthropic(model),
+      model: resolveModel(model),
       // `instructions` is the v7 name for what used to be `system`.
       instructions: SYSTEM_PROMPT,
       prompt: query,

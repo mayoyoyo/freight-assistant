@@ -8,12 +8,10 @@
  * table: pass@1, pass^3, latency, and estimated cost per query computed from
  * the recorded token usage rather than guessed.
  *
- * NOT RUN in Phase 4B, for two reasons:
- *   1. The interesting comparison is Anthropic vs OpenAI and there is no OpenAI
- *      key in this environment yet — the pricing slot below is left explicitly
- *      TBD rather than filled with a number nobody verified.
- *   2. The Anthropic org spend cap was exhausted during the baseline run, so
- *      even the single-provider sweep is blocked until it resets.
+ * NOT RUN in Phase 4B: the Anthropic org spend cap was exhausted during the
+ * baseline run, so the sweep waits for the cap reset. The OpenAI leg
+ * (gpt-5.6-luna) is wired and smoke-tested; the full sweep runs after the
+ * fix-round re-run so every model sees the same post-fix data.
  * Each model sweep costs roughly what one baseline costs (~$15-25 at k=3 over
  * 24 cases on opus), so this is deliberately a manual, opt-in command.
  *
@@ -43,9 +41,10 @@ export const PRICING: Record<string, { input: number; output: number } | null> =
     "claude-opus-5": { input: 5, output: 25 },
     "claude-sonnet-5": { input: 3, output: 15 },
     "claude-haiku-4-5": { input: 1, output: 5 },
-    // Slot reserved for the cross-provider comparison this scaffold exists for.
-    // Left null on purpose: `null` renders as "TBD" instead of a wrong number.
-    "gpt-openai-tbd": null,
+    // Verified 2026-08-07 against developers.openai.com/api/docs/models/gpt-5.6-luna
+    // (post 2026-07-30 price cut; launch price was $1/$6). Long-context surcharge
+    // (2x in / 1.5x out above 272K input tokens) ignored: our runs stay far below it.
+    "gpt-5.6-luna": { input: 0.2, output: 1.2 },
   };
 
 /** Cost of one query in USD, from measured usage. Returns null if unpriced. */

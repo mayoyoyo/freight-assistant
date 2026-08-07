@@ -265,9 +265,23 @@ describe("compare scaffold", () => {
     expect(costPerQuery([r, r], "claude-opus-5")).toBeCloseTo(30, 6);
   });
 
-  it("returns null for the deliberately unpriced OpenAI slot", () => {
-    expect(PRICING["gpt-openai-tbd"]).toBeNull();
-    expect(costPerQuery([run()], "gpt-openai-tbd")).toBeNull();
+  it("prices the OpenAI comparison leg (verified 2026-08-07)", () => {
+    // 1M input + 1M output on gpt-5.6-luna = $0.20 + $1.20 over 1 run.
+    const r = run({
+      usage: {
+        input_tokens: 1e6,
+        output_tokens: 1e6,
+        total_tokens: 2e6,
+        reasoning_tokens: 0,
+        cached_input_tokens: 0,
+      },
+    });
+    expect(costPerQuery([r], "gpt-5.6-luna")).toBeCloseTo(1.4, 6);
+  });
+
+  it("returns null for models absent from the pricing map", () => {
+    expect(PRICING["some-unpriced-model"]).toBeUndefined();
+    expect(costPerQuery([run()], "some-unpriced-model")).toBeNull();
   });
 
   it("excludes errored runs from every summary column", () => {
