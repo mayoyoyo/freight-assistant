@@ -8,16 +8,18 @@ Last Updated: 2026-08-06 (session 2)
 - [x] DECIDED: chat persistence stays stateless (client-held history; what-I'd-improve item)
 
 ## Completed Phases
-- [x] Phase 0: Scaffold + first push — 3 commits on main (scaffold / docs+.claude artifacts / dataset).
-      Gates green locally: `pnpm typecheck && pnpm lint && pnpm test && pnpm build`.
-      **Push to origin pending — blocked by permission classifier; Hanson must run
-      `git push -u origin main` (then verify CI green + Vercel import unblocked).**
+- [x] Phase 0: Scaffold + first push — 3 commits on main, pushed (Hanson), CI green on GitHub.
+- [x] Phase 1: Schema + seed — PR #1 (feat/phase1-schema-seed). Local verify: seed idempotent,
+      counts 48/50/720/274; FTS number tokens VERIFIED searchable (websearch_to_tsquery on MC
+      numbers + load IDs works; no trigram fallback needed); equipment vocab uniform across sources.
+      Local dev DB: Postgres.app 14.20 on :5432, db `freight_assistant`, `.env` written (gitignored).
 
 ## Current Phase
-Phase 1: Schema + structured seed — NOT STARTED (next up)
+Phase 2: Ingestion pipeline (2a transcribe / 2b extract / resolve) — BLOCKED on env keys
 
 ## Blockers
-- `git push` denied by auto-mode classifier → Hanson runs it (suggest `! git push -u origin main`).
+- Phase 2 needs `DEEPGRAM_API_KEY` (Hanson may need to create account; job <$1) and
+  `ANTHROPIC_API_KEY` in `.env`. PR #1 awaiting Hanson review/merge.
 
 ## Deviations from Plan
 - Next.js 16.3 instead of 15 (create-next-app@latest current stable; plan predates 16; no API concerns —
