@@ -27,6 +27,7 @@ beforeAll(() => {
 type SearchResult = {
   returned: number;
   total_matches: number;
+  truncated: boolean;
   results: Array<{
     id: string;
     extracted_equipment: string | null;
@@ -133,5 +134,29 @@ describe("search_inquiries — equipment resolves through the referenced load", 
           x.extracted_equipment === null && x.extracted_load_reference !== null,
       ),
     ).toBe(true);
+  });
+});
+
+describe("search_inquiries — truncation is stated, never left to be inferred", () => {
+  it("counts the whole match set even when the rows are capped", async () => {
+    const capped = await search({ source_type: "email", limit: 5 });
+    expect(capped.returned).toBe(5);
+    expect(capped.results).toHaveLength(5);
+    // 274 emails are seeded, so total_matches must ignore the cap entirely.
+    expect(capped.total_matches).toBe(274);
+    expect(capped.truncated).toBe(true);
+  });
+
+  it("reports truncated=false when every match fits under the limit", async () => {
+    const whole = await search({ ids: ["CE0099"], limit: 20 });
+    expect(whole.returned).toBe(1);
+    expect(whole.total_matches).toBe(1);
+    expect(whole.truncated).toBe(false);
+  });
+
+  it("keeps returned, results.length and truncated mutually consistent", async () => {
+    const r = await search({ equipment: "Box Truck", limit: 20 });
+    expect(r.returned).toBe(r.results.length);
+    expect(r.truncated).toBe(r.total_matches > r.returned);
   });
 });

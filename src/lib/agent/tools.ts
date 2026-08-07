@@ -310,14 +310,25 @@ const searchInquiries = tool({
       .orderBy(sql`${inquiries.occurredAt} desc nulls last`, inquiries.id)
       .limit(input.limit);
 
+    // Deliberately NOT limited: this is the true size of the match set, which
+    // is the only thing that lets the caller tell a complete answer from a page.
     const [totals] = await db()
       .select({ total: count() })
       .from(inquiries)
       .where(where);
 
+    const totalMatches = totals?.total ?? 0;
+
     return {
-      total_matches: totals?.total ?? 0,
+      /**
+       * The exhaustiveness contract, stated in the payload rather than left to
+       * be inferred. Failure mode 4 ("phantom total") was the agent reporting a
+       * capped enumeration as a corpus-wide count; `truncated` makes the claim
+       * "these are all of them" checkable instead of a guess about `limit`.
+       */
+      total_matches: totalMatches,
       returned: rows.length,
+      truncated: totalMatches > rows.length,
       results: rows.map((r) => ({
         id: r.id,
         source_type: r.sourceType,
