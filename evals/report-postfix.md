@@ -2,14 +2,14 @@
 
 | field | value |
 | --- | --- |
-| run id | baseline-20260806 |
+| run id | postfix-20260807 |
 | label | **BASELINE** — no agent or tool fixes applied |
 | model | claude-opus-5 |
 | prompt version | sp-v1 |
 | judge version | v2 |
 | cases | 24 (`cases.jsonl`) |
 | runs | 72 (k=3) |
-| runs file | `evals/results/runs-baseline-20260806.jsonl` |
+| runs file | `evals/results/runs-postfix-20260807.jsonl` |
 
 This is the **baseline**. The two dominant failure modes from error analysis
 (`equipment-blind`, `lane-join-blind`) are EXPECTED to fail cases here — 8 of the 24 cases
@@ -20,9 +20,9 @@ report look better; the before/after comparison is the next phase's deliverable.
 
 | Metric | Value | Wilson 95% CI | Definition |
 | --- | --- | --- | --- |
-| **Run-level pass rate** | 51/72 (70.8%) | [59.5%, 80.1%] | every graded run, all k pooled — the expected outcome of one broker query |
+| **Run-level pass rate** | 52/72 (72.2%) | [61.0%, 81.2%] | every graded run, all k pooled — the expected outcome of one broker query |
 | **pass@1** | 17/24 (70.8%) | [50.8%, 85.1%] | case passes if its first run passes (the k=1 slice) |
-| **pass^3** | 15/24 (62.5%) | [42.7%, 78.8%] | case passes only if ALL k runs pass — our own addition, see note |
+| **pass^3** | 16/24 (66.7%) | [46.7%, 82.0%] | case passes only if ALL k runs pass — our own addition, see note |
 
 The CI is Wilson, not Wald: at n in the twenties with p near 1, Wald runs past 1.0 and
 collapses to zero width at p=1. Publishing the width is the point — at this n the interval
@@ -37,8 +37,8 @@ is wide, and a report that hides that is selling a number it does not have.
 
 | Bucket | Cases | Runs passed | Run-level rate (Wilson 95%) | pass^3 |
 | --- | --- | --- | --- | --- |
-| factual_lookup | 8 | 18/24 | 75.0% [55.1%, 88.0%] | 5/8 |
-| set_retrieval | 6 | 4/18 | 22.2% [9.0%, 45.2%] | 1/6 |
+| factual_lookup | 8 | 20/24 | 83.3% [64.1%, 93.3%] | 6/8 |
+| set_retrieval | 6 | 3/18 | 16.7% [5.8%, 39.2%] | 1/6 |
 | email_draft | 5 | 15/15 | 100.0% [79.6%, 100.0%] | 5/5 |
 | abstention | 5 | 14/15 | 93.3% [70.2%, 98.8%] | 4/5 |
 
@@ -46,14 +46,13 @@ is wide, and a report that hides that is selling a number it does not have.
 
 | Case | Origin | Runs failed | Mode | Grader reasons |
 | --- | --- | --- | --- | --- |
-| L05 | regression | 3/3 | Equipment blind | `exact-match`: exact-match L05: 3/3 gold assertions failed — highest_rate_usd: expected 890 (any of 890 \| 890.0 \| 890.00) in the answer; inquiry_id: expected "CE0099" in the answer; from_name \| carrier_mc: answer contains none of [Nkechi \| 109876] |
 | L06 | regression | 2/3 | ASR-name echo | `exact-match`: exact-match L06: 1/3 gold assertions failed — company_name: expected "Chahal Trucking" in the answer |
-| L07 | regression | 1/3 | Verdict flip | `exact-match`: exact-match L07: 1/5 gold assertions failed — GRADER NOTE: no 'below market' assertion anywhere: forbidden phrase present — "Below market" |
-| S01 | regression | 3/3 | Equipment blind | `set-f1`: set-f1 S01: P=0 R=0 F1=0 (threshold 1) — F1 below threshold — missing=[CE0044] spurious=[CALL_051, CALL_001, CALL_009, CALL_054, CE0081, CE0083, CE0094, CE0197, CE0199]<br>`set-f1`: set-f1 S01: P=0 R=0 F1=0 (threshold 1) — F1 below threshold — missing=[CE0044] spurious=[CALL_051, CALL_054, CE0083, CE0094, CE0199, CE0197]<br>`set-f1`: set-f1 S01: P=0 R=0 F1=0 (threshold 1) — F1 below threshold — missing=[CE0044] spurious=[CALL_051, CALL_009, CALL_054, CE0199, CE0197, CE0083, CE0081, CE0094] |
-| S02 | ground_truth | 3/3 | Unclassified | `set-f1`: set-f1 S02: P=1 R=0.5 F1=0.667 (threshold 1) — F1 below threshold — missing=[CE0062, CE0063] spurious=[]; undated call(s) omitted silently: CALL_021, CALL_023<br>`set-f1`: set-f1 S02: P=0.75 R=0.75 F1=0.75 (threshold 1) — F1 below threshold — missing=[CE0063] spurious=[CE0059]<br>`set-f1`: set-f1 S02: P=1 R=0.5 F1=0.667 (threshold 1) — F1 below threshold — missing=[CE0062, CE0063] spurious=[] |
-| S04 | regression | 2/3 | Phantom total | `set-f1`: set-f1 S04: P=0.75 R=1 F1=0.857 (threshold 1) — F1 below threshold — missing=[] spurious=[CE0016, CE0042, CE0019] |
-| S05 | regression | 3/3 | Equipment blind | `set-f1`: set-f1 S05: P=0.667 R=1 F1=0.8 (threshold 1) — F1 below threshold — missing=[] spurious=[CALL_051, CE0046]; excluded id(s) named in the answer: CE0046 |
-| S06 | regression | 3/3 | Lane-join blind | `set-f1`: set-f1 S06: P=0 R=0 F1=0 (threshold 1) — F1 below threshold — missing=[CALL_004, CALL_013] spurious=[CE0020, CE0094, CALL_017, CALL_022, CALL_024]<br>`set-f1`: set-f1 S06: P=0 R=0 F1=0 (threshold 1) — F1 below threshold — missing=[CALL_004, CALL_013] spurious=[CE0020, CE0070, CE0069, CALL_017, CALL_022, CALL_024]<br>`set-f1`: set-f1 S06: P=0 R=0 F1=0 (threshold 1) — F1 below threshold — missing=[CALL_004, CALL_013] spurious=[CE0020, CE0159, CE0094, CE0069, CE0070] |
+| L07 | regression | 2/3 | Verdict flip | `exact-match`: exact-match L07: 1/5 gold assertions failed — GRADER NOTE: no 'below market' assertion anywhere: forbidden phrase present — "Below market" |
+| S01 | regression | 3/3 | Equipment blind | `set-f1`: set-f1 S01: P=0.2 R=1 F1=0.333 (threshold 1) — F1 below threshold — missing=[] spurious=[CE0057, CE0016, CALL_051, CALL_054]<br>`set-f1`: set-f1 S01: P=0.25 R=1 F1=0.4 (threshold 1) — F1 below threshold — missing=[] spurious=[CE0057, CALL_051, CALL_054] |
+| S02 | ground_truth | 3/3 | Unclassified | `set-f1`: set-f1 S02: P=0.667 R=1 F1=0.8 (threshold 1) — F1 below threshold — missing=[] spurious=[CE0059, CALL_026]<br>`set-f1`: set-f1 S02: P=0.8 R=1 F1=0.889 (threshold 1) — F1 below threshold — missing=[] spurious=[CE0059] |
+| S04 | regression | 3/3 | Phantom total | `set-f1`: set-f1 S04: P=0.75 R=1 F1=0.857 (threshold 1) — F1 below threshold — missing=[] spurious=[CE0016, CE0042, CE0019] |
+| S05 | regression | 3/3 | Equipment blind | `set-f1`: set-f1 S05: P=0.667 R=1 F1=0.8 (threshold 1) — F1 below threshold — missing=[] spurious=[CALL_051, CE0046]; excluded id(s) named in the answer: CE0046<br>`set-f1`: set-f1 S05: P=0.571 R=1 F1=0.727 (threshold 1) — F1 below threshold — missing=[] spurious=[CALL_051, CALL_054, CE0046]; excluded id(s) named in the answer: CE0046 |
+| S06 | regression | 3/3 | Lane-join blind | `set-f1`: set-f1 S06: P=0 R=0 F1=0 (threshold 1) — F1 below threshold — missing=[CALL_004, CALL_013] spurious=[CE0069, CE0070, CE0015, CE0044, CE0057]<br>`set-f1`: set-f1 S06: P=0 R=0 F1=0 (threshold 1) — F1 below threshold — missing=[CALL_004, CALL_013] spurious=[CE0069, CE0070] |
 | A05 | regression | 1/3 | Compliance miss | `compliance-surfacing`: compliance-surfacing A05: "authority status cannot be verified": missing verified (required tokens: authority + cannot + verified) |
 
 ## Failure taxonomy
@@ -65,13 +64,13 @@ the case set was authored — the taxonomy is a design input here, not a post-ho
 
 | Mode | Failing runs | Cases | Impact | Named fix | Expected metric movement |
 | --- | --- | --- | --- | --- | --- |
-| **Equipment blind** | 9 | L05, S01, S05 | critical | Resolve `equipment` through the same `extracted_load_reference -> loads` subquery the lane filters already use, OR-ed with `extracted_equipment`. | S01, S05, L05 move to pass; set-retrieval bucket pass@1 rises by ~3 cases. |
+| **Equipment blind** | 6 | S01, S05 | critical | Resolve `equipment` through the same `extracted_load_reference -> loads` subquery the lane filters already use, OR-ed with `extracted_equipment`. | S01, S05, L05 move to pass; set-retrieval bucket pass@1 rises by ~3 cases. |
 | **Lane-join blind** | 3 | S06 | critical | Same subquery fix as equipment_blind, plus a mandatory FTS fallback when a structured search returns zero rows. | S06 moves to pass. |
-| **Phantom total** | 2 | S04 | high | Tools already return `total_matches`; require the answer to cite it whenever it states a count, and to label any enumeration that hit `limit` as partial. | S04 stabilises; phantom_total instances go to zero. |
+| **Phantom total** | 3 | S04 | high | Tools already return `total_matches`; require the answer to cite it whenever it states a count, and to label any enumeration that hit `limit` as partial. | S04 stabilises; phantom_total instances go to zero. |
+| **Verdict flip** | 2 | L07 | high | Prompt rule: compute before you lead. Any comparative verdict must be stated once, after the figures it rests on. | L07 moves to pass. |
 | **Compliance miss** | 1 | A05 | critical | Already prompted; escalate to a hard code gate that refuses to emit a booking draft without a `carrier_history` call in the same run. | D03, D04, L04 stay green; any regression is blocking. |
 | **Unclassified** | 3 | S02 | medium | Re-run open coding on these traces. | n/a |
 | **ASR-name echo** | 2 | L06 | medium | System-prompt rule: when `resolved_carrier_mc` is present, the carrier's name of record is the canonical answer; the transcript rendering may be offered as an aside. | L06 moves to pass. |
-| **Verdict flip** | 1 | L07 | high | Prompt rule: compute before you lead. Any comparative verdict must be stated once, after the figures it rests on. | L07 moves to pass. |
 
 **Fix effects are predictions, not results.** That is what makes this a baseline: the next
 phase applies the fixes and this table gets a measured before/after column.
@@ -107,18 +106,17 @@ and 'fixed' with tuning that cannot work.
 
 | Case | Run | Verdict | Detail |
 | --- | --- | --- | --- |
-| L05 | 0 | **RETRIEVAL** | gold ids never returned by any tool call: CE0099, CE0162 |
-| L05 | 1 | **RETRIEVAL** | gold ids never returned by any tool call: CE0099, CE0162 |
-| L05 | 2 | **RETRIEVAL** | gold ids never returned by any tool call: CE0099, CE0162 |
 | L06 | 0 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
-| L06 | 1 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
+| L06 | 2 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
 | L07 | 0 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
-| S01 | 0 | **RETRIEVAL** | gold ids never returned by any tool call: CE0044, 68333 |
-| S01 | 1 | **RETRIEVAL** | gold ids never returned by any tool call: CE0044, 68333 |
-| S01 | 2 | **RETRIEVAL** | gold ids never returned by any tool call: CE0044, 68333 |
-| S02 | 0 | **RETRIEVAL** | gold ids never returned by any tool call: CE0062, CE0063, 321654, 1480355, call_021_availability_check, call_023_availability_check |
+| L07 | 1 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
+| S01 | 0 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
+| S01 | 1 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
+| S01 | 2 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
+| S02 | 0 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
 | S02 | 1 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
-| S02 | 2 | **RETRIEVAL** | gold ids never returned by any tool call: CE0062, CE0063, 321654, 1480355 |
+| S02 | 2 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
+| S04 | 0 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
 | S04 | 1 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
 | S04 | 2 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
 | S05 | 0 | **GENERATION** | gold records were retrieved and contain the answer; the answer is still wrong |
@@ -136,9 +134,8 @@ the instability was the finding, not either answer.
 
 | Case | Bucket | Verdicts (run 0..k) | Failing graders |
 | --- | --- | --- | --- |
-| L06 | factual_lookup | FAIL / FAIL / PASS | exact-match |
-| L07 | factual_lookup | FAIL / PASS / PASS | exact-match |
-| S04 | set_retrieval | PASS / FAIL / FAIL | set-f1 |
+| L06 | factual_lookup | FAIL / PASS / FAIL | exact-match |
+| L07 | factual_lookup | FAIL / FAIL / PASS | exact-match |
 | A05 | abstention | PASS / PASS / FAIL | compliance-surfacing |
 
 ## Dimensional coverage
@@ -154,7 +151,7 @@ named below rather than hidden.
 
 | question type | clean | garbled_or_flagged | absent | total |
 | --- | --- | --- | --- | --- |
-| lookup | **2** | **4** | 2 | **8** |
+| lookup | 2 | **4** | 2 | **8** |
 | set | **3** | **3** | — | **6** |
 | rate | **2** | — | — | **2** |
 | draft | 4 | 1 | — | 5 |
@@ -176,26 +173,26 @@ folded into that bucket), draft x absent-entity (0).
 
 | Measure | median | p95 | max |
 | --- | --- | --- | --- |
-| end-to-end (ms) | 15086 | 26826 | 31349 |
+| end-to-end (ms) | 14999 | 35407 | 53400 |
 
 **Per-tool execution time (ms)** — DB time only, excludes model latency:
 
 | Tool | calls | median | p95 | max |
 | --- | --- | --- | --- | --- |
-| carrier_history | 66 | 4 | 43 | 46 |
-| get_load | 38 | 2 | 38 | 41 |
-| market_rate | 17 | 3 | 40 | 40 |
-| search_inquiries | 135 | 4 | 51 | 51 |
+| carrier_history | 67 | 5 | 44 | 49 |
+| get_load | 41 | 2 | 5 | 47 |
+| market_rate | 17 | 2 | 6 | 6 |
+| search_inquiries | 157 | 5 | 61 | 69 |
 
 | Tokens | total | per run |
 | --- | --- | --- |
-| input | 1061397 | 14742 |
-| output | 71589 | 994 |
+| input | 1355677 | 18829 |
+| output | 77066 | 1070 |
 | cached input (read) | 0 | 0 |
 
-Tool calls per run: mean 3.6, max 10. Steps per run: mean 3.1.
+Tool calls per run: mean 3.9, max 13. Steps per run: mean 3.2.
 
-**Cost.** $7.10 for 72 graded runs — $0.0986 per query on `claude-opus-5`. Priced from the token counts each run recorded, using the `PRICING` map in `evals/compare.ts`; not an estimate from a per-call average.
+**Cost.** $8.71 for 72 graded runs — $0.1209 per query on `claude-opus-5`. Priced from the token counts each run recorded, using the `PRICING` map in `evals/compare.ts`; not an estimate from a per-call average.
 
 ## Judge
 

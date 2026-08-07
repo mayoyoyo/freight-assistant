@@ -2,11 +2,12 @@
 
 Status: accepted (Phase 4) · Date: 2026-08-07
 
-> **`[PENDING FULL BASELINE]` marks numbers that are not yet measurable.** The
-> 4B run completed 24 of 72 runs before the Anthropic org spend cap was
-> exhausted; 16 of 24 cases have no graded run. Nothing is estimated to fill the
-> gap — `evals/report.md` excludes un-run cases from every denominator rather
-> than scoring them either way.
+> **Update 2026-08-07: the baseline is complete and all pending numbers are
+> measured.** The remaining 48 runs were generated from the pre-fix commit
+> (`e4ff03f`) in a worktree against pre-fix data, merged with the 24 on-disk
+> runs, and all 72 were graded in one pass (corrected case labels, judge v2).
+> Measured values are inserted below; the before/after is in
+> `evals/before-after.md`.
 
 ## Context
 
@@ -53,8 +54,10 @@ the adopt list.
 
 - **Failures land where the analysis predicted.** Among graded runs the failures
   are exactly the predicted regression cases: L05 (equipment blind, 3/3), L06
-  (ASR-name echo, 2/3), L07 (verdict flip, 1/3). Per-bucket distribution:
-  `[PENDING FULL BASELINE]`.
+  (ASR-name echo, 2/3), L07 (verdict flip, 1/3). **Per-bucket distribution
+  (measured, 72 runs): factual_lookup 18/24, set_retrieval 4/18, abstention
+  14/15, email_draft 15/15 — set retrieval is the dominant failure, exactly
+  where the error analysis located the equipment/lane blindness.**
 - **Every failed retrieval run gets a 3-step localization** — was the gold record
   retrieved? does the payload contain the answer? — so a corpus gap is never
   mis-filed as a retrieval bug and "fixed" with tuning that cannot work. L05
@@ -62,10 +65,13 @@ the adopt list.
   OR-join the right fix rather than a prompt tweak.
 - **Stated coverage limits**: n=24, single-turn only, no adversarial-injection
   case, frozen snapshot so no rate drift.
-- **Headline metrics are provisional.** Run-level pass rate, pass@1, pass^3 and
-  the fix-round before/after: `[PENDING FULL BASELINE]`. The predicted metric
-  movement in `evals/report.md` stays labelled a *prediction* and gets a
-  separate measured column — the two are never merged.
+- **Headline metrics (measured).** Baseline: run-level 51/72 (70.8%), pass@1
+  17/24, pass^3 15/24. Post-fix: 52/72, 17/24, 16/24 — L05 0/3→3/3 as
+  predicted, while set retrieval flipped recall→precision failures (spurious
+  items from the wider join), leaving the aggregate flat. Full measured
+  before/after with per-case movement: `evals/before-after.md`. The prediction
+  vs measurement split is preserved there — predictions were right about L05
+  and L06/L07, and wrong about the S-bucket, which is the finding.
 
 Evidence: `evals/error-analysis/failure-modes.md`, `evals/report.md`,
 `evals/graders/`.

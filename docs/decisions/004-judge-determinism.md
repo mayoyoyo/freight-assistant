@@ -2,6 +2,11 @@
 
 Status: accepted (Phase 4B) · Date: 2026-08-07
 
+> **Update 2026-08-07: all pending numbers below are now measured** (spend cap
+> raised); the original text is kept with measured values inserted. The
+> decision logic was applied as written: v2 measured better, so v2 is now the
+> default.
+>
 > **`[PENDING JUDGE BUDGET]` marks numbers that are not yet measured.** The
 > org spend cap was exhausted mid-phase; the v2 calibration and repeat-stability
 > runs are queued, not estimated. A fabricated calibration number would be the
@@ -52,7 +57,8 @@ judge scores ~65–80% agreement on this set while catching zero failures, and
   nondeterminism mean temp 0 is not bit-reproducible on a serving stack either;
   it just stops you measuring. A measured flip rate puts a number on how much
   observed agent variance could actually be judge variance.
-  **Flip rate: `[PENDING JUDGE BUDGET]`.**
+  **Flip rate (measured 2026-08-07, v2): 0/12 — 6 pinned calibration items x 2
+  checks x 3 repeats, every triplet unanimous (`stability-v2.json`).**
 - **v1 is measured and is therefore the default.** `no_invented_commitments`
   TPR 76.9% / TNR 100.0% / κ 0.700; `professional_tone` 100% / 100% / κ 1.000
   (n=20). The commitments TPR misses the >80% target and is reported as missing
@@ -60,7 +66,13 @@ judge scores ~65–80% agreement on this set while catching zero failures, and
 - **v2 exists, is diagnosed, and is NOT the default.** It addresses all three v1
   false alarms, but its calibration run aborted on the spend cap, so
   `JUDGE_VERSION` stays `"v1"`: the default must be the best *measured* prompt,
-  not the best *believed* one. v2 metrics: `[PENDING JUDGE BUDGET]`.
+  not the best *believed* one. **v2 metrics (measured 2026-08-07):
+  `no_invented_commitments` TPR 100% (13/13) / TNR 100% (7/7) / κ 1.000;
+  `professional_tone` 100%/100%/κ 1.000 (n=20; `calibration-v2.json`). All
+  three v1 false alarms resolved, zero new misses — so per this ADR's own
+  rule, `JUDGE_VERSION` is now `"v2"`. Caveat: 13/13 has a Wilson 95% interval
+  of [77.2%, 100%] — the cell reads "no observed misses", not "perfect
+  judge".**
 - **A stated resolution limit.** `professional_tone` has 4 negative labels, so
   its TNR is quantized to 25-point steps — one miss reads as 75%. That is a
   property of the label counts, not the prompt; report 75% with the caveat
