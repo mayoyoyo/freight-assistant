@@ -1,6 +1,6 @@
 # Implementation Status: Goodlane Freight Carrier Agent
 Plan: .claude/plans/goodlane-freight-agent-2026-08-06.md
-Last Updated: 2026-08-07 (session 3 — OpenAI comparison leg wired)
+Last Updated: 2026-08-07 (session 3 — baseline COMPLETE, judge v2 promoted, fix verified, cap re-hit)
 
 ## Pre-implementation (done)
 - [x] Architecture diagram `docs/architecture.svg` — APPROVED by Hanson
@@ -100,40 +100,39 @@ Phase 4: Eval (THE emphasized deliverable) — 4A+4C done, 4B (harness+judge+bas
       pending-number placeholders). Two tests changed because they encoded the bug as
       contract (agent.test.ts equipment assert; graders.test.ts S02 list) — reviewed, correct.
 
-## RESUME CHECKLIST when API access returns (in order)
-1. `pnpm re-extract --ids CE0027` → re-run resolve → `pnpm seed` (fixes 10× rate bug)
-2. Finish baseline: `EVAL_RUN_ID=<id> pnpm eval` (48 remaining runs; baseline label!)
-3. Judge: `calibrate.ts --version v2` (target TPR>80 on commitments) + `stability.ts`
-4. Post-fix full run → before/after table into report (expect L05 3/3→0/3 etc.)
-5. Model comparison: compare.ts --models claude-opus-5,claude-sonnet-5,claude-haiku-4-5,gpt-5.6-luna
-   — OpenAI leg READY (2026-08-07): key in .env (verified live), @ai-sdk/openai@4.0.33
-   installed, run-agent.ts routes gpt-* → openai provider, pricing verified
-   $0.20/$1.20 per MTok (developers.openai.com; post 2026-07-30 cut), smoke-tested
-   end-to-end through the real tool loop against local DB. NOTE: "Codex 5.6 Luna"
-   was a misnomer — the model is GPT-5.6 Luna, id `gpt-5.6-luna` (Codex line stops
-   at 5.3; confirmed against the key's /v1/models list).
-6. Fill ADR 003/004 pending numbers; then Phase 5 (deploy/README/PR merges).
-
-## ⛔ HARD BLOCKER — Anthropic org monthly spend cap exhausted
-API returns 400 "reached your specified API usage limits… regain access 2026-09-01" —
-org-wide, all models (verified with direct HTTP probe). This blocks: 48 remaining baseline
-runs (~$4), judge v2 calibration + stability (~$2), fix-round re-run (~$6), model comparison
-(~$15-25), AND THE LIVE DEMO ITSELF. Fix: Hanson raises the monthly spend limit in
-console.anthropic.com (Settings → Limits) — takes effect immediately.
-Resume commands are documented in evals/judge/versions.md; missing runs:
-`EVAL_RUN_ID=<id> pnpm eval` then `calibrate.ts --version v2` then `stability.ts`.
-
-**FIX ROUND after baseline (do NOT fix before)**: equipment filter joins through loads;
-CE0027 10× extraction bug ($280→2800, locked as case L08); weightedAvg misnomer in tools.ts;
-then re-run eval → before/after row. Live-extension rehearsal candidates: name-keyed
-carrier lookup (fixes unreachable-carrier + A05), chat persistence.
-
-**Model comparison (after fix round)**: opus-5 / sonnet-5 / haiku-4.5 / OpenAI Codex 5.6
-"Luna" (verify model ID+pricing via web search — post-cutoff; needs OPENAI_API_KEY).
+## SESSION 3 RESULTS (2026-08-07) — checklist state
+1. DONE CE0027 re-extract -> resolve -> seed. Direction note: raw body says $280;
+   2800 was the extraction bug; L08 gold = 280. DB verified: 280 + flag intact.
+2. DONE baseline COMPLETE: 48 runs generated from pre-fix e4ff03f (worktree
+   ../freight-assistant-baseline, branch baseline-rerun) vs pre-fix data, merged
+   with 24 on-disk, 48 old cap-400 error records dropped, all 72 graded one pass
+   (corrected labels, judge v2): pass@1 17/24, pass^3 15/24, run-level 51/72
+   (70.8%). Buckets: abstention 14/15, email_draft 15/15, factual 18/24,
+   set_retrieval 4/18 (dominant failure, as 4A predicted).
+   THREE GRADER FALSE-FAIL CLASSES found via cross-provider run + fixed + pinned
+   as regressions (commit 8abca6e): U+2019 apostrophes defeating negation regexes
+   (foldPunctuation), conditionals read as fabrications, unlisted different-
+   company labels. Cross-provider grading is now part of grader validation.
+3. DONE judge v2 PROMOTED: TPR/TNR 100/100 both checks, kappa 1.0, 12/12
+   repeat-stability. JUDGE_VERSION="v2". calibration-v2.json + stability-v2.json.
+4. PARTIAL post-fix run (runs-postfix-20260807.jsonl): 36/72 generated before the
+   cap re-hit; 23/36 graded pass. L05 0/3->3/3 (fix verified). L06/L07 persist.
+   **S01/S02 FLIPPED failure mode: R=1.0 but precision drops (spurious ids) — the
+   OR-join over-returns and the agent doesn't filter. Next-round candidate:
+   intersection guidance in prompt.** 36 errored runs = cap-400 artifacts; on
+   resume, drop them and regenerate missing runs with --only (merge like baseline).
+5. Luna leg DONE (fair-graded): pass@1 7/24, run-level 15/72, $0.0026/query,
+   set_retrieval 0/18. Ran on post-fix code + PRE-fix data (only L08 affected);
+   fold into final table by re-running with the other legs post-cap ($0.20).
+6. PENDING (blocked): 36 post-fix runs (~$3) + judge grading, sonnet leg (~$3.6),
+   haiku leg (~$1.2), Luna re-run, ADR 003/004 numbers, before/after into
+   report.md, PR #4.
 
 ## Blockers
-- ⛔ Anthropic spend cap still in effect (re-verified 2026-08-07 with 1-token haiku
-  probe: 400, regain 2026-09-01) — Hanson must raise the limit at console.anthropic.com.
+- ⛔ Anthropic cap RE-HIT 2026-08-07 at the raised $40 limit (mid post-fix run).
+  Remaining Anthropic work needs ~$10-12: ask Hanson to raise to ~$55-60.
+  Session-3 spend: ~$10 Anthropic (48 baseline gen ~$4, judge v2 calib+stability
+  ~$1.5, 3 judge grade passes ~$1.5, 36 post-fix runs ~$3), $0.40 OpenAI.
 - PRs #1→#2→#3 stacked, awaiting Hanson review/merge in order.
 - ~~OPENAI_API_KEY needed~~ RESOLVED 2026-08-07: key in .env, leg wired + smoke-tested.
 - Optional 4-min human listen: evals/components/wer-check.md.
