@@ -77,10 +77,27 @@ Phase 4: Eval (THE emphasized deliverable) — 4A+4C done, 4B (harness+judge+bas
       New: "Chesapeake Haulers" only real ASR word error (both tracks wrong differently);
       extractor can hallucinate company names from ASR noise (latent name_fuzzy risk);
       5 emails say "MC #N/A" (all Blue Eagle).
-- [ ] 4B (agent running): graders+meta-tests, judge calibrated on calibration.jsonl
-      (TPR/TNR>80%, repeat-stability substitute for temp-0 — Opus 5 rejects temperature),
-      runner k=3 + Wilson + localizer, report gen, BASELINE run (failures expected —
-      before/after comes later), CI non-blocking job, compare.ts scaffold.
+- [x] 4B harness BUILT + merged to feat/phase4-eval (pushed): runner (generate/grade split —
+      re-gradeable from disk), 8 graders + 71 meta-tests (215 tests total), judge v1
+      MEASURED (tone TPR/TNR 100/100 kappa 1.0; commitments TPR 76.9 TNR 100 kappa 0.70 —
+      3 false alarms diagnosed, v2 prompt written but UNCALIBRATED, JUDGE_VERSION stays v1),
+      report gen w/ Wilson (design doc's [65,96] was wrong; correct [64.1,93.3], unit-pinned),
+      CI eval job (offline meta-tests only, cost rationale in comments), compare.ts scaffold.
+      **BASELINE PARTIAL: 24/72 runs (factual_lookup bucket complete): pass@1 5/8, run-level
+      18/24 (75%, Wilson [55.1,88.0]). Failures = exactly the predicted regression cases:
+      L05 equipment-blind 3/3 (RETRIEVAL), L06 ASR-name echo 2/3, L07 verdict-flip 1/3
+      (GENERATION, flip-floppers). $1.97 for 24 runs.**
+      Case-label issues reported (S02 inconsistent compliance field, L02/S04 drift) — fix
+      in fix round. generateObject defaults max_tokens 128K on opus-5 — pin it.
+
+## ⛔ HARD BLOCKER — Anthropic org monthly spend cap exhausted
+API returns 400 "reached your specified API usage limits… regain access 2026-09-01" —
+org-wide, all models (verified with direct HTTP probe). This blocks: 48 remaining baseline
+runs (~$4), judge v2 calibration + stability (~$2), fix-round re-run (~$6), model comparison
+(~$15-25), AND THE LIVE DEMO ITSELF. Fix: Hanson raises the monthly spend limit in
+console.anthropic.com (Settings → Limits) — takes effect immediately.
+Resume commands are documented in evals/judge/versions.md; missing runs:
+`EVAL_RUN_ID=<id> pnpm eval` then `calibrate.ts --version v2` then `stability.ts`.
 
 **FIX ROUND after baseline (do NOT fix before)**: equipment filter joins through loads;
 CE0027 10× extraction bug ($280→2800, locked as case L08); weightedAvg misnomer in tools.ts;
