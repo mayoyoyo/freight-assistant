@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import {
   boolean,
+  check,
   customType,
   date,
   doublePrecision,
@@ -64,7 +65,9 @@ export const carriers = pgTable(
     insuranceExpiry: date("insurance_expiry"),
     authorityStatus: text("authority_status"),
     safetyRating: text("safety_rating"),
-    onboarded: date("onboarded"),
+    // Boolean in the source data ("is this carrier onboarded with Goodlane"),
+    // not a date — review finding from PR #1.
+    onboarded: boolean("onboarded"),
     notes: text("notes"),
   },
   (t) => [uniqueIndex("carriers_mc_number_idx").on(t.mcNumber)],
@@ -84,7 +87,9 @@ export const rateHistory = pgTable(
     loadVolume: integer("load_volume").notNull(),
   },
   (t) => [
-    index("rate_history_lane_idx").on(
+    // Unique: one observation per lane per week — duplicates would silently
+    // distort the market_rate aggregate (verified 720/720 distinct in source).
+    uniqueIndex("rate_history_lane_idx").on(
       t.originState,
       t.destinationState,
       t.equipmentType,
@@ -123,7 +128,10 @@ export const inquiries = pgTable(
     extractedEquipment: text("extracted_equipment"),
     extractedIntent: text("extracted_intent"),
     extractedRateUsd: doublePrecision("extracted_rate_usd"),
-    // Non-filterable extraction output (availability, questions, notes).
+    // First-class filter dimension (spec example query asks who confirmed
+    // availability): 'available' | 'unavailable' | 'conditional' | 'unknown'.
+    extractedAvailability: text("extracted_availability"),
+    // Non-filterable extraction output (questions, free-text notes).
     extractedExtras: jsonb("extracted_extras").$type<Record<string, unknown>>(),
 
     resolvedCarrierId: integer("resolved_carrier_id").references(
@@ -142,5 +150,8 @@ export const inquiries = pgTable(
       sql`to_tsvector('english', coalesce(from_name, '') || ' ' || coalesce(subject, '') || ' ' || raw_text)`,
     ),
   },
-  (t) => [index("inquiries_search_idx").using("gin", t.search)],
+  (t) => [
+    index("inquiries_search_idx").using("gin", t.search),
+    check("inquiries_source_type_check", sql`source_type in ('email', 'call')`),
+  ],
 );

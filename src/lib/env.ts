@@ -19,3 +19,15 @@ export function env(): ServerEnv {
   }
   return cached;
 }
+
+/**
+ * DB-only env for scripts (seed, drizzle-kit) that have no business requiring
+ * the Anthropic key.
+ */
+const dbEnvSchema = z.object({
+  DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
+});
+
+export function dbEnv(): z.infer<typeof dbEnvSchema> {
+  return dbEnvSchema.parse(process.env);
+}
