@@ -9,6 +9,7 @@
  *
  * Plus two cheap regression locks on the frozen system prompt.
  */
+import { existsSync } from "node:fs";
 import { simulateReadableStream, stepCountIs, streamText } from "ai";
 import { MockLanguageModelV4 } from "ai/test";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -41,95 +42,102 @@ const TOOL_ARGS = {
 } as const;
 
 describe("agent tool loop", () => {
-  it("executes search_inquiries with the model's args and returns rows", async () => {
-    const model = new MockLanguageModelV4({
-      doStream: [
-        // Step 1: the model asks for a tool call.
-        {
-          stream: simulateReadableStream({
-            chunks: [
-              { type: "stream-start", warnings: [] },
-              {
-                type: "tool-call",
-                toolCallId: "call-1",
-                toolName: "search_inquiries",
-                // Provider layer hands the SDK a JSON *string*.
-                input: JSON.stringify(TOOL_ARGS),
-              },
-              {
-                type: "finish",
-                finishReason: { unified: "tool-calls", raw: "tool_use" },
-                usage: USAGE,
-              },
-            ],
-          }),
-        },
-        // Step 2: the model answers from the tool result.
-        {
-          stream: simulateReadableStream({
-            chunks: [
-              { type: "stream-start", warnings: [] },
-              { type: "text-start", id: "t1" },
-              { type: "text-delta", id: "t1", delta: "Answer." },
-              { type: "text-end", id: "t1" },
-              {
-                type: "finish",
-                finishReason: { unified: "stop", raw: "end_turn" },
-                usage: USAGE,
-              },
-            ],
-          }),
-        },
-      ],
-    });
+  // Needs the seeded local Postgres. CI has no database, so this integration
+  // test is skipped there (CI's model-behavior coverage is the eval harness,
+  // which is deliberately manual — see .github/workflows/ci.yml).
+  it.skipIf(!process.env.DATABASE_URL && !existsSync(".env"))(
+    "executes search_inquiries with the model's args and returns rows",
+    async () => {
+      const model = new MockLanguageModelV4({
+        doStream: [
+          // Step 1: the model asks for a tool call.
+          {
+            stream: simulateReadableStream({
+              chunks: [
+                { type: "stream-start", warnings: [] },
+                {
+                  type: "tool-call",
+                  toolCallId: "call-1",
+                  toolName: "search_inquiries",
+                  // Provider layer hands the SDK a JSON *string*.
+                  input: JSON.stringify(TOOL_ARGS),
+                },
+                {
+                  type: "finish",
+                  finishReason: { unified: "tool-calls", raw: "tool_use" },
+                  usage: USAGE,
+                },
+              ],
+            }),
+          },
+          // Step 2: the model answers from the tool result.
+          {
+            stream: simulateReadableStream({
+              chunks: [
+                { type: "stream-start", warnings: [] },
+                { type: "text-start", id: "t1" },
+                { type: "text-delta", id: "t1", delta: "Answer." },
+                { type: "text-end", id: "t1" },
+                {
+                  type: "finish",
+                  finishReason: { unified: "stop", raw: "end_turn" },
+                  usage: USAGE,
+                },
+              ],
+            }),
+          },
+        ],
+      });
 
-    const result = streamText({
-      model,
-      instructions: SYSTEM_PROMPT,
-      messages: [
-        { role: "user", content: "Who has reefer capacity available?" },
-      ],
-      tools: freightTools,
-      stopWhen: stepCountIs(6),
-    });
+      const result = streamText({
+        model,
+        instructions: SYSTEM_PROMPT,
+        messages: [
+          { role: "user", content: "Who has reefer capacity available?" },
+        ],
+        tools: freightTools,
+        stopWhen: stepCountIs(6),
+      });
 
-    await result.consumeStream();
+      await result.consumeStream();
 
-    const toolCalls = await result.toolCalls;
-    expect(toolCalls).toHaveLength(1);
-    expect(toolCalls[0]?.toolName).toBe("search_inquiries");
-    expect(toolCalls[0]?.input).toEqual(TOOL_ARGS);
+      const toolCalls = await result.toolCalls;
+      expect(toolCalls).toHaveLength(1);
+      expect(toolCalls[0]?.toolName).toBe("search_inquiries");
+      expect(toolCalls[0]?.input).toEqual(TOOL_ARGS);
 
-    const toolResults = await result.toolResults;
-    expect(toolResults).toHaveLength(1);
+      const toolResults = await result.toolResults;
+      expect(toolResults).toHaveLength(1);
 
-    const output = toolResults[0]?.output as {
-      total_matches: number;
-      returned: number;
-      results: Array<Record<string, unknown>>;
-    };
+      const output = toolResults[0]?.output as {
+        total_matches: number;
+        returned: number;
+        results: Array<Record<string, unknown>>;
+      };
 
-    // 10 Refrigerated inquiries are seeded; 8 of them read `available`.
-    expect(output.total_matches).toBeGreaterThan(0);
-    expect(output.results.length).toBeLessThanOrEqual(TOOL_ARGS.limit);
-    expect(output.returned).toBe(output.results.length);
+      // 10 Refrigerated inquiries are seeded; 8 of them read `available`.
+      expect(output.total_matches).toBeGreaterThan(0);
+      expect(output.results.length).toBeLessThanOrEqual(TOOL_ARGS.limit);
+      expect(output.returned).toBe(output.results.length);
 
-    const first = output.results[0];
-    expect(first).toBeDefined();
-    // The citable id and the fields the prompt promises must be present.
-    expect(first).toHaveProperty("id");
-    expect(first).toHaveProperty("source_type");
-    expect(first).toHaveProperty("snippet");
-    expect(first).toHaveProperty("extracted_availability", "available");
-    expect(first).toHaveProperty("extracted_equipment", "Refrigerated");
-    expect(first).toHaveProperty("discrepancy_flags");
-    expect(first).toHaveProperty("mc_low_confidence");
-    // Dataset decoys must never reach the model.
-    expect(first).not.toHaveProperty("stated_intent");
-    expect(first).not.toHaveProperty("stated_equipment");
+      const first = output.results[0];
+      expect(first).toBeDefined();
+      // The citable id and the fields the prompt promises must be present.
+      expect(first).toHaveProperty("id");
+      expect(first).toHaveProperty("source_type");
+      expect(first).toHaveProperty("snippet");
+      expect(first).toHaveProperty("extracted_availability", "available");
+      expect(first).toHaveProperty("extracted_equipment", "Refrigerated");
+      expect(first).toHaveProperty("discrepancy_flags");
+      expect(first).toHaveProperty("mc_low_confidence");
+      // Dataset decoys must never reach the model.
+      expect(first).not.toHaveProperty("stated_intent");
+      expect(first).not.toHaveProperty("stated_equipment");
 
-    expect(await result.text).toBe("Answer.");
-  });
+      expect(await result.text).toBe("Answer.");
+    },
+    15_000, // first Postgres connection can be slow from cold — 5s default flaked
+  );
 
   it("exposes every tool under a stable registry key", () => {
     expect(Object.keys(freightTools).sort()).toEqual([
