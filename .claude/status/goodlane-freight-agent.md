@@ -1,6 +1,6 @@
 # Implementation Status: Goodlane Freight Carrier Agent
 Plan: .claude/plans/goodlane-freight-agent-2026-08-06.md
-Last Updated: 2026-08-07 (session 3 — baseline COMPLETE, judge v2 promoted, fix verified, cap re-hit)
+Last Updated: 2026-08-07 (session 3 FINAL — Phase 4 COMPLETE, PR #4 open)
 
 ## Pre-implementation (done)
 - [x] Architecture diagram `docs/architecture.svg` — APPROVED by Hanson
@@ -124,9 +124,18 @@ Phase 4: Eval (THE emphasized deliverable) — 4A+4C done, 4B (harness+judge+bas
 5. Luna leg DONE (fair-graded): pass@1 7/24, run-level 15/72, $0.0026/query,
    set_retrieval 0/18. Ran on post-fix code + PRE-fix data (only L08 affected);
    fold into final table by re-running with the other legs post-cap ($0.20).
-6. PENDING (blocked): 36 post-fix runs (~$3) + judge grading, sonnet leg (~$3.6),
-   haiku leg (~$1.2), Luna re-run, ADR 003/004 numbers, before/after into
-   report.md, PR #4.
+6. DONE (cap raised to $70): post-fix run COMPLETE 52/72 (L05 fixed 0/3->3/3;
+   set_retrieval flipped recall->precision, aggregate flat — analysis in
+   evals/before-after.md). Model comparison COMPLETE (all post-fix, judge v2):
+   opus 70.8% $0.121/q · sonnet 62.5% $0.061/q · haiku 29.2% $0.008/q · luna
+   25.0% $0.0026/q; set_retrieval ~3/18 for EVERY model (task-level failure);
+   sonnet-vs-opus unresolved at n=24, recorded as future promotion decision.
+   ADR 003/004 filled (dated updates). report.md regenerated + report-postfix.md.
+   **PR #4 OPEN: https://github.com/mayoyoyo/freight-assistant/pull/4**
+   Session-3 total spend ~= $20 Anthropic + $0.60 OpenAI; cap headroom left ~$25.
+7. NEXT (Phase 5): Codex review of PR #4 per process; Neon attach + deploy;
+   README; live-extension rehearsal. Known next fix round: prompt-side
+   intersection guidance for set queries, verify via before-after table.
 
 ## Blockers
 - ⛔ Anthropic cap RE-HIT 2026-08-07 at the raised $40 limit (mid post-fix run).
