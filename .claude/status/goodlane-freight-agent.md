@@ -90,6 +90,25 @@ Phase 4: Eval (THE emphasized deliverable) — 4A+4C done, 4B (harness+judge+bas
       Case-label issues reported (S02 inconsistent compliance field, L02/S04 drift) — fix
       in fix round. generateObject defaults max_tokens 128K on opus-5 — pin it.
 
+- [x] Fix round CODED offline + merged (feat/phase4-eval @ ed5cde3, 222 tests green):
+      equipment/lane OR-join through loads (L05: $540→$890 w/ CE0099 present; P02: CE0044
+      present — direct-tool tests lock it); explicit truncated flag + prompt line;
+      weightedAvg→meanOfWeeklyAvgs; maxOutputTokens pinned (judge 4096, agent+route 8192 —
+      WATCH: opus-5 caps thinking+text together, bump if max_tokens stops appear);
+      cases.jsonl S02/L02/S04 label fixes (documented); `pnpm re-extract` one-command
+      CE0027 fix (unexercised — needs API); 4 ADR drafts in docs/decisions/ (003/004 have
+      pending-number placeholders). Two tests changed because they encoded the bug as
+      contract (agent.test.ts equipment assert; graders.test.ts S02 list) — reviewed, correct.
+
+## RESUME CHECKLIST when API access returns (in order)
+1. `pnpm re-extract --ids CE0027` → re-run resolve → `pnpm seed` (fixes 10× rate bug)
+2. Finish baseline: `EVAL_RUN_ID=<id> pnpm eval` (48 remaining runs; baseline label!)
+3. Judge: `calibrate.ts --version v2` (target TPR>80 on commitments) + `stability.ts`
+4. Post-fix full run → before/after table into report (expect L05 3/3→0/3 etc.)
+5. Model comparison: compare.ts --models opus-5,sonnet-5,haiku-4.5 + OpenAI Codex 5.6
+   "Luna" leg (verify model ID via web search; needs OPENAI_API_KEY in .env)
+6. Fill ADR 003/004 pending numbers; then Phase 5 (deploy/README/PR merges).
+
 ## ⛔ HARD BLOCKER — Anthropic org monthly spend cap exhausted
 API returns 400 "reached your specified API usage limits… regain access 2026-09-01" —
 org-wide, all models (verified with direct HTTP probe). This blocks: 48 remaining baseline
