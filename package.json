@@ -10,6 +10,9 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "test": "vitest run",
+    "eval": "EVAL_RUN_ID=$(date -u +%Y%m%dT%H%M%SZ) tsx evals/run.ts",
+    "eval:components": "tsx evals/components/run.ts",
+    "eval:report": "tsx evals/report.ts",
     "seed": "tsx scripts/seed.ts",
     "db:push": "drizzle-kit push"
   },
