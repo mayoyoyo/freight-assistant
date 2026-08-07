@@ -1,5 +1,5 @@
 import type { EvalCase, GraderResult, RunRecord } from "../lib/types";
-import { parseCitations, toolIdSet } from "./text";
+import { foldPunctuation, parseCitations, toolIdSet } from "./text";
 
 /**
  * `groundedness` — every `[...]` citation in the answer must resolve to an id
@@ -25,7 +25,7 @@ import { parseCitations, toolIdSet } from "./text";
 export const groundedness = {
   name: "groundedness",
   grade(_c: EvalCase, r: RunRecord): GraderResult {
-    const citations = parseCitations(r.text ?? "");
+    const citations = parseCitations(foldPunctuation(r.text ?? ""));
     if (citations.length === 0) {
       return {
         passed: true,

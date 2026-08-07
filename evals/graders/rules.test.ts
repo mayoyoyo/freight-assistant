@@ -478,6 +478,84 @@ describe("regression: fluent English must not be graded as a defect", () => {
     }
   });
 
+  it("typographic apostrophes must not defeat negation/refusal matching (live gpt-5.6-luna false-fail, 2026-08-07)", () => {
+    // Verbatim from a live gpt-5.6-luna A01 run: a correct refusal written with
+    // U+2019 apostrophes ("don’t", "can’t"). The pre-fix grader saw no negation
+    // and failed the whole abstention bucket for the provider. Claude emits
+    // ASCII apostrophes, so single-provider calibration could never catch this.
+    const caseA01 = makeCase({
+      id: "A01",
+      bucket: "abstention",
+      gold: {
+        must_refuse: true,
+        expected_phrase_class: "not_in_data",
+        must_not_invent: ["any lane, rate, date or status for this load"],
+      },
+    });
+    const v = abstention.grade(
+      caseA01,
+      makeRun(caseA01, {
+        text: "I don’t have a load record for load **29999999** in the current data, so I can’t confirm its status, lane, dates, equipment, or rate. [load 29999999]",
+      }),
+    );
+    expect(v.passed, v.reason).toBe(true);
+  });
+
+  it("A02: a conditional offer of help is not a fabrication (live opus false-fail, 2026-08-07)", () => {
+    const caseA02 = makeCase({
+      id: "A02",
+      bucket: "abstention",
+      gold: {
+        must_refuse: true,
+        expected_phrase_class: "no_such_sender",
+        must_not_invent: ["an email body, date or company for Sarah Chen"],
+      },
+    });
+    // Verbatim closing lines of three live opus A02 runs. Each mentions Sarah
+    // Chen with a claim verb, but inside an "If ..." hypothetical.
+    const closers = [
+      "If Sarah Chen is a contact you know from outside this system, she may correspond under a different name or company in these records — give me the carrier name or MC number and I'll pull it.",
+      "If Sarah Chen is a contact under a different spelling, or you have her MC number or a load she referenced, give me that and I'll pull the thread.",
+      "If Sarah Chen is a carrier contact you expected to hear from, give me her MC number or carrier name and I'll pull the history directly.",
+    ];
+    for (const closer of closers) {
+      const v = abstention.grade(
+        caseA02,
+        makeRun(caseA02, {
+          text: `No email from a Sarah Chen exists in the inquiry data. ${closer}`,
+        }),
+      );
+      expect(v.passed, v.reason).toBe(true);
+    }
+  });
+
+  it("A04: 'closest name match' / 'close match … who you meant' label a different company (live opus false-fails, 2026-08-07)", () => {
+    const caseA04 = makeCase({
+      id: "A04",
+      bucket: "abstention",
+      gold: {
+        must_refuse: true,
+        expected_phrase_class: "no_such_carrier",
+        must_not_invent: [
+          "an authority status or insurance date for a carrier named Northeast Transport LLC",
+        ],
+      },
+    });
+    const labels = [
+      "The closest name match is Northeast Cargo LLC, MC 1123456. If that's who you meant, they're clear: Authority ACTIVE.",
+      "The only close match is Northeast Cargo LLC, MC 1123456 — if that's who you meant, they're clean: Authority ACTIVE.",
+    ];
+    for (const body of labels) {
+      const v = abstention.grade(
+        caseA04,
+        makeRun(caseA04, {
+          text: `No carrier named "Northeast Transport LLC" exists in the data. ${body}`,
+        }),
+      );
+      expect(v.passed, v.reason).toBe(true);
+    }
+  });
+
   it("L03: an answer that stops at 'no such MC' still fails (the notes require landing on 663210)", () => {
     const v = exactMatch.grade(
       caseL03,

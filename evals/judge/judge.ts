@@ -56,7 +56,7 @@ export const JUDGE_MAX_OUTPUT_TOKENS = 4096;
  * one the reported eval runs against. Flip this to "v2" only after
  * `calibration-v2.json` exists and beats v1. See `versions.md`.
  */
-export const JUDGE_VERSION = "v1";
+export const JUDGE_VERSION = "v2";
 
 export type JudgeVerdict = GraderResult & {
   confidence: "high" | "medium" | "low";

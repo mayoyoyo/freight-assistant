@@ -216,3 +216,23 @@ Decision rules for the next session, so it executes rather than re-derives:
   in the handoff notes as arguably under-specified (the drafts that announce a
   load as covered while the accompanying load row reads `status: "open"`); the
   file was **not** edited to resolve the disagreement.
+
+## v2 measured 2026-08-07 — PROMOTED to default
+
+Calibration (`calibration-v2.json`, claude-opus-5, 20 items):
+
+| check | TPR | TNR | acc | kappa |
+|---|---|---|---|---|
+| no_invented_commitments | 100.0% (13/13) | 100.0% (7/7) | 100.0% | 1.000 |
+| professional_tone | 100.0% (16/16) | 100.0% (4/4) | 100.0% | 1.000 |
+
+Repeat-stability (`stability-v2.json`): 6 pinned items x 2 checks x 3 repeats —
+12/12 stable, zero flips.
+
+Decision: v2 clears the >80% commitments-TPR target (v1: 76.9%) and dominates
+v1 on every measured cell, so `JUDGE_VERSION` is now `"v2"`. The three v1
+false alarms (REFERENCE_DATE unknown to the judge; own-disposition lines read
+as invented commitments) do not recur. Caveats carried forward: n=20 means the
+commitments TPR of 13/13 has a Wilson 95% interval of [77.2%, 100%] — perfect
+cells here are "no observed misses", not a claim of a perfect judge; the n=4
+tone-fail granularity caveat above still applies.

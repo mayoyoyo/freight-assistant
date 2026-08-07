@@ -1,5 +1,5 @@
 import type { EvalCase, GraderResult, RunRecord } from "../lib/types";
-import { containsAny, hasNegation, sentences } from "./text";
+import { containsAny, foldPunctuation, hasNegation, sentences } from "./text";
 
 /**
  * `abstention` — the abstention bucket. Two obligations, both required:
@@ -178,11 +178,18 @@ function hasDollarFigure(text: string): boolean {
  * Does any sentence mentioning `subject` make a positive `claim` about it?
  * Sentences carrying a negation/absence marker are not assertions of the claim
  * — "we have no authority status for HKR" must not read as fabricating one.
+ * Neither are conditionals whose marker precedes the subject: "If Sarah Chen
+ * is a contact you know, give me her MC" offers a hypothetical, not a fact
+ * (live opus A02 false-fail, 2026-08-07).
  */
 function assertsAbout(text: string, subject: RegExp, claim: RegExp): boolean {
-  return sentences(text).some(
-    (s) => subject.test(s) && claim.test(s) && !hasNegation(s),
-  );
+  return sentences(text).some((s) => {
+    const m = subject.exec(s);
+    if (!m || !claim.test(s) || hasNegation(s)) return false;
+    return !/\b(if|whether|in case|assuming|suppose)\b/i.test(
+      s.slice(0, m.index),
+    );
+  });
 }
 
 /**
@@ -287,6 +294,12 @@ const FABRICATION: Record<string, FabricationCheck[]> = {
           "near-match",
           "near match",
           "closest match",
+          // Live opus A04 false-fails 2026-08-07: "closest NAME match",
+          // "the only CLOSE match", "if that's who you meant" all label the
+          // company as a different one in fluent English.
+          "close match",
+          "name match",
+          "who you mean",
           "another carrier",
           "separate company",
         ]),
@@ -317,7 +330,7 @@ export const abstention = {
       };
     }
 
-    const text = r.text ?? "";
+    const text = foldPunctuation(r.text ?? "");
     const cls = c.gold.expected_phrase_class;
     const failures: string[] = [];
 

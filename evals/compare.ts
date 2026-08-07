@@ -2,7 +2,14 @@
  * Model comparison — SCAFFOLD ONLY, not executed in this phase.
  *
  *   pnpm exec tsx evals/compare.ts --models claude-opus-5,claude-sonnet-5 \
- *     --run-id cmp-2026-08-07 [--k 3] [--concurrency 3] [--out evals/compare.md]
+ *     --run-id cmp-2026-08-07 [--k 3] [--concurrency 3] [--out evals/compare.md] \
+ *     [--no-judge]
+ *
+ * `--no-judge` grades with the code graders only. It exists for provider legs
+ * run while the judge's provider (Anthropic) is unavailable: the runs file is
+ * still written, so `pnpm eval --grade-only <runs file>` re-grades the
+ * email_draft cases with the judge later at zero generation cost. A summary
+ * produced under --no-judge overstates email_draft passes until that re-grade.
  *
  * Runs the SAME case set against each model in turn and emits one markdown
  * table: pass@1, pass^3, latency, and estimated cost per query computed from
@@ -161,6 +168,7 @@ async function main(): Promise<void> {
   const cases = loadCases(casesPath);
   const k = Number(get("--k") ?? 3);
   const concurrency = Number(get("--concurrency") ?? 3);
+  const useJudge = !process.argv.includes("--no-judge");
 
   mkdirSync(RESULTS_DIR, { recursive: true });
   const summaries: ModelSummary[] = [];
@@ -180,7 +188,7 @@ async function main(): Promise<void> {
     writeJsonl(path, runs);
     await grade(runs, {
       cases: new Map(cases.map((c) => [c.id, c])),
-      useJudge: true,
+      useJudge,
     });
     writeJsonl(path, runs);
     summaries.push(summarise(model, runs));

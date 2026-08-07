@@ -4,13 +4,13 @@
   "model": "claude-opus-5",
   "thinking": "disabled",
   "usage": {
-    "input": 1958,
-    "output": 128
+    "input": 2192,
+    "output": 127
   },
   "extraction": {
     "mc_number": null,
     "load_reference": "29372312",
-    "rate_usd": 2800,
+    "rate_usd": 280,
     "equipment": null,
     "intent": "rate_counter",
     "availability": "conditional",
@@ -19,6 +19,6 @@
     "questions": [
       "Any room on your end?"
     ],
-    "notes": "Carrier rejects posted rate and counters, asking if broker can move on price."
+    "notes": "Carrier rejects posted rate and counters at $280 on load 29372312."
   }
 }

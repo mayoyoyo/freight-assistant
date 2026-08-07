@@ -1,4 +1,5 @@
 import type { EvalCase, GraderResult, RunRecord } from "../lib/types";
+import { foldPunctuation } from "./text";
 
 /**
  * `load-ref-present` — a draft that names no load number is unusable to the
@@ -18,7 +19,7 @@ export const loadRefPresent = {
         reason: "n/a: gold has no load_ref_required",
       };
     }
-    const text = r.text ?? "";
+    const text = foldPunctuation(r.text ?? "");
     if (!text.includes(ref)) {
       return {
         passed: false,

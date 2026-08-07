@@ -1,5 +1,10 @@
 import type { EvalCase, GraderResult, RunRecord } from "../lib/types";
-import { containsAny, extractInquiryIds, normalizeId } from "./text";
+import {
+  containsAny,
+  extractInquiryIds,
+  foldPunctuation,
+  normalizeId,
+} from "./text";
 
 /**
  * `set-f1` — set_retrieval bucket. Precision / recall / F1 of the inquiry ids
@@ -85,7 +90,7 @@ export const setF1 = {
       ...undated,
     ]);
 
-    const text = r.text ?? "";
+    const text = foldPunctuation(r.text ?? "");
     const found = extractInquiryIds(text);
     const scored = found.filter((id) => !neutral.has(id));
 

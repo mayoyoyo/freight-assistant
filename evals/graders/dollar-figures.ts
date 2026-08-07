@@ -1,5 +1,5 @@
 import type { EvalCase, GraderResult, RunRecord } from "../lib/types";
-import { dollarFigures } from "./text";
+import { dollarFigures, foldPunctuation } from "./text";
 
 /**
  * `dollar-figures-subset` — every `$` figure in the answer must be a figure the
@@ -36,7 +36,7 @@ export const dollarFiguresSubset = {
     const fromTools = r.tools.flatMap((t) => t.figures);
     const allowed = new Set<number>([...fromTools, ...(goldAllowed ?? [])]);
 
-    const used = dollarFigures(r.text ?? "");
+    const used = dollarFigures(foldPunctuation(r.text ?? ""));
     const offending = [...new Set(used.filter((n) => !allowed.has(n)))];
 
     const allowedList = [...allowed].sort((a, b) => a - b).join(", ");

@@ -1,5 +1,5 @@
 import type { EvalCase, GraderResult, RunRecord } from "../lib/types";
-import { datePresent } from "./text";
+import { datePresent, foldPunctuation } from "./text";
 
 /**
  * `compliance-surfacing` — each string in `case.compliance_must_surface` must
@@ -167,7 +167,7 @@ export const complianceSurfacing = {
         reason: "n/a: case has no compliance_must_surface requirements",
       };
     }
-    const text = r.text ?? "";
+    const text = foldPunctuation(r.text ?? "");
     const failures: string[] = [];
     const skipped: string[] = [];
 

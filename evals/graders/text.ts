@@ -6,9 +6,25 @@
  * whole grading pass re-runnable for free (`pnpm eval --grade-only <file>`).
  */
 
+/**
+ * Fold typographic punctuation to ASCII before any matching.
+ *
+ * OpenAI models emit curly apostrophes ("can’t", U+2019), which silently miss
+ * every ASCII-quoted pattern in this suite — `can'?t`, `\bdon't\b`, phrase
+ * lists. Discovered when gpt-5.6-luna false-failed the whole abstention bucket
+ * on refusals that were correct on their face. Claude emits ASCII apostrophes,
+ * so the miscalibration was invisible until a second provider ran.
+ */
+export function foldPunctuation(text: string): string {
+  return text
+    .replace(/[‘’ʼ]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/[–—]/g, "-");
+}
+
 /** Lowercase + collapse whitespace. The normal form for substring checks. */
 export function normalize(text: string): string {
-  return text.toLowerCase().replace(/\s+/g, " ");
+  return foldPunctuation(text).toLowerCase().replace(/\s+/g, " ");
 }
 
 /** Case-insensitive, whitespace-insensitive substring check. */

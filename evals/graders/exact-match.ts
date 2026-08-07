@@ -3,6 +3,7 @@ import { GOLD_SPECS } from "./gold-specs";
 import {
   containsAny,
   containsString,
+  foldPunctuation,
   numberForms,
   numberPresent,
 } from "./text";
@@ -34,7 +35,7 @@ export const exactMatch = {
       };
     }
 
-    const text = r.text ?? "";
+    const text = foldPunctuation(r.text ?? "");
     const failures: string[] = [];
 
     for (const a of spec.assertions) {
