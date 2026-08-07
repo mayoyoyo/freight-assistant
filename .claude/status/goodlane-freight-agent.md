@@ -43,11 +43,31 @@ Phase 2: Ingestion pipeline — 2a DONE, 2b agent running
       * Extraction prompt bug caught+fixed: summed concatenated MC segments instead of
         concatenating; all calls re-run under final prompt.
 
+- [x] Phase 3 DONE — PR #3 (stacked on #2). 4 tools (search_inquiries gained lane-join,
+      ids, mc_low_confidence filters — all probe-driven), frozen system prompt (grounding/
+      citations, compliance gate, abstention, REFERENCE_DATE, undated-calls caveat),
+      chat UI w/ tool chips. All 5 probes verified live + my own smoke test (compliance
+      query: citations, low-conf caveat, abstention behavior all correct). 52 tests+build
+      green. **AI SDK is v7 (installed ai@7.0.54) — big API drift from training priors:
+      instructions: not system:, await convertToModelMessages, createUIMessageStreamResponse,
+      onToolExecutionEnd, MockLanguageModelV4, useChat has no input/handleSubmit. Know this
+      before live-extension.** Spec example queries live in data/raw/README.md:91 (NOT the
+      scoping doc): PA-NJ availability this week; best rate for load #29372450 (a best-OFFER
+      lookup, not market rate — both inquiries on it ask US for a rate; correct answer is
+      "no carrier has quoted").
+
 ## Current Phase
-Phase 3: Agent + tools + UI — NOT STARTED (next)
+Phase 4: Error analysis → eval harness → report (THE emphasized deliverable)
+
+**Scope addition (Hanson, this session): model-comparison eval run** — same harness over
+claude-opus-5 vs claude-sonnet-5 vs claude-haiku-4-5 vs OpenAI **Codex 5.6 "Luna"**
+(cross-provider via @ai-sdk/openai; verify exact model ID + pricing via web search at run
+time — post-cutoff model; needs OPENAI_API_KEY from Hanson). Output: pass-rate vs cost/query
+table in evals/report.md.
 
 ## Blockers
-- (none) PRs #1, #2 awaiting Hanson review/merge (stacked; merge #1 first).
+- (none) PRs #1→#2→#3 stacked, awaiting Hanson review/merge in order.
+- OPENAI_API_KEY needed only when the model-comparison run starts (late Phase 4).
 
 ## Deviations from Plan
 - Next.js 16.3 instead of 15 (create-next-app@latest current stable; plan predates 16; no API concerns —
