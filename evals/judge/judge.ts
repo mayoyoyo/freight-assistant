@@ -30,6 +30,24 @@ import type { JudgeCheck } from "./prompts";
 export const JUDGE_MODEL = "claude-opus-5";
 
 /**
+ * Output cap per judge call, pinned rather than defaulted.
+ *
+ * `generateObject` sends no `maxOutputTokens` unless one is given, and the AI
+ * SDK then falls back to the model's ceiling — 128000 on `claude-opus-5`. That
+ * is not a cost bug (you pay for what is generated, not for the cap) but it is
+ * a blast-radius bug: a judge that starts rambling inside `explanation` has no
+ * brake, and a runaway call can burn minutes and thousands of tokens before it
+ * stops. A verdict is `{explanation, label, confidence}` with the explanation
+ * truncated to 400 chars downstream, so 4096 is generous by more than an order
+ * of magnitude while still bounding the worst case.
+ *
+ * Hitting this cap means the response is truncated and `generateObject` throws
+ * rather than returning a half-parsed verdict — a loud failure, which is the
+ * right one for a grader.
+ */
+export const JUDGE_MAX_OUTPUT_TOKENS = 4096;
+
+/**
  * The winning prompt version — the best version with MEASURED calibration
  * numbers. v1 is measured (no_invented_commitments TPR 76.9% / TNR 100%;
  * professional_tone TPR 100% / TNR 100%). v2 exists on disk and is the
@@ -77,6 +95,7 @@ export async function judge(
     // `instructions` is the v7 name for `system`.
     instructions: loadCheckPrompt(version, check),
     prompt: buildUserPrompt(draftText, sourceContext),
+    maxOutputTokens: JUDGE_MAX_OUTPUT_TOKENS,
     providerOptions: {
       // No temperature/top_p/top_k: claude-opus-5 rejects them. Thinking off
       // keeps the decode short and the verdicts repeatable.

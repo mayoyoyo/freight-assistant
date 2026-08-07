@@ -14,6 +14,15 @@ import { countRows, logToolCall } from "@/lib/log";
 /** Six steps is enough for search -> carrier_history -> load lookup -> answer. */
 const MAX_STEPS = 6;
 
+/**
+ * Per-step output cap. Without it the AI SDK defaults to the model's ceiling
+ * (128000 on claude-opus-5), leaving a runaway generation unbounded. Kept in
+ * lockstep with `MAX_OUTPUT_TOKENS` in `evals/lib/run-agent.ts` — that file
+ * mirrors this route field for field, and a divergence means the eval stops
+ * measuring the shipped agent.
+ */
+const MAX_OUTPUT_TOKENS = 8192;
+
 /** Tool loops with a reasoning model can run long; Vercel's default is 10s. */
 export const maxDuration = 60;
 
@@ -27,6 +36,7 @@ export async function POST(req: Request) {
     messages: await convertToModelMessages(messages, { tools: freightTools }),
     tools: freightTools,
     stopWhen: stepCountIs(MAX_STEPS),
+    maxOutputTokens: MAX_OUTPUT_TOKENS,
     // No temperature / top_p / top_k: claude-opus-5 rejects them, and extended
     // thinking (on by default) is what makes tool selection good here.
     onToolExecutionEnd({ toolCall, toolOutput, toolExecutionMs }) {

@@ -22,6 +22,20 @@ import type { ToolCallRecord, Usage } from "./types";
 /** Same cap as the route. Six steps covers search -> history -> load -> answer. */
 export const MAX_STEPS = 6;
 
+/**
+ * Output cap per step, pinned rather than defaulted — and mirrored in
+ * `src/app/api/chat/route.ts`, per this file's own rule.
+ *
+ * With no `maxOutputTokens` the AI SDK falls back to the model's ceiling
+ * (128000 on `claude-opus-5`). The measured baseline is 703 output tokens per
+ * run at a mean of 2.8 steps, so 8192 per step is roughly 30x headroom on the
+ * observed distribution while still bounding a runaway generation inside a
+ * six-step tool loop.
+ *
+ * The cap is per step, not per run: six steps can produce up to 6 x 8192.
+ */
+export const MAX_OUTPUT_TOKENS = 8192;
+
 export const DEFAULT_MODEL = "claude-opus-5";
 
 export type AgentRun = {
@@ -57,6 +71,7 @@ export async function runAgent(
       prompt: query,
       tools: freightTools,
       stopWhen: stepCountIs(MAX_STEPS),
+      maxOutputTokens: MAX_OUTPUT_TOKENS,
       // No temperature / top_p / top_k: claude-opus-5 rejects them, and extended
       // thinking (on by default) is what makes tool selection good here. The
       // eval therefore cannot pin sampling — which is exactly why k=3 exists.
