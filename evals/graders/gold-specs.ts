@@ -180,8 +180,10 @@ export const GOLD_SPECS: Record<string, GoldSpec> = {
       { kind: "string", label: "correct_mc_number", value: "345678" },
       // gold.broker_stated_mc_is_wrong = true -> implied by the digits above;
       // no reliable lexical form for "you wrote it down wrong". -> judge.
-      // gold.company_name / gold.source_call_id -> NOT asserted, per the notes'
-      // "Grading the MC digits only." Citation validity is groundedness's job.
+      // company_name / source_call_id were never asserted here, per the notes'
+      // "Grading the MC digits only." They have since been moved out of `gold`
+      // and into L02's notes, so `gold` holds only what is actually contracted;
+      // the call id stays enforceable via required_source_ids + groundedness.
       // gold.mc_low_confidence = false -> the notes forbid requiring a
       // provisional caveat here (the DB says the digits were NOT unclear), so
       // this case deliberately has no PROVISIONAL_MC assertion. Contrast L06.

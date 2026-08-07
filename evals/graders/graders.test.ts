@@ -174,12 +174,18 @@ describe("coverage over the real case set", () => {
     const grader = CODE_GRADERS.find((g) => g.name === "compliance-surfacing");
     if (!grader) throw new Error("compliance-surfacing missing");
     const applied = CASES.filter((c) => {
-      // S02's requirement is conditional on the answer raising CE0060, so it is
-      // exercised with the text that triggers it (see compliance-surfacing.ts).
+      // Probed with text that would trigger S02's old conditional requirement
+      // (the answer raising CE0060), so the assertion below is not passing by
+      // accident: S02 is absent because its `compliance_must_surface` is now
+      // `[]`, not because the gate suppressed it.
       const run = makeRun(c, { text: "CE0060", tools: [] });
       return !isNotApplicable(grader.grade(c, run));
     }).map((c) => c.id);
-    expect(applied).toEqual(["L04", "S02", "D03", "D04", "A05"]);
+    // S02 was here until the Phase 4 fix round moved its conditional
+    // unknown-insurance caveat out of `compliance_must_surface` and into its
+    // notes — the field is an unconditional obligation and that caveat is not.
+    // This grader now applies only to the four unconditional cases.
+    expect(applied).toEqual(["L04", "D03", "D04", "A05"]);
   });
 
   it("never returns an empty reason on any real case", () => {

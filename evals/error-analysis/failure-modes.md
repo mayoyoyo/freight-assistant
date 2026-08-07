@@ -145,5 +145,8 @@ Reading the coverage honestly:
 | 5 Verdict flip | L07 (rate-vs-market verdict on 29372343) |
 | 6 Unreachable carrier | A05 (Blue Eagle authority status) |
 
-Six of 24 cases are `origin: regression`; the remaining 18 are `origin: ground_truth`, drawn from
+Eight of 24 cases are `origin: regression`; the remaining 16 are `origin: ground_truth`, drawn from
 dataset facts the probes never touched, so the suite is not merely a replay of this session.
+(Counted from `evals/cases.jsonl`: 8 regression — L05, L06, L07, S01, S04, S05, S06, A05 — and 16
+ground_truth. The earlier "Six of 24 / 18" was the six-mode count read as a case count: the table
+above maps six modes onto eight cases, because mode 1 alone yields three of them.)

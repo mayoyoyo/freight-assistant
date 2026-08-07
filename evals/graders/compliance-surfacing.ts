@@ -129,14 +129,21 @@ const MISATTRIBUTION: Record<string, { label: string; pattern: RegExp }[]> = {
 /**
  * Requirements that only bite when the answer takes on the subject.
  *
- * S02's `compliance_must_surface` is unconditional, but its notes are not:
- * "CE0060 ... is OUTSIDE the gold set and must not count against precision —
- * but MC 678234 has insurance_expiry NULL, so IF the answer mentions CE0060 it
- * must carry the unknown-insurance caveat." A correct S02 answer that simply
- * omits CE0060 has no occasion to mention MC 678234 at all, so an unconditional
- * check would fail the best possible answer. The notes win: this is graded as
- * the conditional obligation they describe. (Reported as an internal
- * inconsistency in the case file; the case file itself is left untouched.)
+ * S02's `compliance_must_surface` used to read ["MC 678234 insurance expiry
+ * unknown"] — unconditional, while its notes are not: "CE0060 ... is OUTSIDE
+ * the gold set and must not count against precision — but MC 678234 has
+ * insurance_expiry NULL, so IF the answer mentions CE0060 it must carry the
+ * unknown-insurance caveat." A correct S02 answer that simply omits CE0060 has
+ * no occasion to mention MC 678234 at all, so an unconditional check would have
+ * failed the best possible answer, and this gate existed to stop it.
+ *
+ * DORMANT since the Phase 4 fix round: S02's `compliance_must_surface` is now
+ * `[]` and the obligation lives in its notes, so `grade()` short-circuits
+ * before reaching this table and the gate never fires. Kept, not deleted: it is
+ * the working precedent for a conditional requirement, and the alternative fix
+ * — putting CE0060 in gold — would have contradicted the verified
+ * availability='available' gold set. Delete it only if the case-file schema
+ * grows a first-class gated-requirement shape that supersedes it.
  */
 const REQUIREMENT_GATES: Record<
   string,
