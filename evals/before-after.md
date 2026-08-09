@@ -1,6 +1,6 @@
 # Fix round: measured before/after + model comparison
 
-Both sides: same 24 cases, k=3, graded with the same graders and judge v2.
+Both sides: same 24 cases, k=3, graded with the same graders and judge v3 (see evals/judge/versions.md for the v2 retraction).
 Baseline = pre-fix code (`e4ff03f`) against pre-fix data. Post-fix = branch
 head against re-extracted data (CE0027 280, verified against the raw body).
 Runs files: `results/runs-baseline-20260806.jsonl`,
@@ -43,14 +43,14 @@ and it should be verified by this same table, because "did the fix work" is a
 measurement. Without a set-F1 grader this recall→precision trade would have
 read as "fixed".
 
-## Model comparison (post-fix code + data, judge v2)
+## Model comparison (post-fix code + data, judge v3)
 
 Full table: `results/compare-cmp-final-20260807.md`. Summary:
 
 | model | pass@1 | run-level buckets (abst / draft / factual / set) | $/query |
 | --- | --- | --- | --- |
 | claude-opus-5 | 70.8% (17/24) | 14/15 · 15/15 · 20/24 · 3/18 | $0.1209 |
-| claude-sonnet-5 | 62.5% (15/24) | 15/15 · 14/15 · 16/24 · 3/18 | $0.0610 |
+| claude-sonnet-5 | 62.5% (15/24) | 15/15 · 15/15 · 16/24 · 3/18 | $0.0610 |
 | claude-haiku-4-5 | 29.2% (7/24) | 4/15 · 5/15 · 6/24 · 3/18 | $0.0080 |
 | gpt-5.6-luna | 25.0% (6/24) | 9/15 · 2/15 · 2/24 · 0/18 | $0.0026 |
 

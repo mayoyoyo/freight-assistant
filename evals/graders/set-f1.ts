@@ -40,11 +40,16 @@ const UNDATED_PHRASES = [
   "no timestamp",
   "calls have no",
   "calls are not dated",
-  "date-filtered",
+  // Polarity-bound forms only: bare "date-filtered" / "unfiltered" accepted
+  // the OPPOSITE assertion ("call_017 is date-filtered") — Codex review of
+  // PR #4, finding 8.
+  "cannot be date-filtered",
+  "can't be date-filtered",
+  "could not be date-filtered",
+  "couldn't be date-filtered",
+  "not date-filtered",
   "cannot be date",
   "can't be date",
-  "outside the date",
-  "unfiltered",
   "no dates on",
 ];
 

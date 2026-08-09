@@ -8,6 +8,10 @@
  *   pnpm eval --dry-run                    no API calls, no DB — CI-safe
  *   pnpm eval --generate-only              stop after the expensive pass
  *   pnpm eval --grade-only evals/results/runs-<id>.jsonl
+ *     NB: with the judge enabled (default) a re-grade re-CALLS the LLM judge
+ *     on email_draft runs — that costs money and judge verdicts are not
+ *     bit-reproducible. Only the CODE-grader replay is free and
+ *     deterministic; pass --no-judge for that (finding 7, PR #4 review).
  *
  * TWO PASSES over one file:
  *

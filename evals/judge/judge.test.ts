@@ -251,6 +251,93 @@ describe("prompt files", () => {
     },
   );
 
+  // ---- calibration-leakage ratchet -----------------------------------------
+  // Catches what the id-check above cannot: prompt-v2 quoted bespoke sentences
+  // from CAL05 ("Given your NJ-MD lane preference"), CAL06 ("we're going to
+  // pass this time") and CAL07/CAL17 ("runs into your home area") as rule
+  // examples, then scored 100% on those same items. The allowlist below holds
+  // ONLY two overlap classes a reviewer accepted by hand:
+  //   (a) generator boilerplate present in clean AND corrupted twin items
+  //       (CAL01/CAL11, CAL02/CAL12) — carries no label signal;
+  //   (b) universal idioms a rubric legitimately names as the canonical surface
+  //       of its class ("take it or leave it" for pressure language).
+  // A bespoke, single-item sentence may NEVER be allowlisted. Any new overlap
+  // fails until a human classifies it here.
+  const shingles5 = (text: string): Set<string> => {
+    const words = text.toLowerCase().match(/[a-z0-9']+/g) ?? [];
+    const out = new Set<string>();
+    for (let i = 0; i + 5 <= words.length; i++)
+      out.add(words.slice(i, i + 5).join(" "));
+    return out;
+  };
+  const calDrafts = (): { id: string; draft: string }[] =>
+    readFileSync(join(PROMPT_DIR, "..", "calibration.jsonl"), "utf8")
+      .trim()
+      .split("\n")
+      .map((l) => {
+        const item = JSON.parse(l) as { id: string; draft_text: string };
+        return { id: item.id, draft: item.draft_text };
+      });
+  const leaksIn = (version: string): Map<string, string[]> => {
+    const prompt = shingles5(readFileSync(promptPath(version), "utf8"));
+    const out = new Map<string, string[]>();
+    for (const { id, draft } of calDrafts()) {
+      const shared = [...shingles5(draft)].filter(
+        (sh) => prompt.has(sh) && !ALLOWLISTED_OVERLAP.has(sh),
+      );
+      if (shared.length > 0) out.set(id, shared.sort());
+    }
+    return out;
+  };
+  const ALLOWLISTED_OVERLAP = new Set([
+    // (a) generator boilerplate, present in both members of clean/corrupted
+    //     twin pairs (CAL01/CAL11, CAL02/CAL12) and in the held-out examples:
+    "and truck info and we'll",
+    "at the posted rate of",
+    "confirm driver and truck info",
+    "driver and truck info and",
+    "follow with the rate con",
+    "please confirm driver and truck",
+    "send the rate confirmation for",
+    "the rate con goodlane dispatch",
+    "the rate confirmation for signature",
+    "we'll send the rate confirmation",
+    "will follow with the rate",
+    "and we'll get the rate",
+    "get the rate con out",
+    "rate con out goodlane dispatch",
+    "still works on your end",
+    "the rate con out goodlane",
+    "we'll get the rate con",
+    "and i'll send the rate",
+    "confirm and i'll send the",
+    "and i can guarantee you",
+    "hours and i can guarantee",
+    "two hours and i can",
+    "confirm the current pickup date",
+    // (b) universal idioms named by the tone rubric as canonical examples:
+    "take it or leave it",
+  ]);
+
+  it.each(VERSIONS.filter((v) => v !== "v2"))(
+    "prompt-%s.md shares no distinctive 5-word shingle with any calibration draft (leakage ratchet)",
+    (version) => {
+      expect(Object.fromEntries(leaksIn(version))).toEqual({});
+    },
+  );
+
+  it("prompt-v2.md leakage is pinned as the historical record (do not 'fix' this by allowlisting)", () => {
+    // v2 is kept on disk as the artifact the contamination finding refers to;
+    // its measured 100% is disclaimed in versions.md. If this assertion ever
+    // fails, someone edited v2 — new versions get new files instead.
+    expect(Object.fromEntries(leaksIn("v2"))).toEqual({
+      CAL05: ["given your nj md lane", "your nj md lane preference"],
+      CAL06: ["going to pass this time", "we're going to pass this"],
+      CAL07: ["runs into your home area"],
+      CAL17: ["runs into your home area"],
+    });
+  });
+
   it("loadCheckPrompt returns a single labelled check section", () => {
     const body = loadCheckPrompt(V0, "professional_tone");
     expect(body.startsWith("## CHECK: professional_tone")).toBe(true);

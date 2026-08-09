@@ -83,8 +83,11 @@ const NO_CARRIER_RATE = new RegExp(
 );
 
 /** gold.bookable = false — "do not put them on a load right now". */
-const NOT_BOOKABLE = new RegExp(
-  `(^|\\n)\\s*(\\*\\*)?\\s*no\\b` +
+export const NOT_BOOKABLE = new RegExp(
+  // A line-leading "No" counts only as a bare refusal ("No." / "No —"), never
+  // as the first word of a positive sentence ("No insurance issue: ...") —
+  // Codex review of PR #4, finding 2.
+  `(^|\\n)\\s*(\\*\\*)?\\s*no(\\*\\*)?\\s*[.,:;!—-]` +
     `|\\b(?:${NEG}|don'?t|do not|can'?t|cannot|shouldn'?t|should not|wouldn'?t|would not|avoid|hold off)\\b[^.!?\\n]{0,70}\\b(book\\w*|dispatch\\w*|tender\\w*|assign\\w*|use them|put them on|clear to)\\b` +
     `|\\bnot (right now|until|without|clear|safe|advisable|good to)\\b` +
     `|\\bhold off\\b|\\bnot bookable\\b`,

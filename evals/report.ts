@@ -92,11 +92,15 @@ function headline(groups: Graded[]): string {
   const allRuns = graded.flatMap((g) => g.runs);
   const runPass = allRuns.filter((r) => r.passed).length;
 
+  // Same denominator rule as compare.ts: a case joins pass@1 only if its TRUE
+  // run 0 was graded, and pass^k only if all its runs were (finding 1 of the
+  // PR #4 adversarial review — [ERROR, PASS, PASS] must not pass either).
   const firstRuns = graded
-    .map((g) => g.runs[0])
+    .map((g) => g.runs.find((r) => r.run_index === 0))
     .filter((r): r is RunRecord => r !== undefined);
   const pass1 = firstRuns.filter((r) => r.passed).length;
-  const passK = graded.filter((g) => g.runs.every((r) => r.passed)).length;
+  const complete = graded.filter((g) => g.errored.length === 0);
+  const passK = complete.filter((g) => g.runs.every((r) => r.passed)).length;
 
   const errored = groups.flatMap((g) => g.errored).length;
   const uncovered = groups.filter((g) => g.runs.length === 0);
@@ -115,14 +119,14 @@ function headline(groups: Graded[]): string {
         ],
         [
           "**pass@1**",
-          `${pass1}/${graded.length} (${pct(pass1 / Math.max(1, graded.length))})`,
-          fmtInterval(wilson(pass1, graded.length)),
+          `${pass1}/${firstRuns.length} (${pct(pass1 / Math.max(1, firstRuns.length))})`,
+          fmtInterval(wilson(pass1, firstRuns.length)),
           "case passes if its first run passes (the k=1 slice)",
         ],
         [
           "**pass^3**",
-          `${passK}/${graded.length} (${pct(passK / Math.max(1, graded.length))})`,
-          fmtInterval(wilson(passK, graded.length)),
+          `${passK}/${complete.length} (${pct(passK / Math.max(1, complete.length))})`,
+          fmtInterval(wilson(passK, complete.length)),
           "case passes only if ALL k runs pass — our own addition, see note",
         ],
       ],

@@ -1,5 +1,10 @@
 import type { EvalCase, GraderResult, RunRecord } from "../lib/types";
-import { foldPunctuation, parseCitations, toolIdSet } from "./text";
+import {
+  foldPunctuation,
+  normalizeId,
+  parseCitations,
+  toolIdSet,
+} from "./text";
 
 /**
  * `groundedness` — every `[...]` citation in the answer must resolve to an id
@@ -24,8 +29,24 @@ import { foldPunctuation, parseCitations, toolIdSet } from "./text";
  */
 export const groundedness = {
   name: "groundedness",
-  grade(_c: EvalCase, r: RunRecord): GraderResult {
+  grade(c: EvalCase, r: RunRecord): GraderResult {
     const citations = parseCitations(foldPunctuation(r.text ?? ""));
+
+    // gold.required_source_ids was previously enforced by NO grader — only
+    // the post-failure localizer read it (Codex review of PR #4, finding 4).
+    // These ids must appear as CITATIONS, not mere mentions.
+    const required = Array.isArray(c.gold.required_source_ids)
+      ? (c.gold.required_source_ids as string[]).map(normalizeId)
+      : [];
+    const cited = new Set(citations.map((x) => x.token));
+    const missingRequired = required.filter((id) => !cited.has(id));
+    if (missingRequired.length > 0) {
+      return {
+        passed: false,
+        reason: `groundedness: required source id(s) never cited: ${missingRequired.join(", ")}`,
+      };
+    }
+
     if (citations.length === 0) {
       return {
         passed: true,

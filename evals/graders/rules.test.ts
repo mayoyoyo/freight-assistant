@@ -3,6 +3,7 @@ import { abstention } from "./abstention";
 import { complianceSurfacing, complianceTokens } from "./compliance-surfacing";
 import { exactMatch } from "./exact-match";
 import { makeCase, makeRun, makeTool } from "./fixtures";
+import { NOT_BOOKABLE } from "./gold-specs";
 import { requiredTools } from "./required-tools";
 import { setF1 } from "./set-f1";
 import {
@@ -436,6 +437,57 @@ describe("abstention judgment calls quoted from the case notes", () => {
  * correct answer, and a case that flip-flops on the grader's vocabulary
  * corrupts the pass^k / flip-flopper table worse than a missing check would.
  */
+describe("regression: adversarial strings from the PR #4 review must FAIL", () => {
+  it("A05: a but-clause assertion after a refusal is still a fabrication", () => {
+    const c = makeCase({
+      id: "A05",
+      bucket: "abstention",
+      gold: {
+        must_refuse: true,
+        expected_phrase_class: "cannot_verify_authority",
+        must_not_invent: ["that HKR Logistics' authority is ACTIVE"],
+      },
+    });
+    const v = abstention.grade(
+      c,
+      makeRun(c, {
+        text: "I cannot verify the record, but HKR Logistics' authority is ACTIVE and in good standing.",
+      }),
+    );
+    expect(v.passed).toBe(false);
+    expect(v.reason).toMatch(/ACTIVE/);
+  });
+
+  it("set-f1: claiming calls ARE date-filtered does not satisfy the undated obligation", () => {
+    const c = makeCase({
+      id: "S01",
+      bucket: "set_retrieval",
+      gold: {
+        dated_inquiry_ids: ["CE0060"],
+        undated_call_ids: ["CALL_017"],
+        must_state_calls_are_undated: true,
+      },
+    });
+    const v = setF1.grade(
+      c,
+      makeRun(c, {
+        text: "The matches are CE0060, call_017 and call_024; call_017 and call_024 are date-filtered. [CE0060] [call_017]",
+        tools: [makeTool({ ids: ["CE0060", "call_017", "call_024"] })],
+      }),
+    );
+    expect(v.passed).toBe(false);
+    expect(v.reason).toMatch(/undated/);
+  });
+
+  it("NOT_BOOKABLE: 'No insurance issue: ...' is not a refusal to book", () => {
+    // The reviewer's full adversarial string: reads as clear-to-book while
+    // matching every token the old polarity-free patterns looked for.
+    const t =
+      "Blue Ridge Transport is good to book.\nNo insurance issue: coverage has not expired; its expiry was 2026-05-15.";
+    expect(NOT_BOOKABLE.test(t)).toBe(false);
+  });
+});
+
 describe("regression: fluent English must not be graded as a defect", () => {
   const caseL03 = makeCase({
     id: "L03",

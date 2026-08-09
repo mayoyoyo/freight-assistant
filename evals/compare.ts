@@ -96,13 +96,20 @@ export function summarise(model: string, runs: RunRecord[]): ModelSummary {
     cases: byCase.size,
     graded_runs: graded.length,
     errored_runs: runs.length - graded.length,
+    // pass@1 counts a case only when its TRUE first run (run_index 0) was
+    // graded, and pass^k only when every run was: an [ERROR, PASS, PASS] case
+    // previously counted as passing both (Codex review of PR #4, finding 1).
+    // Excluded cases stay visible via errored_runs.
     pass_at_1: {
-      passed: gradedCases.filter((rs) => rs[0]?.passed).length,
-      n: gradedCases.length,
+      passed: gradedCases.filter((rs) => rs[0]?.run_index === 0 && rs[0].passed)
+        .length,
+      n: gradedCases.filter((rs) => rs[0]?.run_index === 0).length,
     },
     pass_pow_k: {
-      passed: gradedCases.filter((rs) => rs.every((r) => r.passed)).length,
-      n: gradedCases.length,
+      passed: [...byCase.values()].filter(
+        (rs) => rs.every((r) => !r.error) && rs.every((r) => r.passed),
+      ).length,
+      n: [...byCase.values()].filter((rs) => rs.every((r) => !r.error)).length,
     },
     median_latency_ms: Math.round(median(graded.map((r) => r.latency_ms))),
     mean_tool_calls: Number(mean(graded.map((r) => r.tools.length)).toFixed(2)),

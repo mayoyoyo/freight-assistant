@@ -236,3 +236,36 @@ as invented commitments) do not recur. Caveats carried forward: n=20 means the
 commitments TPR of 13/13 has a Wilson 95% interval of [77.2%, 100%] — perfect
 cells here are "no observed misses", not a claim of a perfect judge; the n=4
 tone-fail granularity caveat above still applies.
+
+
+## v2 RETRACTED / v3 measured 2026-08-09 — v3 is the default
+
+Codex adversarial review of PR #4 (finding 5) caught real calibration
+contamination in v2: rules 6 and 7 quoted bespoke sentences verbatim from the
+drafts of CAL05 ("Given your NJ-MD lane preference"), CAL06 ("we're going to
+pass this time") and CAL07/CAL17 ("runs into your home area") — the exact
+items behind the v1 false alarms those rules were written to fix. Scoring v2
+on the same 20 items therefore partly measured lookup, not judgment. The
+prior section's v2 numbers stand as a record but are DISCLAIMED as evidence
+of judge quality; the "no draft quoted verbatim" provenance claim above was
+false for v2 and the id-only leakage test missed it.
+
+Remediation, in order:
+1. `prompt-v3.md` = v2 with rules 6/7 examples rewritten held-out (rule
+   semantics unchanged; the categories are legitimate, the examples leaked).
+2. A 5-word-shingle leakage ratchet now runs in `judge.test.ts` against every
+   prompt version's overlap with every calibration draft. Known-generic
+   overlap (generator boilerplate present in clean AND corrupted twins;
+   universal idioms a rubric names as its class) is allowlisted explicitly
+   with rationale; v2's five bespoke shingles are pinned as an inverted
+   assertion so the record cannot be silently "fixed".
+3. v3 re-measured on the untouched 20 items: commitments TPR 100 (13/13) /
+   TNR 100 (7/7) kappa 1.000; tone 100/100 kappa 1.000; repeat-stability
+   12/12 unanimous (`calibration-v3.json`, `stability-v3.json`). The clean
+   score matching v2's is the interesting result: the category rules
+   generalize without the quoted examples — v2's sin was unnecessary.
+4. `JUDGE_VERSION` = "v3". Same honesty caveats as ever: n=20, 13/13 has a
+   Wilson 95% interval of [77.2, 100]; the tone rubric naming the universal
+   idiom "take it or leave it" (which CAL15 contains) is disclosed here as a
+   borderline-but-accepted rubric practice: a class must be nameable by its
+   canonical surface form.
