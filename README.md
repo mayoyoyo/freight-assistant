@@ -5,6 +5,9 @@ emails, call transcripts, loads, and market rates — with citations, a
 compliance gate, and measured abstention. Built as the Goodlane founding-
 engineer take-home.
 
+**Live demo:** https://freight-assistant.vercel.app (Vercel + Neon Postgres;
+answers cost real opus-5 tokens — be kind).
+
 ![Architecture](docs/architecture.svg)
 
 ## How to run
