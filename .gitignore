@@ -46,3 +46,6 @@ WALKTHROUGH.md
 
 # Session telemetry — not a deliverable
 .claude/observability/
+
+# Agent worktrees
+.claude/worktrees/
