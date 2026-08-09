@@ -1,6 +1,6 @@
 # Implementation Status: Goodlane Freight Carrier Agent
 Plan: .claude/plans/goodlane-freight-agent-2026-08-06.md
-Last Updated: 2026-08-07 (session 3 FINAL — Phase 4 COMPLETE, PR #4 open)
+Last Updated: 2026-08-09 (session 4 — deploy day: PRs 1-3 merged, review round done, Neon seeded)
 
 ## Pre-implementation (done)
 - [x] Architecture diagram `docs/architecture.svg` — APPROVED by Hanson
@@ -158,3 +158,30 @@ Phase 4: Eval (THE emphasized deliverable) — 4A+4C done, 4B (harness+judge+bas
 - User emphasized (2026-08-06): ingestion output must be a format the agent can reason over, with the data-store
   choice justified — Phase 5 ADR must frame Postgres+FTS explicitly as the answer to that spec line.
 - Phase 0 committed straight to main (no PR possible on empty repo); Phases 1+ are feature-branch PRs.
+
+
+## SESSION 4 (2026-08-09) — deploy + per-PR adversarial review
+- PRs #1-#3 MERGED (in order, retargeted manually — GitHub only auto-retargets
+  on branch deletion). PR #4 merged after its review round (see below).
+- Review round (Codex CLI per PR, triage tables posted as PR comments):
+  * PR #3 finding 1 CRITICAL fixed: client-forged tool results — route now
+    sanitizes history (sanitize.ts: roles+text only, 40-msg cap, 5 tests).
+  * PR #2: digit-only identifier regex in extraction schema + Zod-validated
+    cache reads (extraction-schema.ts split out — extract.ts runs main() on
+    import, never import it). 329 artifacts verified; resolve byte-identical.
+  * PR #4: **judge v2 RETRACTED — calibration leakage** (rules quoted
+    CAL05/06/07 drafts verbatim). v3 = held-out rewrite, re-measured 100/100
+    kappa 1.0, 12/12 stability, JUDGE_VERSION=v3. Leakage-ratchet shingle test
+    added (allowlist hand-classified; v2's leak pinned as inverted assertion).
+    5 grader holes fixed w/ adversarial strings as must-fail tests
+    (denominators, NOT_BOOKABLE polarity, clause-blind negation,
+    required_source_ids enforcement, undated-phrase polarity).
+  * Re-grade under stricter graders + v3: baseline 51/72 + post-fix 52/72
+    UNCHANGED; sonnet 48→49; haiku 18; luna 15→13. All reports regenerated.
+- Deploy: Vercel linked; ANTHROPIC_API_KEY prod+preview; Neon installed
+  (Hanson accepted terms), DB seeded 48/50/720/329 value-verified;
+  production build Ready. ⛔ WAITING ON HANSON: disable Deployment
+  Protection (Settings → Deployment Protection → Only Preview Deployments)
+  — until then all prod URLs 302 to Vercel SSO (clean alias 404s).
+- NEXT: live verification of the two spec queries on the prod URL → README
+  (final PR) → WALKTHROUGH final pass + live-extension rehearsal.
