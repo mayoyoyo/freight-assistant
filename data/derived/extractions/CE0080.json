@@ -1,0 +1,24 @@
+{
+  "id": "CE0080",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1955,
+    "output": 133
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000096",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Lilly Morgan",
+    "company_name": null,
+    "questions": [
+      "What's the all-in?"
+    ],
+    "notes": "Carrier says they can cover the Philadelphia to Elizabeth load and asks for the all-in rate."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0054",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2014,
+    "output": 153
+  },
+  "extraction": {
+    "mc_number": "109876",
+    "load_reference": "29372421",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Nkechi Adeyemi",
+    "company_name": "Sharp Arrow Logistics",
+    "questions": [
+      "What's the offered rate on load #29372421?"
+    ],
+    "notes": "Truck available Trenton, NJ to Newark, NJ on 2026-05-22."
+  }
+}

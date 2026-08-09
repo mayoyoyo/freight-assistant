@@ -1,0 +1,22 @@
+{
+  "id": "CE0109",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1958,
+    "output": 144
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000138",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Anya Volkov",
+    "company_name": "Prime Horizon Logistics",
+    "questions": [],
+    "notes": "Carrier offers a box truck for load 29000138; no rate or MC number provided."
+  }
+}

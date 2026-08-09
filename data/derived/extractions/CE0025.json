@@ -1,0 +1,22 @@
+{
+  "id": "CE0025",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1959,
+    "output": 115
+  },
+  "extraction": {
+    "mc_number": "996543",
+    "load_reference": "29372289",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Fatima Diarra",
+    "company_name": "Red Oak Freight",
+    "questions": [],
+    "notes": "Carrier confirms booking and will send BOL info shortly."
+  }
+}

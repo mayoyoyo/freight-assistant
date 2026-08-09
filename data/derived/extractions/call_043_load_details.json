@@ -1,0 +1,24 @@
+{
+  "id": "call_043_load_details",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2658,
+    "output": 161
+  },
+  "extraction": {
+    "mc_number": "1123456",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Way",
+    "company_name": "Northeast Cargo LLC",
+    "questions": [
+      "What about the weight confirmation?"
+    ],
+    "notes": "Carrier confirmed the NYMA box truck load after asking about weight; listed at 5200 lbs but shipper hasn't confirmed final weight."
+  }
+}

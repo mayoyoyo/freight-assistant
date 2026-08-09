@@ -1,0 +1,24 @@
+{
+  "id": "call_035_compliance_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2679,
+    "output": 154
+  },
+  "extraction": {
+    "mc_number": "789012",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "compliance_update",
+    "availability": "unknown",
+    "caller_name": "Amara",
+    "company_name": "Quick Shift Logistics",
+    "questions": [
+      "Can I email you the new cert today?"
+    ],
+    "notes": "Insurance cert on file is expired/expiring; carrier's renewal is in process and she will email the updated COI, and no loads can be booked until compliance approves."
+  }
+}

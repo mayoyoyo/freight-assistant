@@ -1,0 +1,24 @@
+{
+  "id": "CE0113",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1971,
+    "output": 147
+  },
+  "extraction": {
+    "mc_number": "330987",
+    "load_reference": "29000196",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Colleen Fitzgerald",
+    "company_name": "Birch Hill Carriers",
+    "questions": [
+      "What does it pay?"
+    ],
+    "notes": "Carrier interested in Newark to Brooklyn run and requesting the rate."
+  }
+}

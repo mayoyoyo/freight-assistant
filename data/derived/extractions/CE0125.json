@@ -1,0 +1,24 @@
+{
+  "id": "CE0125",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1954,
+    "output": 127
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000279",
+    "rate_usd": 735,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Marie Vale",
+    "company_name": null,
+    "questions": [
+      "Any room on your end?"
+    ],
+    "notes": "Carrier rejects posted rate and counters at $735 pending broker flexibility."
+  }
+}

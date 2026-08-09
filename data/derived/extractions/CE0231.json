@@ -1,0 +1,24 @@
+{
+  "id": "CE0231",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1971,
+    "output": 141
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000873",
+    "rate_usd": 445,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Carlos Mendez",
+    "company_name": "Blue Ridge Transport",
+    "questions": [
+      "Worth discussing?"
+    ],
+    "notes": "Carrier rejects the posted $405 rate, citing a $445 lane floor for the DE to NJ run."
+  }
+}

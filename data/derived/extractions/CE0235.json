@@ -1,0 +1,22 @@
+{
+  "id": "CE0235",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2000,
+    "output": 141
+  },
+  "extraction": {
+    "mc_number": "219876",
+    "load_reference": "29000873",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Baraka Mwangi",
+    "company_name": "TRADEWIND TRANSPORT INC",
+    "questions": [],
+    "notes": "Carrier factors through TCI Business Capital; payment should be remitted to the factor."
+  }
+}

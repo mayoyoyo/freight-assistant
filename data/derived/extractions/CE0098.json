@@ -1,0 +1,24 @@
+{
+  "id": "CE0098",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2022,
+    "output": 142
+  },
+  "extraction": {
+    "mc_number": "109876",
+    "load_reference": "29000138",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Nkechi Adeyemi",
+    "company_name": "Sharp Arrow Logistics LLC",
+    "questions": [
+      "What's the offered rate?"
+    ],
+    "notes": "Lane is Camden, NJ to Yonkers, NY."
+  }
+}

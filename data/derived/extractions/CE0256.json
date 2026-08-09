@@ -1,0 +1,22 @@
+{
+  "id": "CE0256",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1968,
+    "output": 139
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29001091",
+    "rate_usd": null,
+    "equipment": "Flatbed",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Shaun McIntyre",
+    "company_name": "Ridgeline Transport LLC",
+    "questions": [],
+    "notes": "Email references Pittsburgh to Camden lane in the subject line; no rate or MC provided."
+  }
+}

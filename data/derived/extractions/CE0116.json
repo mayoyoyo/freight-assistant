@@ -1,0 +1,22 @@
+{
+  "id": "CE0116",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1954,
+    "output": 127
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000196",
+    "rate_usd": null,
+    "equipment": "Refrigerated",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Diane Worthington",
+    "company_name": "Capital City Transport",
+    "questions": [],
+    "notes": "Email states reefer availability for the referenced load; no MC number or rate provided."
+  }
+}

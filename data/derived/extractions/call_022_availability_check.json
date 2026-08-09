@@ -1,0 +1,25 @@
+{
+  "id": "call_022_availability_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2641,
+    "output": 141
+  },
+  "extraction": {
+    "mc_number": "234891",
+    "load_reference": "29372289",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Mike",
+    "company_name": "Keystone Freight LLC",
+    "questions": [
+      "Still open?",
+      "Can you confirm by email?"
+    ],
+    "notes": "Driver already in the area for tomorrow's PA pickup; broker to email full load details."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "call_020_availability_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2689,
+    "output": 140
+  },
+  "extraction": {
+    "mc_number": "456789",
+    "load_reference": "29372421",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Jason",
+    "company_name": "Velocity Freight Incorporated",
+    "questions": [
+      "Still open?",
+      "Can you confirm by email?"
+    ],
+    "notes": "Driver already near New Jersey pickup; broker to email full load details."
+  }
+}

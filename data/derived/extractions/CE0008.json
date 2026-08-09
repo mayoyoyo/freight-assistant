@@ -1,0 +1,22 @@
+{
+  "id": "CE0008",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1959,
+    "output": 135
+  },
+  "extraction": {
+    "mc_number": "891234",
+    "load_reference": "29372289",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Ivan Sokolowski",
+    "company_name": null,
+    "questions": [],
+    "notes": "Subject line references Reading to Wilmington lane; no rate quoted despite subject requesting a quote."
+  }
+}

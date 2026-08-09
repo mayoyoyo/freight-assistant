@@ -1,0 +1,24 @@
+{
+  "id": "call_005_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2913,
+    "output": 161
+  },
+  "extraction": {
+    "mc_number": "1345678",
+    "load_reference": null,
+    "rate_usd": 320,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Simone",
+    "company_name": "Liberty Freight Solutions LLC",
+    "questions": [
+      "What's the best email?"
+    ],
+    "notes": "Carrier rejects posted $290 on the New Jersey-PA lane, needs $320 minimum due to fuel; broker to follow up by email within the hour."
+  }
+}

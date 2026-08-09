@@ -1,0 +1,24 @@
+{
+  "id": "call_013_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2897,
+    "output": 156
+  },
+  "extraction": {
+    "mc_number": "663210",
+    "load_reference": null,
+    "rate_usd": 480,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Gene",
+    "company_name": "Crossroads Transport Incorporated",
+    "questions": [
+      "What's the best email?"
+    ],
+    "notes": "Carrier counters the posted $440 to $480 citing fuel costs; broker to reply by email after checking with ops."
+  }
+}

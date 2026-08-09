@@ -1,0 +1,22 @@
+{
+  "id": "call_054_voicemail",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2465,
+    "output": 132
+  },
+  "extraction": {
+    "mc_number": "901234",
+    "load_reference": null,
+    "rate_usd": 320,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Luis",
+    "company_name": "Penn Valley Transport LLC",
+    "questions": [],
+    "notes": "Broker posted rate was $295; carrier wants $320 and asks for callback or email."
+  }
+}

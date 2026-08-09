@@ -1,0 +1,22 @@
+{
+  "id": "CE0241",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1997,
+    "output": 130
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000948",
+    "rate_usd": 625,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Jason Tran",
+    "company_name": "VELOCITY FREIGHT INC",
+    "questions": [],
+    "notes": "Carrier counters the broker's posted $560 rate, asking $625 minimum for the lane."
+  }
+}

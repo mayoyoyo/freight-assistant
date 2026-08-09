@@ -1,0 +1,22 @@
+{
+  "id": "CE0009",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1962,
+    "output": 110
+  },
+  "extraction": {
+    "mc_number": "891234",
+    "load_reference": "29372289",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Ivan Sokolowski",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier confirms booking and will send BOL info shortly."
+  }
+}

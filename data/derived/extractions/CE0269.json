@@ -1,0 +1,25 @@
+{
+  "id": "CE0269",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2003,
+    "output": 138
+  },
+  "extraction": {
+    "mc_number": "456012",
+    "load_reference": "29001091",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "load_question",
+    "availability": "conditional",
+    "caller_name": "Frank Kowalczyk",
+    "company_name": null,
+    "questions": [
+      "Any dock?",
+      "Is weight confirmed at ___ lbs?"
+    ],
+    "notes": "Driver can bring a liftgate if needed; carrier wants answers before committing."
+  }
+}

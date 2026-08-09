@@ -1,0 +1,24 @@
+{
+  "id": "call_010_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2913,
+    "output": 158
+  },
+  "extraction": {
+    "mc_number": "774321",
+    "load_reference": null,
+    "rate_usd": 420,
+    "equipment": "Sprinter Van",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Priyanka",
+    "company_name": "Northbound Express LLC",
+    "questions": [
+      "Which load are you looking at?"
+    ],
+    "notes": "Carrier counters the posted $395 on the NJCT sprinter van lane, needs $420 minimum; broker to follow up by email within the hour."
+  }
+}

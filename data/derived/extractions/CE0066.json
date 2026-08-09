@@ -1,0 +1,22 @@
+{
+  "id": "CE0066",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1942,
+    "output": 116
+  },
+  "extraction": {
+    "mc_number": "885432",
+    "load_reference": "29372490",
+    "rate_usd": null,
+    "equipment": "Flatbed",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Clint Beauregard",
+    "company_name": null,
+    "questions": [],
+    "notes": "Terse email offering a flatbed for the referenced load; no rate discussed."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "CE0173",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1997,
+    "output": 137
+  },
+  "extraction": {
+    "mc_number": "887642",
+    "load_reference": "29000660",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "booking_confirm",
+    "availability": "unknown",
+    "caller_name": "Tony Ferrara",
+    "company_name": "Sunrise Carriers Inc",
+    "questions": [],
+    "notes": "Carrier factors through Triumph Business Capital; payment should be sent to the factor."
+  }
+}

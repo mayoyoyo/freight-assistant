@@ -1,0 +1,22 @@
+{
+  "id": "CE0015",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1963,
+    "output": 134
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372289",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Reed Barlus",
+    "company_name": "G2 LOGISTICS INC",
+    "questions": [],
+    "notes": "Email references PA to DE lane in subject line; no rate or MC number provided."
+  }
+}

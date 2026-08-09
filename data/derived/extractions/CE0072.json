@@ -1,0 +1,22 @@
+{
+  "id": "CE0072",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1965,
+    "output": 134
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372515",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Kevin Doherty",
+    "company_name": "Horizon Line Carriers LLC",
+    "questions": [],
+    "notes": "Email states a box truck is available for the referenced load; no rate or MC number provided."
+  }
+}

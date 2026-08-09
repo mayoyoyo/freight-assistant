@@ -1,0 +1,24 @@
+{
+  "id": "call_048_load_details",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2631,
+    "output": 151
+  },
+  "extraction": {
+    "mc_number": "345678",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Patricia",
+    "company_name": "Garden State Express LLC",
+    "questions": [
+      "What about the loading dock hours?"
+    ],
+    "notes": "Carrier confirmed the NJ-PA box truck load after learning dock hours are 6AM-3PM."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0249",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2021,
+    "output": 148
+  },
+  "extraction": {
+    "mc_number": "1480355",
+    "load_reference": "29000948",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Lilly Morgan",
+    "company_name": "Demix Transport",
+    "questions": [
+      "What's the offered rate on load #29000948?"
+    ],
+    "notes": "Brooklyn, NY to Worcester, MA pickup on 2026-05-09."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0062",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1948,
+    "output": 143
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372475",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Sandra Pellegrino",
+    "company_name": "Route One Transport",
+    "questions": [
+      "When's pickup?"
+    ],
+    "notes": "Carrier states availability for load #29372475 and asks about pickup timing; no MC, rate, or equipment given."
+  }
+}

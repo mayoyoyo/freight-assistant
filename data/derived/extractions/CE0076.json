@@ -1,0 +1,22 @@
+{
+  "id": "CE0076",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1983,
+    "output": 119
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000096",
+    "rate_usd": 255,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Marcus Duffy",
+    "company_name": null,
+    "questions": [],
+    "notes": "Driver confirmed for pickup 2026-03-12; carrier requests load details sent to this email."
+  }
+}

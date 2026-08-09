@@ -1,0 +1,24 @@
+{
+  "id": "CE0151",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1938,
+    "output": 131
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000496",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "load_question",
+    "availability": "unknown",
+    "caller_name": "Simone Archer",
+    "company_name": null,
+    "questions": [
+      "Still available on this one?"
+    ],
+    "notes": "Carrier inquiring whether load #29000496 is still open; no MC, rate, or equipment provided."
+  }
+}

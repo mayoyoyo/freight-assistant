@@ -1,0 +1,22 @@
+{
+  "id": "CE0014",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1977,
+    "output": 123
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372289",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Hector Morales",
+    "company_name": null,
+    "questions": [],
+    "notes": "Requests rate confirmation be sent to hector.valleyrun@gmail.com; driver will make the pickup window."
+  }
+}

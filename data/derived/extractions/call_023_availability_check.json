@@ -1,0 +1,25 @@
+{
+  "id": "call_023_availability_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2660,
+    "output": 151
+  },
+  "extraction": {
+    "mc_number": "774321",
+    "load_reference": "29372475",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Priyanka",
+    "company_name": "Northbound Express LLC",
+    "questions": [
+      "Still open?",
+      "Can you confirm by email?"
+    ],
+    "notes": "Pickup tomorrow out of New Jersey; driver already in the area and load details to be emailed."
+  }
+}

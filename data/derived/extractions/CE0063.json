@@ -1,0 +1,22 @@
+{
+  "id": "CE0063",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1953,
+    "output": 123
+  },
+  "extraction": {
+    "mc_number": "1480355",
+    "load_reference": "29372475",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Lilly Morgan",
+    "company_name": "Demix Transport",
+    "questions": [],
+    "notes": "Email inquiry expressing interest in the load with no rate discussed."
+  }
+}

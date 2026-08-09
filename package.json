@@ -14,7 +14,9 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.33",
     "@neondatabase/serverless": "^1.1.0",
+    "ai": "^7.0.54",
     "drizzle-orm": "^0.45.2",
     "next": "16.3.0",
     "react": "19.2.8",

@@ -1,0 +1,24 @@
+{
+  "id": "CE0087",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1950,
+    "output": 118
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000096",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Benny",
+    "company_name": null,
+    "questions": [
+      "What's the rate?"
+    ],
+    "notes": "Carrier can cover Philadelphia to Elizabeth load and is asking for the rate."
+  }
+}

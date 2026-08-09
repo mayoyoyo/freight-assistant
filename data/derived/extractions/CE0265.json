@@ -1,0 +1,24 @@
+{
+  "id": "CE0265",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1943,
+    "output": 123
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29001091",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Robert Nguyen",
+    "company_name": null,
+    "questions": [
+      "When's pickup?"
+    ],
+    "notes": "Carrier email domain suggests Chesapeake Haulers but company not explicitly stated."
+  }
+}

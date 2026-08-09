@@ -1,0 +1,25 @@
+{
+  "id": "call_028_availability_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2654,
+    "output": 154
+  },
+  "extraction": {
+    "mc_number": "440987",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Denise",
+    "company_name": "Swift Lane Transport LLC",
+    "questions": [
+      "Still open?",
+      "Can you confirm by email?"
+    ],
+    "notes": "PA to New Jersey box truck load, pickup tomorrow out of PA; driver already in the area."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0070",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1938,
+    "output": 126
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372501",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "load_question",
+    "availability": "unknown",
+    "caller_name": "Anya Volkov",
+    "company_name": null,
+    "questions": [
+      "Still available on this one?"
+    ],
+    "notes": "Carrier emailing to check if load #29372501 is still open; no MC, rate, or equipment given."
+  }
+}

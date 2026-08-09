@@ -1,0 +1,24 @@
+{
+  "id": "CE0016",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1964,
+    "output": 116
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372289",
+    "rate_usd": 360,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Reed",
+    "company_name": null,
+    "questions": [
+      "Worth discussing?"
+    ],
+    "notes": "Carrier rejects posted $310 and states a $360 floor on this lane."
+  }
+}

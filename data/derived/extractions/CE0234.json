@@ -1,0 +1,24 @@
+{
+  "id": "CE0234",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1971,
+    "output": 141
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": 470,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Baraka Mwangi",
+    "company_name": null,
+    "questions": [
+      "any room on your end?"
+    ],
+    "notes": "Carrier counters broker's rate at $470 for Dover to Elizabeth box truck load."
+  }
+}

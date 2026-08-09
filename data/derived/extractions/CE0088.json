@@ -1,0 +1,22 @@
+{
+  "id": "CE0088",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1974,
+    "output": 110
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000096",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Benny",
+    "company_name": null,
+    "questions": [],
+    "notes": "Requests rate confirmation be sent to bennytrucks88@hotmail.com."
+  }
+}

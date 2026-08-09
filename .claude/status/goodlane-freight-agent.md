@@ -15,11 +15,39 @@ Last Updated: 2026-08-06 (session 2)
       Local dev DB: Postgres.app 14.20 on :5432, db `freight_assistant`, `.env` written (gitignored).
 
 ## Current Phase
-Phase 2: Ingestion pipeline (2a transcribe / 2b extract / resolve) — BLOCKED on env keys
+Phase 2: Ingestion pipeline — 2a DONE, 2b agent running
+
+- [x] Codex CLI review of PR #1: 8 findings; #1 CONFIRMED real data loss (num/str dropped JSON
+      numbers/booleans — 0/41 reliability scores survived; onboarded is boolean not date). Fixed:
+      coercion helpers + tests, transactional parse-first seed, strict Zod NDJSON validation +
+      coverage check, reqNum throws, extracted_availability column, source_type CHECK, unique
+      lane/week index, dbEnv(). Rejected with rationale: surrogate-key split, numeric money.
+      Triage table posted as PR #1 comment. Reseed verified: reliability 41/41, onboarded 48/48.
+- [x] Phase 2a (worktree agent): 55/55 transcribed, nova-3 general. KEY FINDINGS:
+      smart_format mangles dictated digits in 33 files ("300And45800And78"=345878) — raw ASR
+      correct without smart_format; diarization collapses to 1 speaker on 28/55; per-word
+      confidence discriminates, alternative-level saturated; 15 calls legitimately have no MC.
+      Merged into feat/phase2-ingestion (branch stacked on phase-1).
+- [x] Phase 2b DONE + independently verified — PR #2 (stacked on #1). 329/329 extracted,
+      $4.54, 0 failures/unresolved; resolution mc_exact 174 / email_exact 153 / fuzzy 2;
+      flags: rate_found_but_stated_null 67, intent_mismatch 16, equipment_mismatch 15;
+      mc_low_confidence 16. 46 unit tests green.
+      **EVAL-CRITICAL corrections to prior beliefs:**
+      * "15 no-MC calls" was WRONG — only call_038 lacks an MC (matches a null-MC carrier).
+      * call_006 MC = 345678 (self-correction "…878 wait …678"); NOT 345878.
+      * Decoy pattern is OMISSION not contradiction: 145 emails have stated_mc but NO MC in
+        body — correct extraction returns null; eval must not score that as a miss.
+      * call_046 = planted wrong MC (665432 → nothing); name_fuzzy recovers Crossroads
+        Transport 663210. Signal: resolution_method='name_fuzzy' + non-null extracted MC.
+      * Calls have occurred_at NULL (no timestamps) — "this week" queries must handle it.
+      * Extraction prompt bug caught+fixed: summed concatenated MC segments instead of
+        concatenating; all calls re-run under final prompt.
+
+## Current Phase
+Phase 3: Agent + tools + UI — NOT STARTED (next)
 
 ## Blockers
-- Phase 2 needs `DEEPGRAM_API_KEY` (Hanson may need to create account; job <$1) and
-  `ANTHROPIC_API_KEY` in `.env`. PR #1 awaiting Hanson review/merge.
+- (none) PRs #1, #2 awaiting Hanson review/merge (stacked; merge #1 first).
 
 ## Deviations from Plan
 - Next.js 16.3 instead of 15 (create-next-app@latest current stable; plan predates 16; no API concerns —

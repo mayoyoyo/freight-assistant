@@ -1,0 +1,24 @@
+{
+  "id": "CE0166",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1938,
+    "output": 123
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "load_question",
+    "availability": "unknown",
+    "caller_name": "William Osei",
+    "company_name": null,
+    "questions": [
+      "Still available on this one?"
+    ],
+    "notes": "Subject line references an Elizabeth to York lane; no load ID, rate, or equipment given."
+  }
+}

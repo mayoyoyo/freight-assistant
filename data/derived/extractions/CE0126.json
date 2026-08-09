@@ -1,0 +1,22 @@
+{
+  "id": "CE0126",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1973,
+    "output": 124
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000279",
+    "rate_usd": 565,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Marie Vale",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier requests all load details be sent to marie@bbkagent.com; driver confirmed for 2026-03-25."
+  }
+}

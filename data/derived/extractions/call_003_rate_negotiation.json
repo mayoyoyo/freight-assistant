@@ -1,0 +1,25 @@
+{
+  "id": "call_003_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2889,
+    "output": 160
+  },
+  "extraction": {
+    "mc_number": "1480355",
+    "load_reference": null,
+    "rate_usd": 375,
+    "equipment": "Sprinter Van",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Lily",
+    "company_name": "Demicks Transport",
+    "questions": [
+      "Which load are you looking at?",
+      "What's the best email?"
+    ],
+    "notes": "Carrier counters the posted $340 on the NJ/NY sprinter van lane, needs $375 minimum; broker to reply by email."
+  }
+}

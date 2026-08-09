@@ -1,0 +1,24 @@
+{
+  "id": "call_032_compliance_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2700,
+    "output": 157
+  },
+  "extraction": {
+    "mc_number": "1198743",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "compliance_update",
+    "availability": "unknown",
+    "caller_name": "Rob",
+    "company_name": "Mountain State Transport",
+    "questions": [
+      "Conditional? That should be resolved."
+    ],
+    "notes": "Broker declined to book because FMCSA shows the carrier's authority as conditional; carrier says paperwork was filed weeks ago and will follow up with FMCSA."
+  }
+}

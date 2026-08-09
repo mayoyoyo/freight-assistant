@@ -1,0 +1,24 @@
+{
+  "id": "CE0005",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1943,
+    "output": 133
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372289",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "William Osei",
+    "company_name": "Tidewater Carriers",
+    "questions": [
+      "When's pickup?"
+    ],
+    "notes": "Carrier inquiring about PA to DE load; no MC, rate, or equipment stated."
+  }
+}

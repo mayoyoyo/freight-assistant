@@ -1,0 +1,24 @@
+{
+  "id": "CE0178",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1938,
+    "output": 122
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000660",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Hector Morales",
+    "company_name": null,
+    "questions": [
+      "Rate?"
+    ],
+    "notes": "Carrier following up on load #29000660 asking for the rate; no MC, equipment, or rate provided."
+  }
+}

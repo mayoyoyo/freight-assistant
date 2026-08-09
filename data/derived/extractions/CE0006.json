@@ -1,0 +1,24 @@
+{
+  "id": "CE0006",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1996,
+    "output": 143
+  },
+  "extraction": {
+    "mc_number": "218765",
+    "load_reference": null,
+    "rate_usd": 335,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "William Osei",
+    "company_name": "Tidewater Carriers Inc",
+    "questions": [
+      "Can you do $335?"
+    ],
+    "notes": "Carrier says posted $310 won't cover fuel and tolls on the Reading to Wilmington run."
+  }
+}

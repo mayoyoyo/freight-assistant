@@ -1,0 +1,25 @@
+{
+  "id": "CE0061",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2011,
+    "output": 148
+  },
+  "extraction": {
+    "mc_number": "234891",
+    "load_reference": "29372475",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "load_question",
+    "availability": "conditional",
+    "caller_name": "Mike Harrington",
+    "company_name": "Keystone Freight LLC",
+    "questions": [
+      "Any dock?",
+      "Is weight confirmed at lbs?"
+    ],
+    "notes": "Driver can bring a liftgate if needed; weight figure missing from email."
+  }
+}

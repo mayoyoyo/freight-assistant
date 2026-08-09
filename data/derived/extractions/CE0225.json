@@ -1,0 +1,22 @@
+{
+  "id": "CE0225",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1956,
+    "output": 107
+  },
+  "extraction": {
+    "mc_number": "441098",
+    "load_reference": "29000873",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Omar Washington",
+    "company_name": "Lakeside Freight",
+    "questions": [],
+    "notes": "Carrier will send BOL info shortly."
+  }
+}

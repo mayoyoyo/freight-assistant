@@ -1,0 +1,25 @@
+{
+  "id": "CE0159",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2021,
+    "output": 157
+  },
+  "extraction": {
+    "mc_number": "678234",
+    "load_reference": "29000614",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "load_question",
+    "availability": "conditional",
+    "caller_name": "Mohammed Al-Rashid",
+    "company_name": null,
+    "questions": [
+      "Any dock?",
+      "Is weight confirmed at 21977 lbs?"
+    ],
+    "notes": "Driver can bring a liftgate if needed; truck offered Harrisburg to Dover pending answers."
+  }
+}

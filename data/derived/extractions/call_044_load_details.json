@@ -1,0 +1,24 @@
+{
+  "id": "call_044_load_details",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2608,
+    "output": 168
+  },
+  "extraction": {
+    "mc_number": "887642",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Tony",
+    "company_name": "Sunrise Carriers Incorporated",
+    "questions": [
+      "I wanted to ask about the dock availability"
+    ],
+    "notes": "No dock at destination; carrier must bring liftgate or pallet jack, which Tony confirmed works, and booking was confirmed."
+  }
+}

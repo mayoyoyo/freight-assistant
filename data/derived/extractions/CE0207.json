@@ -1,0 +1,24 @@
+{
+  "id": "CE0207",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1949,
+    "output": 229
+  },
+  "extraction": {
+    "mc_number": "538772",
+    "load_reference": "29000791",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": null,
+    "company_name": null,
+    "questions": [
+      "What does it pay?"
+    ],
+    "notes": "Carrier inquired via email about pay for the load; no rate proposed."
+  }
+}

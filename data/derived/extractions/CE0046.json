@@ -1,0 +1,24 @@
+{
+  "id": "CE0046",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1969,
+    "output": 127
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372343",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "problem_report",
+    "availability": "unknown",
+    "caller_name": "Tony Ferrara",
+    "company_name": "Sunrise Carriers",
+    "questions": [
+      "What's the door #?"
+    ],
+    "notes": "Driver is at the dock for load 29372343 but no one is there to receive them."
+  }
+}

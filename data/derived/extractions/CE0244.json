@@ -1,0 +1,24 @@
+{
+  "id": "CE0244",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1949,
+    "output": 137
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Fatima Diarra",
+    "company_name": null,
+    "questions": [
+      "Rate?"
+    ],
+    "notes": "Sprinter van available Brooklyn to Worcester; asking for rate."
+  }
+}

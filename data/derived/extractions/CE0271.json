@@ -1,0 +1,22 @@
+{
+  "id": "CE0271",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2013,
+    "output": 141
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29001091",
+    "rate_usd": 220,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Baraka Mwangi",
+    "company_name": "TRADEWIND TRANSPORT INC",
+    "questions": [],
+    "notes": "Carrier counters broker's posted $190 with a $220 ask on the Pittsburgh to Camden lane."
+  }
+}

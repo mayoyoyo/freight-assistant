@@ -1,0 +1,24 @@
+{
+  "id": "CE0187",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1947,
+    "output": 130
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Hector Morales",
+    "company_name": null,
+    "questions": [
+      "What's the all-in?"
+    ],
+    "notes": "Reply regarding an Allentown to Woodbridge lane; carrier says they can cover it and asks for the all-in rate."
+  }
+}

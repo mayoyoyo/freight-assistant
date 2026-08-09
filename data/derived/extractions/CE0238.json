@@ -1,0 +1,22 @@
+{
+  "id": "CE0238",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1970,
+    "output": 148
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000948",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Denise Johansson",
+    "company_name": "Swift Lane Transport LLC",
+    "questions": [],
+    "notes": "Email offers a box truck for Brooklyn to Worcester lane; no rate or MC number provided."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "CE0160",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1980,
+    "output": 131
+  },
+  "extraction": {
+    "mc_number": "456012",
+    "load_reference": "29000614",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "load_question",
+    "availability": "unknown",
+    "caller_name": "Frank Kowalczyk",
+    "company_name": null,
+    "questions": [
+      "Does delivery require an appointment?"
+    ],
+    "notes": "Driver is local to Dover; subject line requests a quote for Harrisburg to Dover."
+  }
+}

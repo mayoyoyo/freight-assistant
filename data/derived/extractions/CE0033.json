@@ -1,0 +1,22 @@
+{
+  "id": "CE0033",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1981,
+    "output": 126
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29372312",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Baraka Mwangi",
+    "company_name": null,
+    "questions": [],
+    "notes": "Requests rate confirmation be sent to baraka.tradewind@gmail.com; driver will be at pickup window."
+  }
+}

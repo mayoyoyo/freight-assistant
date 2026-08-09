@@ -1,0 +1,22 @@
+{
+  "id": "CE0263",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1949,
+    "output": 124
+  },
+  "extraction": {
+    "mc_number": "441098",
+    "load_reference": "29001091",
+    "rate_usd": null,
+    "equipment": "Flatbed",
+    "intent": "availability_offer",
+    "availability": "unknown",
+    "caller_name": "Omar Washington",
+    "company_name": null,
+    "questions": [],
+    "notes": "Email expresses interest in the load with flatbed equipment; no rate or specific truck readiness stated."
+  }
+}

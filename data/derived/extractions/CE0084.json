@@ -1,0 +1,24 @@
+{
+  "id": "CE0084",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1938,
+    "output": 114
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000096",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Hector Morales",
+    "company_name": null,
+    "questions": [
+      "Rate?"
+    ],
+    "notes": "Brief follow-up email asking for the rate on load #29000096."
+  }
+}

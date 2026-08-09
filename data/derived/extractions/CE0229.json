@@ -1,0 +1,22 @@
+{
+  "id": "CE0229",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1986,
+    "output": 131
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000873",
+    "rate_usd": 375,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Nkechi Adeyemi",
+    "company_name": "Sharp Arrow Logistics",
+    "questions": [],
+    "notes": "Carrier requests load details be sent to this email; driver confirmed for 2026-05-02."
+  }
+}

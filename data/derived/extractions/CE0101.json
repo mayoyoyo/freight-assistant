@@ -1,0 +1,22 @@
+{
+  "id": "CE0101",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1987,
+    "output": 138
+  },
+  "extraction": {
+    "mc_number": "765432",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "factoring_notice",
+    "availability": "conditional",
+    "caller_name": "Hector Morales",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier can cover Camden to Yonkers box truck load but needs confirmation that RTS Financial factoring is acceptable before booking."
+  }
+}

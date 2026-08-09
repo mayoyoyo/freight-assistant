@@ -1,0 +1,24 @@
+{
+  "id": "CE0071",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1944,
+    "output": 156
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "William Osei",
+    "company_name": "Tidewater Carriers",
+    "questions": [
+      "What's the all-in?"
+    ],
+    "notes": "Carrier replies to a Box Truck New York to Boston posting confirming they can cover and asking for the all-in rate."
+  }
+}

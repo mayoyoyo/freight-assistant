@@ -1,0 +1,22 @@
+{
+  "id": "CE0161",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1959,
+    "output": 133
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000614",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Patricia Ramos",
+    "company_name": "Garden State Express LLC",
+    "questions": [],
+    "notes": "Follow-up email offering a sprinter van for the referenced load; no rate or MC provided."
+  }
+}

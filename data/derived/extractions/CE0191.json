@@ -1,0 +1,22 @@
+{
+  "id": "CE0191",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2013,
+    "output": 148
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": 470,
+    "equipment": "Sprinter Van",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Vincent Caruso",
+    "company_name": "Metro Delivery Solutions LLC",
+    "questions": [],
+    "notes": "Carrier counters broker-posted $390 with a $470 ask on the Allentown to Woodbridge lane."
+  }
+}

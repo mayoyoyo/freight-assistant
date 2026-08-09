@@ -1,0 +1,25 @@
+{
+  "id": "call_027_availability_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2613,
+    "output": 264
+  },
+  "extraction": {
+    "mc_number": "678901",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Robert",
+    "company_name": "Chesapeake Paulers LLC",
+    "questions": [
+      "Still open?",
+      "Can you confirm by email?"
+    ],
+    "notes": "Carrier's driver is already near the MD pickup for tomorrow; broker to email full load details."
+  }
+}

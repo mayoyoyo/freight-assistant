@@ -1,0 +1,22 @@
+{
+  "id": "CE0167",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1961,
+    "output": 111
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000660",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Tariq Hassan",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier states MC is not available; no rate discussed."
+  }
+}

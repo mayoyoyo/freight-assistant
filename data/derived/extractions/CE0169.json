@@ -1,0 +1,22 @@
+{
+  "id": "CE0169",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1948,
+    "output": 101
+  },
+  "extraction": {
+    "mc_number": "456012",
+    "load_reference": "29000660",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Frank Kowalczyk",
+    "company_name": null,
+    "questions": [],
+    "notes": "Carrier requests load details be sent."
+  }
+}

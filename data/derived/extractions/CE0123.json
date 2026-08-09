@@ -1,0 +1,24 @@
+{
+  "id": "CE0123",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1982,
+    "output": 127
+  },
+  "extraction": {
+    "mc_number": "774321",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "load_question",
+    "availability": "unknown",
+    "caller_name": "Priyanka Mehta",
+    "company_name": null,
+    "questions": [
+      "Does delivery require an appointment?"
+    ],
+    "notes": "Driver is local to Trenton."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "call_024_availability_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2638,
+    "output": 141
+  },
+  "extraction": {
+    "mc_number": "901234",
+    "load_reference": "29372343",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Luis",
+    "company_name": "Penn Valley Transport LLC",
+    "questions": [
+      "Still open?",
+      "Can you confirm by email?"
+    ],
+    "notes": "Carrier's driver is already near the PA pickup area and requested full load details by email."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "call_042_load_details",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2608,
+    "output": 160
+  },
+  "extraction": {
+    "mc_number": "1023456",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Refrigerated",
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Anna",
+    "company_name": "Prime Horizon Logistics",
+    "questions": [
+      "What are the temp requirements?",
+      "So we are confirmed on this?"
+    ],
+    "notes": "Carrier confirmed booking after verifying reefer holds the 34 to -38F temp range; broker sending rate confirmation."
+  }
+}

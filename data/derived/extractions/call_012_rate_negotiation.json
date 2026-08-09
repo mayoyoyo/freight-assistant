@@ -1,0 +1,24 @@
+{
+  "id": "call_012_rate_negotiation",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2953,
+    "output": 168
+  },
+  "extraction": {
+    "mc_number": "567123",
+    "load_reference": null,
+    "rate_usd": 255,
+    "equipment": "Sprinter Van",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Vincent",
+    "company_name": "Metro Delivery Solutions LLC",
+    "questions": [
+      "What's the best email?"
+    ],
+    "notes": "Carrier says broker's posted $230 is too low and needs $255 minimum on the NY/NJ lane; broker to follow up by email within the hour."
+  }
+}

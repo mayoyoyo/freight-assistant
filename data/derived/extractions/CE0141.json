@@ -1,0 +1,22 @@
+{
+  "id": "CE0141",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1975,
+    "output": 127
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000392",
+    "rate_usd": 475,
+    "equipment": null,
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Omar Washington",
+    "company_name": "Lakeside Freight",
+    "questions": [],
+    "notes": "Carrier agreed to $475 with driver confirmed for 2026-03-21 and requests load details by email."
+  }
+}

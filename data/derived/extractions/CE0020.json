@@ -1,0 +1,24 @@
+{
+  "id": "CE0020",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2017,
+    "output": 157
+  },
+  "extraction": {
+    "mc_number": "107654",
+    "load_reference": "29372289",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Raj Patel",
+    "company_name": "PINNACLE FREIGHT INC",
+    "questions": [
+      "Rate is posted as $310 – is that firm?"
+    ],
+    "notes": "Carrier asks whether the posted $310 rate is firm; no carrier counter-rate given."
+  }
+}

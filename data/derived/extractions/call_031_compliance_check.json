@@ -1,0 +1,24 @@
+{
+  "id": "call_031_compliance_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2656,
+    "output": 160
+  },
+  "extraction": {
+    "mc_number": "712843",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "compliance_update",
+    "availability": "unknown",
+    "caller_name": "Carlos",
+    "company_name": "Blue Ridge Transport LLC",
+    "questions": [
+      "Can I email you the new cert today?"
+    ],
+    "notes": "Insurance cert on file is expired/expiring; carrier says renewal is in process and will reply to the email with the updated COI, which blocks booking until compliance approves."
+  }
+}

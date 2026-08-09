@@ -1,0 +1,24 @@
+{
+  "id": "CE0026",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2005,
+    "output": 144
+  },
+  "extraction": {
+    "mc_number": "712843",
+    "load_reference": "29372312",
+    "rate_usd": null,
+    "equipment": "Sprinter Van",
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Carlos Mendez",
+    "company_name": "Blue Ridge Transport",
+    "questions": [
+      "Please confirm rate and any special requirements."
+    ],
+    "notes": "Sprinter van available in area on 2026-05-21."
+  }
+}

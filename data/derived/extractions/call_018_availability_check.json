@@ -1,0 +1,25 @@
+{
+  "id": "call_018_availability_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2709,
+    "output": 144
+  },
+  "extraction": {
+    "mc_number": "1345678",
+    "load_reference": "29372421",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "load_question",
+    "availability": "available",
+    "caller_name": "Simone",
+    "company_name": "Liberty Freight Solutions LLC",
+    "questions": [
+      "Still open?",
+      "Can you confirm by email?"
+    ],
+    "notes": "Pickup this week out of New Jersey; driver already in the area and broker will email full load details."
+  }
+}

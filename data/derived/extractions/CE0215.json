@@ -1,0 +1,24 @@
+{
+  "id": "CE0215",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2028,
+    "output": 175
+  },
+  "extraction": {
+    "mc_number": "663210",
+    "load_reference": "29000791",
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Gene Palumbo",
+    "company_name": "CROSSROADS TRANSPORT INC",
+    "questions": [
+      "Rate is posted as $455 – is that firm?"
+    ],
+    "notes": "Carrier can cover Dover, DE to Cherry Hill, NJ with a box truck and is questioning whether the posted $455 rate is firm."
+  }
+}

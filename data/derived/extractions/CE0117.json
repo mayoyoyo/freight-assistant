@@ -1,0 +1,24 @@
+{
+  "id": "CE0117",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1997,
+    "output": 144
+  },
+  "extraction": {
+    "mc_number": "876543",
+    "load_reference": null,
+    "rate_usd": 610,
+    "equipment": "Refrigerated",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Diane Worthington",
+    "company_name": "Capital City Transport",
+    "questions": [
+      "Can you do $610?"
+    ],
+    "notes": "Carrier says the broker-posted $505 won't cover fuel and tolls on the Newark to Brooklyn run."
+  }
+}

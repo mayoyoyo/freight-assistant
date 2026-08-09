@@ -1,0 +1,24 @@
+{
+  "id": "CE0255",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1947,
+    "output": 143
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Flatbed",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Rob Galloway",
+    "company_name": "Mountain State Transport",
+    "questions": [
+      "What's the all-in?"
+    ],
+    "notes": "Reply to a prior thread about a Reading to Columbus flatbed load; carrier accepts pending rate."
+  }
+}

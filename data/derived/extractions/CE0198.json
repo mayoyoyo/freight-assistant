@@ -1,0 +1,24 @@
+{
+  "id": "CE0198",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1962,
+    "output": 123
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000689",
+    "rate_usd": 425,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Tariq Hassan",
+    "company_name": null,
+    "questions": [
+      "Any room on your end?"
+    ],
+    "notes": "Carrier rejects posted rate and counters at $425 pending broker flexibility."
+  }
+}

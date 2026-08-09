@@ -1,0 +1,24 @@
+{
+  "id": "CE0021",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1969,
+    "output": 136
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": 355,
+    "equipment": "Box Truck",
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Raj Patel",
+    "company_name": null,
+    "questions": [
+      "Any room on your end?"
+    ],
+    "notes": "Carrier rejects posted rate and counters at $355 for Reading to Wilmington box truck load."
+  }
+}

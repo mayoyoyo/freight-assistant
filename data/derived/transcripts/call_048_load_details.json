@@ -1,0 +1,1190 @@
+{
+  "metadata": {
+    "transaction_key": "deprecated",
+    "request_id": "019fda9f-2bbf-74a0-8344-d269ad3f1191",
+    "sha256": "e3532487195b20643806906b9f91493ee7d5bf07e11bcb2cd8b813b67932552a",
+    "created": "2026-08-07T05:08:12.651Z",
+    "duration": 45.859814,
+    "channels": 1,
+    "models": [
+      "2187e11a-3532-4498-b076-81fa530bdd49"
+    ],
+    "model_info": {
+      "2187e11a-3532-4498-b076-81fa530bdd49": {
+        "name": "general-nova-3",
+        "version": "2025-07-31.0",
+        "arch": "nova-3"
+      }
+    }
+  },
+  "results": {
+    "channels": [
+      {
+        "alternatives": [
+          {
+            "transcript": "Good lane dispatch. Hi. This is Patricia at Garden State Express LLC. I was about to take that New Jersey PA box truck load but had a quick question before I confirm. Sure. Go ahead. What's your MC number? Hold on. 34Dash56Dash78? Yeah. 34Dash56Dash78. Got it. Garden State Express LLC. What's your question? Yes. So I wanted to ask about the loading dock hours. Good question. Dock hours 6AM to 3PM only. Carrier adjusts route plan. Perfect. That works for us. So we're confirmed on this? Confirmed. I'll send the rate confirmation and load details right now. Great. Thanks for clearing that up. Of course. Safe travels.",
+            "confidence": 1,
+            "words": [
+              {
+                "word": "good",
+                "start": 0,
+                "end": 0.24,
+                "confidence": 0.9790039,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Good"
+              },
+              {
+                "word": "lane",
+                "start": 0.24,
+                "end": 0.48,
+                "confidence": 0.52685547,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "lane"
+              },
+              {
+                "word": "dispatch",
+                "start": 0.48,
+                "end": 1.28,
+                "confidence": 0.94018555,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "dispatch."
+              },
+              {
+                "word": "hi",
+                "start": 1.4399999,
+                "end": 1.76,
+                "confidence": 0.99902344,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Hi."
+              },
+              {
+                "word": "this",
+                "start": 1.76,
+                "end": 1.92,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "This"
+              },
+              {
+                "word": "is",
+                "start": 1.92,
+                "end": 2.08,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "is"
+              },
+              {
+                "word": "patricia",
+                "start": 2.08,
+                "end": 2.56,
+                "confidence": 0.9970703,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Patricia"
+              },
+              {
+                "word": "at",
+                "start": 2.56,
+                "end": 2.8,
+                "confidence": 0.94970703,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "at"
+              },
+              {
+                "word": "garden",
+                "start": 2.8,
+                "end": 3.04,
+                "confidence": 0.9941406,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Garden"
+              },
+              {
+                "word": "state",
+                "start": 3.04,
+                "end": 3.36,
+                "confidence": 0.99316406,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "State"
+              },
+              {
+                "word": "express",
+                "start": 3.36,
+                "end": 3.84,
+                "confidence": 0.9941406,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Express"
+              },
+              {
+                "word": "llc",
+                "start": 3.84,
+                "end": 4.64,
+                "confidence": 0.9719238,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "LLC."
+              },
+              {
+                "word": "i",
+                "start": 4.72,
+                "end": 4.96,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "I"
+              },
+              {
+                "word": "was",
+                "start": 4.96,
+                "end": 5.12,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "was"
+              },
+              {
+                "word": "about",
+                "start": 5.12,
+                "end": 5.3599997,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "about"
+              },
+              {
+                "word": "to",
+                "start": 5.3599997,
+                "end": 5.52,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "to"
+              },
+              {
+                "word": "take",
+                "start": 5.52,
+                "end": 5.7599998,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "take"
+              },
+              {
+                "word": "that",
+                "start": 5.7599998,
+                "end": 6,
+                "confidence": 0.99902344,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "that"
+              },
+              {
+                "word": "new",
+                "start": 6,
+                "end": 6.24,
+                "confidence": 0.9921875,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "New"
+              },
+              {
+                "word": "jersey",
+                "start": 6.24,
+                "end": 6.48,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Jersey"
+              },
+              {
+                "word": "pa",
+                "start": 6.48,
+                "end": 6.8799996,
+                "confidence": 0.89208984,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "PA"
+              },
+              {
+                "word": "box",
+                "start": 6.8799996,
+                "end": 7.2,
+                "confidence": 0.98291016,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "box"
+              },
+              {
+                "word": "truck",
+                "start": 7.2,
+                "end": 7.52,
+                "confidence": 0.8310547,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "truck"
+              },
+              {
+                "word": "load",
+                "start": 7.52,
+                "end": 7.7599998,
+                "confidence": 0.9980469,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "load"
+              },
+              {
+                "word": "but",
+                "start": 7.7599998,
+                "end": 8,
+                "confidence": 0.61376953,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "but"
+              },
+              {
+                "word": "had",
+                "start": 8,
+                "end": 8.16,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "had"
+              },
+              {
+                "word": "a",
+                "start": 8.16,
+                "end": 8.32,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "a"
+              },
+              {
+                "word": "quick",
+                "start": 8.32,
+                "end": 8.48,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "quick"
+              },
+              {
+                "word": "question",
+                "start": 8.48,
+                "end": 8.88,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "question"
+              },
+              {
+                "word": "before",
+                "start": 8.88,
+                "end": 9.28,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "before"
+              },
+              {
+                "word": "i",
+                "start": 9.28,
+                "end": 9.5199995,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "I"
+              },
+              {
+                "word": "confirm",
+                "start": 9.5199995,
+                "end": 10.32,
+                "confidence": 0.9975586,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "confirm."
+              },
+              {
+                "word": "sure",
+                "start": 10.4,
+                "end": 11.04,
+                "confidence": 0.9995117,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Sure."
+              },
+              {
+                "word": "go",
+                "start": 11.04,
+                "end": 11.28,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Go"
+              },
+              {
+                "word": "ahead",
+                "start": 11.28,
+                "end": 11.84,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "ahead."
+              },
+              {
+                "word": "what's",
+                "start": 11.84,
+                "end": 12.16,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "What's"
+              },
+              {
+                "word": "your",
+                "start": 12.16,
+                "end": 12.32,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "your"
+              },
+              {
+                "word": "mc",
+                "start": 12.32,
+                "end": 12.639999,
+                "confidence": 0.99902344,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "MC"
+              },
+              {
+                "word": "number",
+                "start": 12.639999,
+                "end": 13.04,
+                "confidence": 0.9995117,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "number?"
+              },
+              {
+                "word": "hold",
+                "start": 13.325,
+                "end": 13.805,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Hold"
+              },
+              {
+                "word": "on",
+                "start": 13.805,
+                "end": 14.285,
+                "confidence": 0.9995117,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "on."
+              },
+              {
+                "word": "34dash56dash78",
+                "start": 14.285,
+                "end": 16.845,
+                "confidence": 0.98823243,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "34Dash56Dash78?"
+              },
+              {
+                "word": "yeah",
+                "start": 16.845,
+                "end": 17.485,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Yeah."
+              },
+              {
+                "word": "34dash56dash78",
+                "start": 17.485,
+                "end": 20.125,
+                "confidence": 0.99960935,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "34Dash56Dash78."
+              },
+              {
+                "word": "got",
+                "start": 20.205,
+                "end": 20.525,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Got"
+              },
+              {
+                "word": "it",
+                "start": 20.525,
+                "end": 20.845,
+                "confidence": 0.99902344,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "it."
+              },
+              {
+                "word": "garden",
+                "start": 20.845,
+                "end": 21.244999,
+                "confidence": 0.9970703,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Garden"
+              },
+              {
+                "word": "state",
+                "start": 21.244999,
+                "end": 21.564999,
+                "confidence": 0.9941406,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "State"
+              },
+              {
+                "word": "express",
+                "start": 21.564999,
+                "end": 21.965,
+                "confidence": 0.9951172,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Express"
+              },
+              {
+                "word": "llc",
+                "start": 21.965,
+                "end": 22.845,
+                "confidence": 0.9309082,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "LLC."
+              },
+              {
+                "word": "what's",
+                "start": 22.925,
+                "end": 23.244999,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "What's"
+              },
+              {
+                "word": "your",
+                "start": 23.244999,
+                "end": 23.485,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "your"
+              },
+              {
+                "word": "question",
+                "start": 23.485,
+                "end": 24.125,
+                "confidence": 0.9995117,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "question?"
+              },
+              {
+                "word": "yes",
+                "start": 24.285,
+                "end": 24.685,
+                "confidence": 0.892334,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Yes."
+              },
+              {
+                "word": "so",
+                "start": 24.685,
+                "end": 24.845,
+                "confidence": 0.98535156,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "So"
+              },
+              {
+                "word": "i",
+                "start": 24.845,
+                "end": 25.005,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "I"
+              },
+              {
+                "word": "wanted",
+                "start": 25.005,
+                "end": 25.404999,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "wanted"
+              },
+              {
+                "word": "to",
+                "start": 25.404999,
+                "end": 25.564999,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "to"
+              },
+              {
+                "word": "ask",
+                "start": 25.564999,
+                "end": 25.805,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "ask"
+              },
+              {
+                "word": "about",
+                "start": 25.805,
+                "end": 26.044998,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "about"
+              },
+              {
+                "word": "the",
+                "start": 26.044998,
+                "end": 26.205,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "the"
+              },
+              {
+                "word": "loading",
+                "start": 26.205,
+                "end": 26.525,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "loading"
+              },
+              {
+                "word": "dock",
+                "start": 26.525,
+                "end": 26.845,
+                "confidence": 0.9970703,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "dock"
+              },
+              {
+                "word": "hours",
+                "start": 26.845,
+                "end": 27.165,
+                "confidence": 0.9980469,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "hours."
+              },
+              {
+                "word": "good",
+                "start": 27.53,
+                "end": 27.85,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Good"
+              },
+              {
+                "word": "question",
+                "start": 27.85,
+                "end": 28.57,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "question."
+              },
+              {
+                "word": "dock",
+                "start": 28.570002,
+                "end": 28.970001,
+                "confidence": 0.99194336,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "Dock"
+              },
+              {
+                "word": "hours",
+                "start": 28.970001,
+                "end": 29.210001,
+                "confidence": 0.76123047,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "hours"
+              },
+              {
+                "word": "6am",
+                "start": 29.210001,
+                "end": 29.85,
+                "confidence": 0.8779297,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "6AM"
+              },
+              {
+                "word": "to",
+                "start": 29.85,
+                "end": 30.09,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "to"
+              },
+              {
+                "word": "3pm",
+                "start": 30.09,
+                "end": 30.650002,
+                "confidence": 0.99902344,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "3PM"
+              },
+              {
+                "word": "only",
+                "start": 30.650002,
+                "end": 31.29,
+                "confidence": 0.98339844,
+                "speaker": 0,
+                "speaker_confidence": 0.74956083,
+                "punctuated_word": "only."
+              },
+              {
+                "word": "carrier",
+                "start": 31.29,
+                "end": 31.69,
+                "confidence": 0.9921875,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "Carrier"
+              },
+              {
+                "word": "adjusts",
+                "start": 31.69,
+                "end": 32.170002,
+                "confidence": 0.9675293,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "adjusts"
+              },
+              {
+                "word": "route",
+                "start": 32.170002,
+                "end": 32.49,
+                "confidence": 0.9951172,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "route"
+              },
+              {
+                "word": "plan",
+                "start": 32.49,
+                "end": 33.05,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "plan."
+              },
+              {
+                "word": "perfect",
+                "start": 33.21,
+                "end": 33.93,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "Perfect."
+              },
+              {
+                "word": "that",
+                "start": 33.93,
+                "end": 34.170002,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "That"
+              },
+              {
+                "word": "works",
+                "start": 34.170002,
+                "end": 34.49,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "works"
+              },
+              {
+                "word": "for",
+                "start": 34.49,
+                "end": 34.73,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "for"
+              },
+              {
+                "word": "us",
+                "start": 34.73,
+                "end": 35.21,
+                "confidence": 0.9980469,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "us."
+              },
+              {
+                "word": "so",
+                "start": 35.21,
+                "end": 35.45,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "So"
+              },
+              {
+                "word": "we're",
+                "start": 35.45,
+                "end": 35.77,
+                "confidence": 0.81762695,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "we're"
+              },
+              {
+                "word": "confirmed",
+                "start": 35.77,
+                "end": 36.170002,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "confirmed"
+              },
+              {
+                "word": "on",
+                "start": 36.170002,
+                "end": 36.41,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "on"
+              },
+              {
+                "word": "this",
+                "start": 36.41,
+                "end": 36.65,
+                "confidence": 0.97680664,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "this?"
+              },
+              {
+                "word": "confirmed",
+                "start": 37.144814,
+                "end": 37.86481,
+                "confidence": 0.9983724,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "Confirmed."
+              },
+              {
+                "word": "i'll",
+                "start": 37.86481,
+                "end": 38.18481,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "I'll"
+              },
+              {
+                "word": "send",
+                "start": 38.18481,
+                "end": 38.34481,
+                "confidence": 0.9980469,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "send"
+              },
+              {
+                "word": "the",
+                "start": 38.34481,
+                "end": 38.50481,
+                "confidence": 0.9951172,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "the"
+              },
+              {
+                "word": "rate",
+                "start": 38.50481,
+                "end": 38.744812,
+                "confidence": 0.99902344,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "rate"
+              },
+              {
+                "word": "confirmation",
+                "start": 38.744812,
+                "end": 39.304813,
+                "confidence": 0.99902344,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "confirmation"
+              },
+              {
+                "word": "and",
+                "start": 39.304813,
+                "end": 39.54481,
+                "confidence": 0.99902344,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "and"
+              },
+              {
+                "word": "load",
+                "start": 39.54481,
+                "end": 39.86481,
+                "confidence": 0.984375,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "load"
+              },
+              {
+                "word": "details",
+                "start": 39.86481,
+                "end": 40.264812,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "details"
+              },
+              {
+                "word": "right",
+                "start": 40.264812,
+                "end": 40.66481,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "right"
+              },
+              {
+                "word": "now",
+                "start": 40.66481,
+                "end": 41.22481,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "now."
+              },
+              {
+                "word": "great",
+                "start": 41.38481,
+                "end": 41.86481,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "Great."
+              },
+              {
+                "word": "thanks",
+                "start": 41.86481,
+                "end": 42.34481,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "Thanks"
+              },
+              {
+                "word": "for",
+                "start": 42.34481,
+                "end": 42.584812,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "for"
+              },
+              {
+                "word": "clearing",
+                "start": 42.584812,
+                "end": 42.90481,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "clearing"
+              },
+              {
+                "word": "that",
+                "start": 42.90481,
+                "end": 43.144814,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "that"
+              },
+              {
+                "word": "up",
+                "start": 43.144814,
+                "end": 43.62481,
+                "confidence": 0.9995117,
+                "speaker": 0,
+                "speaker_confidence": 0.74607885,
+                "punctuated_word": "up."
+              },
+              {
+                "word": "of",
+                "start": 43.70481,
+                "end": 43.944813,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.28779435,
+                "punctuated_word": "Of"
+              },
+              {
+                "word": "course",
+                "start": 43.944813,
+                "end": 44.50481,
+                "confidence": 0.82470703,
+                "speaker": 0,
+                "speaker_confidence": 0.63600296,
+                "punctuated_word": "course."
+              },
+              {
+                "word": "safe",
+                "start": 44.584812,
+                "end": 44.90481,
+                "confidence": 0.9892578,
+                "speaker": 0,
+                "speaker_confidence": 0.63600296,
+                "punctuated_word": "Safe"
+              },
+              {
+                "word": "travels",
+                "start": 44.90481,
+                "end": 45.38481,
+                "confidence": 1,
+                "speaker": 0,
+                "speaker_confidence": 0.63600296,
+                "punctuated_word": "travels."
+              }
+            ],
+            "paragraphs": {
+              "transcript": "\nSpeaker 0: Good lane dispatch. Hi. This is Patricia at Garden State Express LLC. I was about to take that New Jersey PA box truck load but had a quick question before I confirm. Sure.\n\nGo ahead. What's your MC number? Hold on. 34Dash56Dash78? Yeah.\n\n34Dash56Dash78. Got it. Garden State Express LLC. What's your question? Yes.\n\nSo I wanted to ask about the loading dock hours. Good question. Dock hours 6AM to 3PM only. Carrier adjusts route plan. Perfect.\n\nThat works for us. So we're confirmed on this? Confirmed. I'll send the rate confirmation and load details right now. Great.\n\nThanks for clearing that up. Of course. Safe travels.",
+              "paragraphs": [
+                {
+                  "sentences": [
+                    {
+                      "text": "Good lane dispatch.",
+                      "start": 0,
+                      "end": 1.28
+                    },
+                    {
+                      "text": "Hi.",
+                      "start": 1.4399999,
+                      "end": 1.76
+                    },
+                    {
+                      "text": "This is Patricia at Garden State Express LLC.",
+                      "start": 1.76,
+                      "end": 4.64
+                    },
+                    {
+                      "text": "I was about to take that New Jersey PA box truck load but had a quick question before I confirm.",
+                      "start": 4.72,
+                      "end": 10.32
+                    },
+                    {
+                      "text": "Sure.",
+                      "start": 10.4,
+                      "end": 11.04
+                    }
+                  ],
+                  "speaker": 0,
+                  "num_words": 33,
+                  "start": 0,
+                  "end": 11.04
+                },
+                {
+                  "sentences": [
+                    {
+                      "text": "Go ahead.",
+                      "start": 11.04,
+                      "end": 11.84
+                    },
+                    {
+                      "text": "What's your MC number?",
+                      "start": 11.84,
+                      "end": 13.04
+                    },
+                    {
+                      "text": "Hold on.",
+                      "start": 13.325,
+                      "end": 14.285
+                    },
+                    {
+                      "text": "34Dash56Dash78?",
+                      "start": 14.285,
+                      "end": 16.845
+                    },
+                    {
+                      "text": "Yeah.",
+                      "start": 16.845,
+                      "end": 17.485
+                    }
+                  ],
+                  "speaker": 0,
+                  "num_words": 10,
+                  "start": 11.04,
+                  "end": 17.485
+                },
+                {
+                  "sentences": [
+                    {
+                      "text": "34Dash56Dash78.",
+                      "start": 17.485,
+                      "end": 20.125
+                    },
+                    {
+                      "text": "Got it.",
+                      "start": 20.205,
+                      "end": 20.845
+                    },
+                    {
+                      "text": "Garden State Express LLC.",
+                      "start": 20.845,
+                      "end": 22.845
+                    },
+                    {
+                      "text": "What's your question?",
+                      "start": 22.925,
+                      "end": 24.125
+                    },
+                    {
+                      "text": "Yes.",
+                      "start": 24.285,
+                      "end": 24.685
+                    }
+                  ],
+                  "speaker": 0,
+                  "num_words": 11,
+                  "start": 17.485,
+                  "end": 24.685
+                },
+                {
+                  "sentences": [
+                    {
+                      "text": "So I wanted to ask about the loading dock hours.",
+                      "start": 24.685,
+                      "end": 27.165
+                    },
+                    {
+                      "text": "Good question.",
+                      "start": 27.53,
+                      "end": 28.57
+                    },
+                    {
+                      "text": "Dock hours 6AM to 3PM only.",
+                      "start": 28.570002,
+                      "end": 31.29
+                    },
+                    {
+                      "text": "Carrier adjusts route plan.",
+                      "start": 31.29,
+                      "end": 33.05
+                    },
+                    {
+                      "text": "Perfect.",
+                      "start": 33.21,
+                      "end": 33.93
+                    }
+                  ],
+                  "speaker": 0,
+                  "num_words": 23,
+                  "start": 24.685,
+                  "end": 33.93
+                },
+                {
+                  "sentences": [
+                    {
+                      "text": "That works for us.",
+                      "start": 33.93,
+                      "end": 35.21
+                    },
+                    {
+                      "text": "So we're confirmed on this?",
+                      "start": 35.21,
+                      "end": 36.65
+                    },
+                    {
+                      "text": "Confirmed.",
+                      "start": 37.144814,
+                      "end": 37.86481
+                    },
+                    {
+                      "text": "I'll send the rate confirmation and load details right now.",
+                      "start": 37.86481,
+                      "end": 41.22481
+                    },
+                    {
+                      "text": "Great.",
+                      "start": 41.38481,
+                      "end": 41.86481
+                    }
+                  ],
+                  "speaker": 0,
+                  "num_words": 21,
+                  "start": 33.93,
+                  "end": 41.86481
+                },
+                {
+                  "sentences": [
+                    {
+                      "text": "Thanks for clearing that up.",
+                      "start": 41.86481,
+                      "end": 43.62481
+                    },
+                    {
+                      "text": "Of course.",
+                      "start": 43.70481,
+                      "end": 44.50481
+                    },
+                    {
+                      "text": "Safe travels.",
+                      "start": 44.584812,
+                      "end": 45.38481
+                    }
+                  ],
+                  "speaker": 0,
+                  "num_words": 9,
+                  "start": 41.86481,
+                  "end": 45.38481
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

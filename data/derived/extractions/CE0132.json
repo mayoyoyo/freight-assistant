@@ -1,0 +1,24 @@
+{
+  "id": "CE0132",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1937,
+    "output": 133
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000392",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "load_question",
+    "availability": "unknown",
+    "caller_name": "Dale Buchanan",
+    "company_name": null,
+    "questions": [
+      "Still available on this one?"
+    ],
+    "notes": "Carrier inquiring whether load #29000392 is still open; no MC, rate, or equipment provided."
+  }
+}

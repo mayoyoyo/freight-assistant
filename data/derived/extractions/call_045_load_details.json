@@ -1,0 +1,24 @@
+{
+  "id": "call_045_load_details",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2582,
+    "output": 149
+  },
+  "extraction": {
+    "mc_number": "234891",
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": "Box Truck",
+    "intent": "booking_confirm",
+    "availability": "available",
+    "caller_name": "Mike",
+    "company_name": "Keystone Freight LLC",
+    "questions": [
+      "What about the pickup window?"
+    ],
+    "notes": "Pickup window is 7AM-10AM; driver can be there by 8AM and load is confirmed pending rate confirmation."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "CE0127",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1945,
+    "output": 105
+  },
+  "extraction": {
+    "mc_number": "1480355",
+    "load_reference": "29000279",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "availability_offer",
+    "availability": "available",
+    "caller_name": "Lilly Morgan",
+    "company_name": "Demix Transport",
+    "questions": [],
+    "notes": "Carrier requests load details be sent."
+  }
+}

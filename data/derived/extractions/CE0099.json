@@ -1,0 +1,24 @@
+{
+  "id": "CE0099",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1978,
+    "output": 139
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000138",
+    "rate_usd": 890,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Nkechi Adeyemi",
+    "company_name": "Sharp Arrow Logistics",
+    "questions": [
+      "Any room on your end?"
+    ],
+    "notes": "Carrier rejects posted rate on Camden to Yonkers load and counters at $890."
+  }
+}

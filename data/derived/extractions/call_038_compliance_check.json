@@ -1,0 +1,25 @@
+{
+  "id": "call_038_compliance_check",
+  "sourceType": "call",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2548,
+    "output": 170
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": null,
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "rate_question",
+    "availability": "unknown",
+    "caller_name": "Tarek",
+    "company_name": "Blue Eagle Logistics",
+    "questions": [
+      "I'm interested in a load but need to ask about your payment process",
+      "Can I call you back?"
+    ],
+    "notes": "Carrier asked about payment terms and will check with dispatcher on factoring before confirming; broker quoted net 21 standard or quick pay at 2% fee."
+  }
+}

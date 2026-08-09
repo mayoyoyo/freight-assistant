@@ -1,0 +1,24 @@
+{
+  "id": "CE0067",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 2021,
+    "output": 142
+  },
+  "extraction": {
+    "mc_number": "441098",
+    "load_reference": "29372490",
+    "rate_usd": null,
+    "equipment": "Flatbed",
+    "intent": "rate_question",
+    "availability": "available",
+    "caller_name": "Omar Washington",
+    "company_name": "LAKESIDE FREIGHT LLC",
+    "questions": [
+      "What's the offered rate?"
+    ],
+    "notes": "Flatbed available for Harrisburg, PA to Pittsburgh, PA lane."
+  }
+}

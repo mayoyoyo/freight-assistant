@@ -1,0 +1,24 @@
+{
+  "id": "CE0149",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1998,
+    "output": 133
+  },
+  "extraction": {
+    "mc_number": "774321",
+    "load_reference": "29000496",
+    "rate_usd": 290,
+    "equipment": null,
+    "intent": "rate_counter",
+    "availability": "conditional",
+    "caller_name": "Priyanka Mehta",
+    "company_name": "Northbound Express LLC",
+    "questions": [
+      "Can you do $290?"
+    ],
+    "notes": "Driver available but carrier says broker's $250 won't cover fuel and tolls."
+  }
+}

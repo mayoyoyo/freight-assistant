@@ -1,0 +1,24 @@
+{
+  "id": "CE0228",
+  "sourceType": "email",
+  "model": "claude-opus-5",
+  "thinking": "disabled",
+  "usage": {
+    "input": 1949,
+    "output": 147
+  },
+  "extraction": {
+    "mc_number": null,
+    "load_reference": "29000873",
+    "rate_usd": null,
+    "equipment": null,
+    "intent": "load_question",
+    "availability": "unknown",
+    "caller_name": "Nkechi Adeyemi",
+    "company_name": "Sharp Arrow Logistics",
+    "questions": [
+      "Still available on this one?"
+    ],
+    "notes": "Carrier is asking whether load #29000873 is still available; no rate, equipment, or MC provided."
+  }
+}
