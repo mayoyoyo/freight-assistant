@@ -472,7 +472,12 @@ describe("regression: adversarial strings from the PR #4 review must FAIL", () =
       c,
       makeRun(c, {
         text: "The matches are CE0060, call_017 and call_024; call_017 and call_024 are date-filtered. [CE0060] [call_017]",
-        tools: [makeTool({ name: "search_inquiries", ids: ["CE0060", "call_017", "call_024"] })],
+        tools: [
+          makeTool({
+            name: "search_inquiries",
+            ids: ["CE0060", "call_017", "call_024"],
+          }),
+        ],
       }),
     );
     expect(v.passed).toBe(false);
