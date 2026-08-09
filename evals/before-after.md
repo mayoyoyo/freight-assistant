@@ -31,8 +31,9 @@ S04 1/3 → 0/3 (see below).
 The equipment/lane OR-join fixed exactly what it targeted. It also
 **transformed the set-retrieval failure mode rather than eliminating it**:
 baseline S-cases failed on recall (missing items — sets silently truncated);
-post-fix S-cases fail on precision (R=1.0, spurious items — e.g. S01 P=0.2
-with CE0057, CE0016, CALL_051, CALL_054 listed beyond gold). The wider join
+post-fix S01/S02/S04/S05 fail on precision (R=1.0, spurious items — e.g. S01
+P=0.2 with CE0057, CE0016, CALL_051, CALL_054 listed beyond gold), while S06
+alone remains a recall failure (R=0 on all three runs). The wider join
 now over-returns and the agent reports borderline items instead of filtering
 to the question's intersection (availability intent x equipment x lane).
 
