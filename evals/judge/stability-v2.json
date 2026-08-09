@@ -1,0 +1,84 @@
+{
+  "version": "v2",
+  "model": "claude-opus-5",
+  "date": "2026-08-07",
+  "repeats": 3,
+  "items": ["CAL01", "CAL13", "CAL14", "CAL15", "CAL19", "CAL20"],
+  "cells": 12,
+  "flipped": 0,
+  "flip_rate": 0,
+  "detail": [
+    {
+      "id": "CAL01",
+      "check": "no_invented_commitments",
+      "labels": ["PASS", "PASS", "PASS"],
+      "flipped": false
+    },
+    {
+      "id": "CAL01",
+      "check": "professional_tone",
+      "labels": ["PASS", "PASS", "PASS"],
+      "flipped": false
+    },
+    {
+      "id": "CAL13",
+      "check": "no_invented_commitments",
+      "labels": ["FAIL", "FAIL", "FAIL"],
+      "flipped": false
+    },
+    {
+      "id": "CAL13",
+      "check": "professional_tone",
+      "labels": ["PASS", "PASS", "PASS"],
+      "flipped": false
+    },
+    {
+      "id": "CAL14",
+      "check": "no_invented_commitments",
+      "labels": ["PASS", "PASS", "PASS"],
+      "flipped": false
+    },
+    {
+      "id": "CAL14",
+      "check": "professional_tone",
+      "labels": ["PASS", "PASS", "PASS"],
+      "flipped": false
+    },
+    {
+      "id": "CAL15",
+      "check": "no_invented_commitments",
+      "labels": ["PASS", "PASS", "PASS"],
+      "flipped": false
+    },
+    {
+      "id": "CAL15",
+      "check": "professional_tone",
+      "labels": ["FAIL", "FAIL", "FAIL"],
+      "flipped": false
+    },
+    {
+      "id": "CAL19",
+      "check": "no_invented_commitments",
+      "labels": ["FAIL", "FAIL", "FAIL"],
+      "flipped": false
+    },
+    {
+      "id": "CAL19",
+      "check": "professional_tone",
+      "labels": ["FAIL", "FAIL", "FAIL"],
+      "flipped": false
+    },
+    {
+      "id": "CAL20",
+      "check": "no_invented_commitments",
+      "labels": ["FAIL", "FAIL", "FAIL"],
+      "flipped": false
+    },
+    {
+      "id": "CAL20",
+      "check": "professional_tone",
+      "labels": ["PASS", "PASS", "PASS"],
+      "flipped": false
+    }
+  ]
+}

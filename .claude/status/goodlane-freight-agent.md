@@ -1,6 +1,6 @@
 # Implementation Status: Goodlane Freight Carrier Agent
 Plan: .claude/plans/goodlane-freight-agent-2026-08-06.md
-Last Updated: 2026-08-06 (session 2)
+Last Updated: 2026-08-07 (session 3 FINAL — Phase 4 COMPLETE, PR #4 open)
 
 ## Pre-implementation (done)
 - [x] Architecture diagram `docs/architecture.svg` — APPROVED by Hanson
@@ -57,17 +57,94 @@ Phase 2: Ingestion pipeline — 2a DONE, 2b agent running
       "no carrier has quoted").
 
 ## Current Phase
-Phase 4: Error analysis → eval harness → report (THE emphasized deliverable)
+Phase 4: Eval (THE emphasized deliverable) — 4A+4C done, 4B (harness+judge+baseline) running
 
-**Scope addition (Hanson, this session): model-comparison eval run** — same harness over
-claude-opus-5 vs claude-sonnet-5 vs claude-haiku-4-5 vs OpenAI **Codex 5.6 "Luna"**
-(cross-provider via @ai-sdk/openai; verify exact model ID + pricing via web search at run
-time — post-cutoff model; needs OPENAI_API_KEY from Hanson). Output: pass-rate vs cost/query
-table in evals/report.md.
+- [x] 4A error analysis (40 traces): 6 named failure modes. Top root cause: equipment/lane
+      filters see only inquiry-level extracted fields (NULL on 169/329) → truncated sets
+      reported as complete ("equipment-blind" 5, "lane-join-blind" 2). Also: phantom-total
+      (20-row cap), unreachable null-MC carriers (carrier_history is MC-keyed), ASR-name echo,
+      verdict-flip. Abstention 10/10 clean; citations/figures all spot-check correct — the
+      weakness is FINDING what's there, not inventing. 24 cases (8 regression-origin) +
+      20-item calibration set (10 clean/10 corrupted, disjoint from cases).
+      **My review of its 7 gold judgment calls: ALL ACCEPTED** (inclusive week boundary;
+      load-equipment semantics; posted-rate-passes; no-provisional-when-flag-false; S05 set
+      semantics; S04 week-scoped for row cap; A05 refusal-passes).
+- [x] 4C component evals: extraction 75/75 vs gold (Wilson [79.6,100]) + meta-tests proving
+      the comparator catches corruption; MC resolution 75/75 incl. 19-case hard set (scores
+      carrier IDENTITY not MC string — 3 null-MC carriers make that load-bearing); FTS: 38/55
+      calls unfindable by FTS on own MC (measured "why typed columns" defense); 4-min human
+      listen list in evals/components/wer-check.md (call_006 645678 confirm etc.).
+      New: "Chesapeake Haulers" only real ASR word error (both tracks wrong differently);
+      extractor can hallucinate company names from ASR noise (latent name_fuzzy risk);
+      5 emails say "MC #N/A" (all Blue Eagle).
+- [x] 4B harness BUILT + merged to feat/phase4-eval (pushed): runner (generate/grade split —
+      re-gradeable from disk), 8 graders + 71 meta-tests (215 tests total), judge v1
+      MEASURED (tone TPR/TNR 100/100 kappa 1.0; commitments TPR 76.9 TNR 100 kappa 0.70 —
+      3 false alarms diagnosed, v2 prompt written but UNCALIBRATED, JUDGE_VERSION stays v1),
+      report gen w/ Wilson (design doc's [65,96] was wrong; correct [64.1,93.3], unit-pinned),
+      CI eval job (offline meta-tests only, cost rationale in comments), compare.ts scaffold.
+      **BASELINE PARTIAL: 24/72 runs (factual_lookup bucket complete): pass@1 5/8, run-level
+      18/24 (75%, Wilson [55.1,88.0]). Failures = exactly the predicted regression cases:
+      L05 equipment-blind 3/3 (RETRIEVAL), L06 ASR-name echo 2/3, L07 verdict-flip 1/3
+      (GENERATION, flip-floppers). $1.97 for 24 runs.**
+      Case-label issues reported (S02 inconsistent compliance field, L02/S04 drift) — fix
+      in fix round. generateObject defaults max_tokens 128K on opus-5 — pin it.
+
+- [x] Fix round CODED offline + merged (feat/phase4-eval @ ed5cde3, 222 tests green):
+      equipment/lane OR-join through loads (L05: $540→$890 w/ CE0099 present; P02: CE0044
+      present — direct-tool tests lock it); explicit truncated flag + prompt line;
+      weightedAvg→meanOfWeeklyAvgs; maxOutputTokens pinned (judge 4096, agent+route 8192 —
+      WATCH: opus-5 caps thinking+text together, bump if max_tokens stops appear);
+      cases.jsonl S02/L02/S04 label fixes (documented); `pnpm re-extract` one-command
+      CE0027 fix (unexercised — needs API); 4 ADR drafts in docs/decisions/ (003/004 have
+      pending-number placeholders). Two tests changed because they encoded the bug as
+      contract (agent.test.ts equipment assert; graders.test.ts S02 list) — reviewed, correct.
+
+## SESSION 3 RESULTS (2026-08-07) — checklist state
+1. DONE CE0027 re-extract -> resolve -> seed. Direction note: raw body says $280;
+   2800 was the extraction bug; L08 gold = 280. DB verified: 280 + flag intact.
+2. DONE baseline COMPLETE: 48 runs generated from pre-fix e4ff03f (worktree
+   ../freight-assistant-baseline, branch baseline-rerun) vs pre-fix data, merged
+   with 24 on-disk, 48 old cap-400 error records dropped, all 72 graded one pass
+   (corrected labels, judge v2): pass@1 17/24, pass^3 15/24, run-level 51/72
+   (70.8%). Buckets: abstention 14/15, email_draft 15/15, factual 18/24,
+   set_retrieval 4/18 (dominant failure, as 4A predicted).
+   THREE GRADER FALSE-FAIL CLASSES found via cross-provider run + fixed + pinned
+   as regressions (commit 8abca6e): U+2019 apostrophes defeating negation regexes
+   (foldPunctuation), conditionals read as fabrications, unlisted different-
+   company labels. Cross-provider grading is now part of grader validation.
+3. DONE judge v2 PROMOTED: TPR/TNR 100/100 both checks, kappa 1.0, 12/12
+   repeat-stability. JUDGE_VERSION="v2". calibration-v2.json + stability-v2.json.
+4. PARTIAL post-fix run (runs-postfix-20260807.jsonl): 36/72 generated before the
+   cap re-hit; 23/36 graded pass. L05 0/3->3/3 (fix verified). L06/L07 persist.
+   **S01/S02 FLIPPED failure mode: R=1.0 but precision drops (spurious ids) — the
+   OR-join over-returns and the agent doesn't filter. Next-round candidate:
+   intersection guidance in prompt.** 36 errored runs = cap-400 artifacts; on
+   resume, drop them and regenerate missing runs with --only (merge like baseline).
+5. Luna leg DONE (fair-graded): pass@1 7/24, run-level 15/72, $0.0026/query,
+   set_retrieval 0/18. Ran on post-fix code + PRE-fix data (only L08 affected);
+   fold into final table by re-running with the other legs post-cap ($0.20).
+6. DONE (cap raised to $70): post-fix run COMPLETE 52/72 (L05 fixed 0/3->3/3;
+   set_retrieval flipped recall->precision, aggregate flat — analysis in
+   evals/before-after.md). Model comparison COMPLETE (all post-fix, judge v2):
+   opus 70.8% $0.121/q · sonnet 62.5% $0.061/q · haiku 29.2% $0.008/q · luna
+   25.0% $0.0026/q; set_retrieval ~3/18 for EVERY model (task-level failure);
+   sonnet-vs-opus unresolved at n=24, recorded as future promotion decision.
+   ADR 003/004 filled (dated updates). report.md regenerated + report-postfix.md.
+   **PR #4 OPEN: https://github.com/mayoyoyo/freight-assistant/pull/4**
+   Session-3 total spend ~= $20 Anthropic + $0.60 OpenAI; cap headroom left ~$25.
+7. NEXT (Phase 5): Codex review of PR #4 per process; Neon attach + deploy;
+   README; live-extension rehearsal. Known next fix round: prompt-side
+   intersection guidance for set queries, verify via before-after table.
 
 ## Blockers
-- (none) PRs #1→#2→#3 stacked, awaiting Hanson review/merge in order.
-- OPENAI_API_KEY needed only when the model-comparison run starts (late Phase 4).
+- ⛔ Anthropic cap RE-HIT 2026-08-07 at the raised $40 limit (mid post-fix run).
+  Remaining Anthropic work needs ~$10-12: ask Hanson to raise to ~$55-60.
+  Session-3 spend: ~$10 Anthropic (48 baseline gen ~$4, judge v2 calib+stability
+  ~$1.5, 3 judge grade passes ~$1.5, 36 post-fix runs ~$3), $0.40 OpenAI.
+- PRs #1→#2→#3 stacked, awaiting Hanson review/merge in order.
+- ~~OPENAI_API_KEY needed~~ RESOLVED 2026-08-07: key in .env, leg wired + smoke-tested.
+- Optional 4-min human listen: evals/components/wer-check.md.
 
 ## Deviations from Plan
 - Next.js 16.3 instead of 15 (create-next-app@latest current stable; plan predates 16; no API concerns —

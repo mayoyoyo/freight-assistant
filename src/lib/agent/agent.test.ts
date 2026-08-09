@@ -112,10 +112,12 @@ describe("agent tool loop", () => {
       const output = toolResults[0]?.output as {
         total_matches: number;
         returned: number;
-        results: Array<Record<string, unknown>>;
+        results: Array<{
+          extracted_equipment: string | null;
+          extracted_load_reference: string | null;
+        }>;
       };
 
-      // 10 Refrigerated inquiries are seeded; 8 of them read `available`.
       expect(output.total_matches).toBeGreaterThan(0);
       expect(output.results.length).toBeLessThanOrEqual(TOOL_ARGS.limit);
       expect(output.returned).toBe(output.results.length);
@@ -127,9 +129,17 @@ describe("agent tool loop", () => {
       expect(first).toHaveProperty("source_type");
       expect(first).toHaveProperty("snippet");
       expect(first).toHaveProperty("extracted_availability", "available");
-      expect(first).toHaveProperty("extracted_equipment", "Refrigerated");
+      expect(first).toHaveProperty("extracted_equipment");
       expect(first).toHaveProperty("discrepancy_flags");
       expect(first).toHaveProperty("mc_low_confidence");
+      // `equipment` means the freight being discussed, so a row may match on
+      // its own tag OR through the load it references — asserting the tag on
+      // every row would re-encode the equipment-blind bug this filter was
+      // fixed for. Semantics are pinned in `tools.test.ts`; this owns wiring.
+      expect(
+        first?.extracted_equipment === "Refrigerated" ||
+          first?.extracted_load_reference != null,
+      ).toBe(true);
       // Dataset decoys must never reach the model.
       expect(first).not.toHaveProperty("stated_intent");
       expect(first).not.toHaveProperty("stated_equipment");

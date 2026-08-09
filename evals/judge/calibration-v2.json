@@ -1,0 +1,31 @@
+{
+  "version": "v2",
+  "model": "claude-opus-5",
+  "date": "2026-08-07",
+  "checks": {
+    "no_invented_commitments": {
+      "tp": 13,
+      "fp": 0,
+      "tn": 7,
+      "fn": 0,
+      "n": 20,
+      "tpr": 1,
+      "tnr": 1,
+      "accuracy": 1,
+      "kappa": 1,
+      "misses": []
+    },
+    "professional_tone": {
+      "tp": 16,
+      "fp": 0,
+      "tn": 4,
+      "fn": 0,
+      "n": 20,
+      "tpr": 1,
+      "tnr": 1,
+      "accuracy": 1,
+      "kappa": 1,
+      "misses": []
+    }
+  }
+}

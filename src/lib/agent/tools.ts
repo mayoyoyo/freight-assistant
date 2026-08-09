@@ -26,6 +26,7 @@ import {
   like,
   lte,
   or,
+  type SQL,
   sql,
 } from "drizzle-orm";
 import { z } from "zod";
@@ -127,6 +128,18 @@ const getLoad = tool({
 // ---------------------------------------------------------------------------
 
 /**
+ * One subquery shape, used by every load-level filter on `search_inquiries`:
+ * "this inquiry's `extracted_load_reference` names a load matching `where`".
+ * Parameterised throughout — Drizzle binds the values, nothing is interpolated.
+ */
+function referencesLoad(where: SQL | undefined) {
+  return inArray(
+    inquiries.extractedLoadReference,
+    db().select({ loadId: loads.loadId }).from(loads).where(where),
+  );
+}
+
+/**
  * NOTE — deviation from the plan doc: it listed `origin_state`/`dest_state` as
  * plain filters on this tool, but `inquiries` has no lane columns. A lane is a
  * property of a *load*, not of a message. So the two lane filters here are
@@ -135,9 +148,30 @@ const getLoad = tool({
  * by "who's available for PA-NJ box truck loads", and it is the only way to
  * answer the spec's first example query without a fifth tool.
  *
- * Consequence worth knowing: an inquiry with no extracted load reference cannot
- * match a lane filter, even if the body mentions the lane in prose. The `query`
- * argument (full-text) is the fallback for that case.
+ * EQUIPMENT SEMANTICS (the fix for failure modes 1 and 2, see
+ * `evals/error-analysis/failure-modes.md`). `equipment` means *the freight
+ * being discussed*: the message's own extracted tag OR the equipment type of
+ * the load it references. It is NOT "the inquiry row happens to carry this
+ * string". `extracted_equipment` is NULL on 169 of 329 records — a carrier who
+ * counters on load 29000138 never names the trailer type, because the load
+ * already carries it — so filtering on the inquiry column alone silently drops
+ * those rows, and the truncated set then gets reported as complete. The filter
+ * is therefore an OR: own tag, or referenced load's `equipment_type`, resolved
+ * through the same `referencesLoad` subquery the lane filters use.
+ *
+ * Equipment and lane stay INDEPENDENT predicates AND-ed together rather than
+ * collapsing into a single subquery over `loads`. "PA-NJ Box Truck" then reads
+ * as "a message about Box Truck freight that references a PA-NJ load", which
+ * also admits a message tagged Box Truck against a PA-NJ load of a different
+ * type. That is deliberate: the broker is asking about the conversation, and
+ * `equipment_mismatch` is itself a flagged discrepancy in this corpus, so an
+ * inquiry whose stated equipment disagrees with its load is a row the broker
+ * wants to see, not one to hide.
+ *
+ * Consequence worth knowing: an inquiry with neither an `extracted_equipment`
+ * tag nor an extracted load reference cannot match a lane or equipment filter,
+ * even if the body mentions the lane in prose. The `query` argument (full-text)
+ * is the fallback for that case.
  */
 const searchInquiries = tool({
   description: [
@@ -145,6 +179,7 @@ const searchInquiries = tool({
     "Full-text search covers sender name, subject and the full body/transcript; MC numbers and load IDs are searchable as words.",
     "Call records have NO date (occurred_at is null for all 55 calls: the recordings are undated), so a `since` filter silently excludes every call. Say so when you time-scope an answer.",
     "origin_state/dest_state filter by the lane of the load the inquiry references.",
+    "equipment matches the freight being discussed: the message's own equipment tag OR the equipment type of the load it references, so a counter-offer on a Box Truck load is found by equipment:'Box Truck' even when the message never names a trailer.",
     "To pull up a specific message the broker names (e.g. CE0074, call_017), use `ids` — record ids are NOT full-text searchable.",
   ].join(" "),
   inputSchema: z.object({
@@ -212,8 +247,13 @@ const searchInquiries = tool({
       input.mc_low_confidence !== undefined
         ? eq(inquiries.mcLowConfidence, input.mc_low_confidence)
         : undefined,
+      // Equipment = the freight being discussed: the message's own tag OR the
+      // referenced load's type. See the block comment above this tool.
       input.equipment
-        ? eq(inquiries.extractedEquipment, input.equipment)
+        ? or(
+            eq(inquiries.extractedEquipment, input.equipment),
+            referencesLoad(eq(loads.equipmentType, input.equipment)),
+          )
         : undefined,
       input.intent ? eq(inquiries.extractedIntent, input.intent) : undefined,
       input.availability
@@ -228,23 +268,18 @@ const searchInquiries = tool({
       input.since
         ? gte(inquiries.occurredAt, new Date(input.since))
         : undefined,
-      // Lane filters: subquery over loads, joined on the extracted reference.
+      // Lane filters: the same `referencesLoad` subquery. No OR here — unlike
+      // equipment there is no inquiry-level lane column to OR against.
       input.origin_state || input.dest_state
-        ? inArray(
-            inquiries.extractedLoadReference,
-            db()
-              .select({ loadId: loads.loadId })
-              .from(loads)
-              .where(
-                and(
-                  input.origin_state
-                    ? eq(loads.originState, input.origin_state)
-                    : undefined,
-                  input.dest_state
-                    ? eq(loads.destinationState, input.dest_state)
-                    : undefined,
-                ),
-              ),
+        ? referencesLoad(
+            and(
+              input.origin_state
+                ? eq(loads.originState, input.origin_state)
+                : undefined,
+              input.dest_state
+                ? eq(loads.destinationState, input.dest_state)
+                : undefined,
+            ),
           )
         : undefined,
     ].filter((f) => f !== undefined);
@@ -275,14 +310,25 @@ const searchInquiries = tool({
       .orderBy(sql`${inquiries.occurredAt} desc nulls last`, inquiries.id)
       .limit(input.limit);
 
+    // Deliberately NOT limited: this is the true size of the match set, which
+    // is the only thing that lets the caller tell a complete answer from a page.
     const [totals] = await db()
       .select({ total: count() })
       .from(inquiries)
       .where(where);
 
+    const totalMatches = totals?.total ?? 0;
+
     return {
-      total_matches: totals?.total ?? 0,
+      /**
+       * The exhaustiveness contract, stated in the payload rather than left to
+       * be inferred. Failure mode 4 ("phantom total") was the agent reporting a
+       * capped enumeration as a corpus-wide count; `truncated` makes the claim
+       * "these are all of them" checkable instead of a guess about `limit`.
+       */
+      total_matches: totalMatches,
       returned: rows.length,
+      truncated: totalMatches > rows.length,
       results: rows.map((r) => ({
         id: r.id,
         source_type: r.sourceType,
@@ -464,7 +510,23 @@ const marketRate = tool({
     }
 
     const volume = rows.reduce((sum, r) => sum + r.loadVolume, 0);
-    const weightedAvg =
+    /**
+     * The UNWEIGHTED mean of the weekly averages — every week counts once,
+     * regardless of how many loads moved that week. Named for what it computes:
+     * an earlier `weightedAvg` was a mislabel, since nothing here weights by
+     * `loadVolume`, and a reader who trusted the name would have misread the
+     * reported `avg_rate_per_mile`.
+     *
+     * A volume-weighted variant (sum(avg * volume) / sum(volume)) is a
+     * DELIBERATE NON-GOAL, not an oversight. Weekly volumes in this corpus are
+     * small and tightly clustered, so the two estimators agree to well inside
+     * the precision a broker quotes rates at, while a weighted figure would owe
+     * the reader an explanation of which weeks it leaned on. Documenting the
+     * estimator beats silently swapping it. If volumes ever spread out, change
+     * the math and say so in the tool description — the callers read this
+     * number as "the market rate".
+     */
+    const meanOfWeeklyAvgs =
       rows.reduce((sum, r) => sum + r.avgRatePerMile, 0) / rows.length;
 
     return {
@@ -473,7 +535,7 @@ const marketRate = tool({
       reference_date: REFERENCE_DATE,
       window_weeks: input.window_weeks,
       weeks_found: rows.length,
-      avg_rate_per_mile: Number(weightedAvg.toFixed(3)),
+      avg_rate_per_mile: Number(meanOfWeeklyAvgs.toFixed(3)),
       min_rate_per_mile: Math.min(...rows.map((r) => r.minRatePerMile)),
       max_rate_per_mile: Math.max(...rows.map((r) => r.maxRatePerMile)),
       total_load_volume: volume,
