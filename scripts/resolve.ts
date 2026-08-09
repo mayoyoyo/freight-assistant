@@ -17,6 +17,7 @@
  */
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { extractionSchema } from "./extraction-schema";
 import { mcLowConfidence } from "./mc-confidence";
 import {
   callDiscrepancyFlags,
@@ -38,8 +39,18 @@ function readExtraction(id: string): Extraction {
       `Missing extraction for ${id} — run scripts/extract.ts first`,
     );
   }
-  return (JSON.parse(readFileSync(path, "utf8")) as { extraction: Extraction })
-    .extraction;
+  // Parsed, not type-asserted: the committed cache is an input like any other,
+  // and a stale or hand-edited artifact must fail loudly here rather than
+  // launder invalid enums into inquiries.ndjson (Codex review of PR #2,
+  // finding 5).
+  const parsed = extractionSchema.safeParse(
+    (JSON.parse(readFileSync(path, "utf8")) as { extraction: unknown })
+      .extraction,
+  );
+  if (!parsed.success) {
+    throw new Error(`Invalid cached extraction for ${id}: ${parsed.error}`);
+  }
+  return parsed.data;
 }
 
 function main() {
