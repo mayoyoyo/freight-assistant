@@ -20,7 +20,14 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { anthropic } from "@ai-sdk/anthropic";
 import { generateObject } from "ai";
-import { z } from "zod";
+import { extractionSchema } from "./extraction-schema";
+
+export type { Extraction } from "./extraction-schema";
+
+import type { Extraction } from "./extraction-schema";
+
+export { extractionSchema } from "./extraction-schema";
+
 import {
   callExtractionInput,
   type ExtractionInput,
@@ -48,80 +55,6 @@ const MODEL = "claude-opus-5";
 // claude-opus-5 list price, USD per million tokens.
 const USD_PER_M_INPUT = 5;
 const USD_PER_M_OUTPUT = 25;
-
-/**
- * Intent vocabulary — OURS, derived from reading the corpus, deliberately not
- * the dataset's decoy labels (info/counter/inquiry/terse/confirm/factoring/
- * problem). Theirs mixes register ("terse") with intent; ours is intent only,
- * so an `intent_mismatch` flag means something.
- *
- *   availability_offer — offering a truck / declaring interest in a load
- *   rate_counter       — pushing back on a posted rate or naming their own
- *   rate_question      — asking what a load pays, no number of their own
- *   load_question      — operational questions (weight, dock, appointment, door)
- *   booking_confirm    — accepting; committing a driver
- *   factoring_notice   — factoring company / NOA / payment-terms notice
- *   compliance_update  — insurance, authority, or safety-status matters
- *   problem_report     — something went wrong (wrong equipment, nobody at dock)
- *   other              — none of the above
- */
-export const INTENTS = [
-  "availability_offer",
-  "rate_counter",
-  "rate_question",
-  "load_question",
-  "booking_confirm",
-  "factoring_notice",
-  "compliance_update",
-  "problem_report",
-  "other",
-] as const;
-
-export const EQUIPMENT = [
-  "Box Truck",
-  "Flatbed",
-  "Refrigerated",
-  "Sprinter Van",
-] as const;
-
-export const extractionSchema = z.object({
-  mc_number: z
-    .string()
-    .nullable()
-    .describe(
-      "The carrier's MC number as digits only, no 'MC' prefix, no dashes. null if not stated or explicitly unavailable.",
-    ),
-  load_reference: z
-    .string()
-    .nullable()
-    .describe("Load ID referenced, digits only. null if none."),
-  rate_usd: z
-    .number()
-    .nullable()
-    .describe(
-      "The dollar rate the CARRIER is asking for or agreeing to, as a number. null if no rate is discussed.",
-    ),
-  equipment: z.enum(EQUIPMENT).nullable(),
-  intent: z.enum(INTENTS),
-  availability: z.enum(["available", "unavailable", "conditional", "unknown"]),
-  caller_name: z
-    .string()
-    .nullable()
-    .describe("Person's name on the carrier side, if clearly stated."),
-  company_name: z
-    .string()
-    .nullable()
-    .describe("Carrier company name, if clearly stated."),
-  questions: z
-    .array(z.string())
-    .describe("Questions the carrier asks, verbatim-ish, one per entry."),
-  notes: z
-    .string()
-    .nullable()
-    .describe("One short sentence of anything else material."),
-});
-
-export type Extraction = z.infer<typeof extractionSchema>;
 
 const SYSTEM = `You extract structured facts from freight-carrier inquiries for a brokerage's intake system.
 
