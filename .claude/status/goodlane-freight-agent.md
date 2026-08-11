@@ -1,6 +1,44 @@
 # Implementation Status: Goodlane Freight Carrier Agent
 Plan: .claude/plans/goodlane-freight-agent-2026-08-06.md
-Last Updated: 2026-08-10 (session 5 — polish round; project LIVE, PR #6 open)
+Last Updated: 2026-08-11 (session 7 — interview-day deliverables)
+
+## SESSION 7 (2026-08-11) — SVG revamp + WALKTHROUGH rewrite (both LOCAL-ONLY)
+1. DONE docs/architecture.svg redrawn — three-zone reading order (offline
+   ingest → data model → request-time agent flow), data-model panel renders
+   every schema.ts column verbatim (incl. stated_*/extracted_* split, flags,
+   tsvector), 5 tools incl. draft_email + name-keyed carrier_history +
+   ASR-fused lane tokens, sanitizeMessages trust boundary, eval sidecar.
+   Verified via headless-Chrome render. Per Hanson mid-session: NOT
+   committed — lives as a local uncommitted change. PR #7 was opened then
+   CLOSED unmerged (work preserved on branch docs/architecture-svg,
+   worktree .claude/worktrees/arch-svg kept). Gates were green in the
+   worktree at authoring time (252 passed / 16 DB-skipped).
+2. DONE WALKTHROUGH.md full rewrite (gitignored) per HANDOFF-2026-08-11:
+   order mirrors the SVG; abbreviations spelled out; 5-tool defensibility
+   section; evals split first-timer explainer / implemented cheatsheet;
+   NEW: §4b plain-terms eval-development flow, §4c "is 100% feasible / end
+   goal of an eval" (thermometer-not-trophy + saturation playbook), §4d
+   outstanding list w/ priced menu, and the four mock-presentation answers
+   (resolve mechanics; streaming audit gates; FTS-at-scale/Neon; tool-result
+   caching across turns). All numbers refreshed to the FINAL rerun
+   (66/72 = 91.7%, report-final-20260811.md); model table flagged as
+   08-07-config; D04/A04 explained as stale-spec artifacts, L02 as the one
+   real residual.
+3. DONE targeted spec-fix rerun — Hanson pre-approved w/ $6 cap; actual
+   ~$0.55 (runs-targeted-specfix-20260811.jsonl, 9 runs, 43.9K uncached +
+   95.7K cached in / 6.1K out). Results: A04 3/3, D04 3/3 (stale-spec
+   theory CONFIRMED — the required-tools any_of fixes hold), L02 1/3
+   (FAIL/PASS/FAIL, required-tools: passed broker's 345878 instead of
+   extracted 345678). Combined board: **70/72 (97.2%, Wilson [90.4,99.2]),
+   pass@1 23/24, pass^3 23/24; email_draft + abstention both 15/15.**
+   L02 verdict: sp-v3 canonical-digits prompt mitigation MEASURED
+   insufficient (3/6 across the two 08-11 measurements); next fix is
+   code-shaped (carrier_history near-miss flag on not_found). WALKTHROUGH
+   updated w/ the new table; PDF export requested by Hanson (in progress).
+4. Codex review was started for PR #7, then killed when the PR was
+   cancelled — no other API use.
+Reminders standing: re-enable Deployment Protection after the interview;
+no API runs without Hanson pre-approving the priced command.
 
 ## SESSION 6 (2026-08-11) — commanded sweep, adjudication, final numbers
 Branch docs/adr-trim. Baseline 51/72 -> final 66/72 (91.7%, Wilson [83.0,96.1]);
