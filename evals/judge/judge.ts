@@ -92,8 +92,15 @@ export async function judge(
   const { object } = await generateObject({
     model: anthropic(model),
     schema: verdictSchema,
-    // `instructions` is the v7 name for `system`.
-    instructions: loadCheckPrompt(version, check),
+    // `instructions` is the v7 name for `system`. Message form carries the
+    // Anthropic cache breakpoint: the rubric is a fixed multi-KB prefix reused
+    // across every judged draft in a grading pass, so calls 2..n inside the
+    // 5-min TTL read it at 0.1x. Caching never changes verdicts.
+    instructions: {
+      role: "system" as const,
+      content: loadCheckPrompt(version, check),
+      providerOptions: { anthropic: { cacheControl: { type: "ephemeral" } } },
+    },
     prompt: buildUserPrompt(draftText, sourceContext),
     maxOutputTokens: JUDGE_MAX_OUTPUT_TOKENS,
     providerOptions: {

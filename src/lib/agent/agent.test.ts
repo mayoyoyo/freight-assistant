@@ -152,6 +152,7 @@ describe("agent tool loop", () => {
   it("exposes every tool under a stable registry key", () => {
     expect(Object.keys(freightTools).sort()).toEqual([
       "carrier_history",
+      "draft_email",
       "get_load",
       "market_rate",
       "search_inquiries",

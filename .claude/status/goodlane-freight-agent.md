@@ -19,6 +19,16 @@ Last Updated: 2026-08-10 (session 5 — polish round; project LIVE, PR #6 open)
    → live probe → D-bucket before/after, ~$5).
 3. DONE WALKTHROUGH.md restructured (gitignored): one-page overview + 5
    headline numbers / per-layer detail / topic-indexed Q&A.
+4. DONE (2026-08-11, Hanson's call: ship it into PR #6) draft_email tool +
+   prompt caching IMPLEMENTED — ADR 005. Deterministic template renderer
+   (src/lib/agent/draft-email.ts), compliance gate in code (CONDITIONAL →
+   mandatory contingency; expired/revoked → refuse), rate/pickup validated
+   vs DB. 19 new tests (260 total), build green. D-bucket rerun 15/15 with
+   draft_email 15/15, D03 caveat code-rendered 3/3
+   (runs-20260811T093603Z.jsonl). Caching: one ephemeral breakpoint at
+   route/run-agent/judge; measured 65.5% input cached on the rerun (~$1.07
+   vs $2.07 uncached; smoke 55%). D01-D05 required_tools label change dated
+   in cases.jsonl notes. Session spend ~$3.
 Reminder standing: Deployment Protection OFF for demo — re-enable after
 the interview.
 

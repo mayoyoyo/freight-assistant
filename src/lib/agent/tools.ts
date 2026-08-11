@@ -32,6 +32,7 @@ import {
 import { z } from "zod";
 import { db } from "@/db";
 import { carriers, inquiries, loads, rateHistory } from "@/db/schema";
+import { composeDraft, DRAFT_INTENTS } from "@/lib/agent/draft-email";
 import { REFERENCE_DATE } from "@/lib/config";
 
 /** The only equipment vocabulary in the corpus. "Reefer" maps to Refrigerated. */
@@ -354,6 +355,33 @@ const searchInquiries = tool({
 // 3. carrier_history
 // ---------------------------------------------------------------------------
 
+/**
+ * The one compliance computation, shared by `carrier_history` (which reports
+ * it) and `draft_email` (which gates on it). Always against REFERENCE_DATE,
+ * never the clock.
+ */
+function complianceFor(
+  authorityStatus: string | null,
+  insuranceExpiry: string | null,
+) {
+  const insuranceExpired =
+    insuranceExpiry === null ? null : insuranceExpiry < REFERENCE_DATE;
+  const authorityOk =
+    authorityStatus === null ? null : authorityStatus === "ACTIVE";
+
+  const concerns: string[] = [];
+  if (insuranceExpired === true)
+    concerns.push(
+      `insurance expired ${insuranceExpiry} (before ${REFERENCE_DATE})`,
+    );
+  if (insuranceExpired === null) concerns.push("insurance expiry unknown");
+  if (authorityOk === false)
+    concerns.push(`authority status is ${authorityStatus}, not ACTIVE`);
+  if (authorityOk === null) concerns.push("authority status unknown");
+
+  return { insuranceExpired, authorityOk, concerns };
+}
+
 const carrierHistory = tool({
   description:
     "Full profile + compliance status + recent inquiry history for one carrier, by MC number. Call this before recommending, booking, or speaking positively about any carrier — it is the only place authority status and insurance expiry are visible.",
@@ -370,25 +398,10 @@ const carrierHistory = tool({
     if (!carrier) return { not_found: true as const, mc_number };
 
     const insuranceExpiry = asDate(carrier.insuranceExpiry);
-    // Compliance is evaluated against the frozen snapshot date, never the clock.
-    const insuranceExpired =
-      insuranceExpiry === null ? null : insuranceExpiry < REFERENCE_DATE;
-    const authorityOk =
-      carrier.authorityStatus === null
-        ? null
-        : carrier.authorityStatus === "ACTIVE";
-
-    const concerns: string[] = [];
-    if (insuranceExpired === true)
-      concerns.push(
-        `insurance expired ${insuranceExpiry} (before ${REFERENCE_DATE})`,
-      );
-    if (insuranceExpired === null) concerns.push("insurance expiry unknown");
-    if (authorityOk === false)
-      concerns.push(
-        `authority status is ${carrier.authorityStatus}, not ACTIVE`,
-      );
-    if (authorityOk === null) concerns.push("authority status unknown");
+    const { insuranceExpired, authorityOk, concerns } = complianceFor(
+      carrier.authorityStatus,
+      insuranceExpiry,
+    );
 
     const recent = await db()
       .select({
@@ -550,6 +563,193 @@ const marketRate = tool({
   },
 });
 
+// ---------------------------------------------------------------------------
+// 5. draft_email
+// ---------------------------------------------------------------------------
+
+/**
+ * Structured drafting: the model selects the intent and fills the facts; a
+ * deterministic template (`draft-email.ts`) speaks. Everything the draft says
+ * is re-fetched and validated here — recipient from the carrier record (the
+ * name of record beats an ASR rendering), rate against the load/inquiry rows,
+ * compliance against the same computation `carrier_history` reports — so an
+ * invented figure or an ungated booking is a structured refusal, not prose.
+ */
+const draftEmail = tool({
+  description: [
+    "Render a reply email to a carrier from structured facts. ALWAYS use this to draft carrier emails — never compose an email body yourself.",
+    "Resolves the recipient from the database, verifies rate_usd against the load's posted rate or the anchored inquiry's quoted rate, and enforces the compliance gate on rate confirmations (blocked carriers are refused; concerns force a contingency paragraph).",
+    "Returns the finished draft plus the source ids to cite. If it refuses, relay the reason — do not write the email by hand.",
+  ].join(" "),
+  inputSchema: z.object({
+    to_inquiry_id: z
+      .string()
+      .optional()
+      .describe(
+        "Inquiry being replied to, e.g. 'CE0066' or 'call_017'. Preferred anchor: resolves the recipient, their quoted rate, and the referenced load.",
+      ),
+    to_carrier_mc: z
+      .string()
+      .optional()
+      .describe(
+        "Recipient carrier MC, digits only. Use when no specific inquiry is being answered.",
+      ),
+    intent: z.enum(DRAFT_INTENTS),
+    load_id: z
+      .string()
+      .optional()
+      .describe(
+        "Load the email is about. Defaults to the anchored inquiry's referenced load.",
+      ),
+    rate_usd: z
+      .number()
+      .optional()
+      .describe(
+        "Dollar figure the draft speaks. Must equal the load's posted rate or the anchored inquiry's quoted rate — anything else is refused.",
+      ),
+    pickup_date: z
+      .string()
+      .optional()
+      .describe("YYYY-MM-DD. Must match the load record if given."),
+    missing_info: z
+      .array(z.string())
+      .max(5)
+      .optional()
+      .describe("info_request only: the facts to ask the carrier for."),
+  }),
+  execute: async (input) => {
+    if (!input.to_inquiry_id && !input.to_carrier_mc) {
+      return {
+        refused: true as const,
+        reason:
+          "give to_inquiry_id or to_carrier_mc — a draft needs a recipient",
+      };
+    }
+
+    let inquiry = null;
+    if (input.to_inquiry_id) {
+      // Same prefix tolerance as search_inquiries `ids`: call ids are long.
+      const [row] = await db()
+        .select({
+          id: inquiries.id,
+          fromName: inquiries.fromName,
+          fromEmail: inquiries.fromEmail,
+          resolvedCarrierMc: inquiries.resolvedCarrierMc,
+          extractedLoadReference: inquiries.extractedLoadReference,
+          extractedRateUsd: inquiries.extractedRateUsd,
+        })
+        .from(inquiries)
+        .where(
+          or(
+            eq(inquiries.id, input.to_inquiry_id),
+            like(inquiries.id, `${input.to_inquiry_id}\\_%`),
+          ),
+        )
+        .limit(1);
+      if (!row) {
+        return {
+          refused: true as const,
+          reason: `inquiry ${input.to_inquiry_id} not found`,
+        };
+      }
+      inquiry = row;
+    }
+
+    const mcNumber = input.to_carrier_mc ?? inquiry?.resolvedCarrierMc ?? null;
+    let carrier = null;
+    if (mcNumber) {
+      const [row] = await db()
+        .select()
+        .from(carriers)
+        .where(eq(carriers.mcNumber, mcNumber))
+        .limit(1);
+      carrier = row ?? null;
+    }
+    if (input.to_carrier_mc && !carrier) {
+      return {
+        refused: true as const,
+        reason: `no carrier with MC ${input.to_carrier_mc}`,
+      };
+    }
+
+    const loadId = input.load_id ?? inquiry?.extractedLoadReference ?? null;
+    let load = null;
+    if (loadId) {
+      const [row] = await db()
+        .select()
+        .from(loads)
+        .where(eq(loads.loadId, loadId))
+        .limit(1);
+      if (!row) {
+        return { refused: true as const, reason: `load ${loadId} not found` };
+      }
+      load = row;
+    }
+
+    const insuranceExpiry = carrier ? asDate(carrier.insuranceExpiry) : null;
+    const gate = carrier
+      ? complianceFor(carrier.authorityStatus, insuranceExpiry)
+      : null;
+    const compliance =
+      carrier && gate
+        ? {
+            authority_status: carrier.authorityStatus,
+            insurance_expiry: insuranceExpiry,
+            insurance_expired: gate.insuranceExpired,
+            clear: gate.concerns.length === 0,
+            concerns: gate.concerns,
+          }
+        : null;
+
+    const result = composeDraft({
+      intent: input.intent,
+      recipient: {
+        // Carrier record first: the name of record beats an ASR rendering.
+        name: carrier?.primaryContact ?? inquiry?.fromName ?? null,
+        email: carrier?.email ?? inquiry?.fromEmail ?? null,
+        carrier_mc: mcNumber,
+      },
+      inquiry_id: inquiry?.id ?? null,
+      load: load
+        ? {
+            load_id: load.loadId,
+            origin: `${load.originCity}, ${load.originState}`,
+            destination: `${load.destinationCity}, ${load.destinationState}`,
+            equipment_type: load.equipmentType,
+            weight_lbs: load.weightLbs,
+            pickup_date: asDate(load.pickupDate),
+            pickup_window: load.pickupWindow,
+            delivery_date: asDate(load.deliveryDate),
+            offered_rate_usd: load.offeredRateUsd,
+          }
+        : null,
+      compliance,
+      rate_usd: input.rate_usd ?? null,
+      allowed_rates: [load?.offeredRateUsd, inquiry?.extractedRateUsd].filter(
+        (n): n is number => n !== null && n !== undefined,
+      ),
+      pickup_date: input.pickup_date ?? null,
+      missing_info: input.missing_info ?? [],
+    });
+
+    const sources = [
+      ...(inquiry ? [inquiry.id] : []),
+      ...(load ? [`load ${load.loadId}`] : []),
+      ...(carrier ? [`MC ${carrier.mcNumber}`] : []),
+    ];
+
+    if ("refused" in result) {
+      return { refused: true as const, reason: result.reason, sources };
+    }
+    return {
+      draft: result.draft,
+      compliance_caveat: result.compliance_caveat,
+      compliance,
+      sources,
+    };
+  },
+});
+
 /**
  * The registry. Adding a tool = one more key here.
  * `satisfies` (not `:`) so per-tool input/output types survive for
@@ -560,6 +760,7 @@ export const freightTools = {
   search_inquiries: searchInquiries,
   carrier_history: carrierHistory,
   market_rate: marketRate,
+  draft_email: draftEmail,
 };
 
 export type FreightTools = typeof freightTools;

@@ -174,3 +174,82 @@ describe.skipIf(NO_DB)(
     });
   },
 );
+
+// ---------------------------------------------------------------------------
+// draft_email — the DB-backed path. Renderer logic (templates, gate branches,
+// figure validation) is covered without a database in draft-email.test.ts;
+// these tests pin what only the integration can prove: recipient resolution
+// from real rows, rate validation against seeded data, and the compliance
+// gate firing on the corpus's actual CONDITIONAL carrier (D03's trap).
+// ---------------------------------------------------------------------------
+
+type DraftInput = Parameters<
+  NonNullable<typeof freightTools.draft_email.execute>
+>[0];
+
+async function draft(input: DraftInput) {
+  const execute = freightTools.draft_email.execute;
+  if (execute === undefined) throw new Error("draft_email has no execute");
+  const options = {
+    toolCallId: "test",
+    messages: [],
+  } as unknown as SearchOptions;
+  // biome-ignore lint/suspicious/noExplicitAny: test-side view of a union output
+  return (await execute(input, options)) as any;
+}
+
+describe.skipIf(NO_DB)(
+  "draft_email — resolution and the compliance gate",
+  () => {
+    it("CE0066 rate_confirm at the posted $950: renders with the CONDITIONAL contingency (D03)", async () => {
+      const r = await draft({
+        to_inquiry_id: "CE0066",
+        intent: "rate_confirm",
+        rate_usd: 950,
+      });
+      expect(r.refused).toBeUndefined();
+      // Recipient from the carrier record, load defaulted from the inquiry.
+      expect(r.draft.to_email).toBe("clint.frontier@gmail.com");
+      expect(r.draft.body).toContain("29372490");
+      expect(r.draft.body).toContain("$950");
+      // MC 885432 is CONDITIONAL: the caveat is forced, the draft still renders.
+      expect(r.compliance_caveat).toContain("CONDITIONAL");
+      expect(r.compliance.clear).toBe(false);
+      expect(r.sources).toEqual(["CE0066", "load 29372490", "MC 885432"]);
+    });
+
+    it("refuses a rate that exists nowhere in the data", async () => {
+      const r = await draft({
+        to_inquiry_id: "CE0066",
+        intent: "rate_confirm",
+        rate_usd: 1234,
+      });
+      expect(r.refused).toBe(true);
+      expect(r.reason).toContain("$1,234");
+      expect(r.reason).toContain("$950");
+    });
+
+    it("refuses an unknown carrier MC and an unknown inquiry", async () => {
+      const noCarrier = await draft({
+        to_carrier_mc: "000000",
+        intent: "decline",
+      });
+      expect(noCarrier.refused).toBe(true);
+      const noInquiry = await draft({
+        to_inquiry_id: "CE9999",
+        intent: "decline",
+      });
+      expect(noInquiry.refused).toBe(true);
+    });
+
+    it("accepts a call-id prefix, like search_inquiries does", async () => {
+      const r = await draft({
+        to_inquiry_id: "call_017",
+        intent: "info_request",
+        missing_info: ["current insurance certificate"],
+      });
+      expect(r.refused).toBeUndefined();
+      expect(r.sources[0]).toBe("call_017_availability_check");
+    });
+  },
+);
