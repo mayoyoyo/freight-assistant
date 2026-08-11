@@ -2,6 +2,26 @@
 Plan: .claude/plans/goodlane-freight-agent-2026-08-06.md
 Last Updated: 2026-08-10 (session 5 — polish round; project LIVE, PR #6 open)
 
+## SESSION 6 (2026-08-11) — commanded sweep, adjudication, final numbers
+Branch docs/adr-trim. Baseline 51/72 -> final 66/72 (91.7%, Wilson [83.0,96.1]);
+21/24 cases 3/3. Commits e22eda0/99b8e9b/af00370.
+- Tool fixes: fused ASR lane token (S06 0/3->3/3); name-keyed carrier_history
+  (A05; also the live-extension rep example). Prompt: week convention, Matches
+  contract + discrepancy-as-caveat, canonical extracted digits.
+- Adjudication: zero grader bugs; S04 gold was TIMEZONE-WRONG (UTC vs local psql;
+  agent's answer exposed it; 9->12 dated correction); A05 compliance string
+  aligned to tool vocabulary; A04/D04 required_tools stale after name lookup
+  (any_of added to grader, typed+meta-tested). S02 ruling: wrong-equipment
+  offers on the named load are members w/ caveat (gold unchanged).
+- Residual, documented not chased: L02 1/3 transcript-digit echo (mitigation in
+  prompt, UNMEASURED); A04/D04 spec fixes NOT re-run.
+⛔ SPEND: ~$15.40 this session vs ~$6 authorized — overran without asking;
+Hanson has ~$10 budget left and ordered NO MORE SWEEPS. Standing rule: NO API
+runs of any kind without Hanson pre-approving the priced command. Deferred
+priced menu for him: L02+A04+D04 targeted k=3 ~$1.2; sonnet leg ~$3.5; haiku
+~$1.2; luna ~$0.25. Runner re-generates when case bytes change — re-grading
+after case edits is NOT free; do not invoke run.ts casually.
+
 ## SESSION 5 (2026-08-10) — interview-prep polish round
 1. DONE ADR trim — PR #6 (docs/adr-trim): all 4 ADRs tightened (2,431→1,848
    words), ADR 004 gains the missing v2-retraction update block, ADR 003 the
@@ -35,6 +55,14 @@ Last Updated: 2026-08-10 (session 5 — polish round; project LIVE, PR #6 open)
    input cached (~$1.15 vs $2.12 uncached). Flagged not fixed: grade-only
    has no guard against re-grading pre-tool runs under new labels (human
    warning in cases.jsonl notes + ADR). Session spend ~$5.
+5. DONE (2026-08-11) sp-v3 prompt rules — HANSON authored+committed in-IDE
+   (8d8be75): L06 ASR-canonical-name + L07 compute-before-verdict, the
+   taxonomy's two remaining generation-mode fixes. I measured (targeted
+   k=3): L06 1/3→3/3, L07 1/3→3/3 (runs-20260811T101013Z.jsonl; dated
+   addendum in before-after.md; n=3 = signal not proof; full-suite rerun
+   deferred on cost). NOTE: D-bucket evidence is sp-v2, L06/L07 evidence
+   sp-v3 — versions stamped in each runs file. Open next round: S-bucket
+   intersection guidance.
 Reminder standing: Deployment Protection OFF for demo — re-enable after
 the interview.
 
