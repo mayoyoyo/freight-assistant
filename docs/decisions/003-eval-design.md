@@ -8,7 +8,7 @@ Status: accepted (Phase 4) · Date: 2026-08-07
 > graded in one pass (corrected case labels).
 >
 > **Update 2026-08-09:** headline runs re-graded under judge v3 after the v2
-> retraction (ADR 004); headline numbers unchanged.
+> retraction (ADR 004); headline numbers unchanged (`evals/before-after.md`).
 
 ## Context
 
@@ -58,9 +58,10 @@ an instrument nobody validated.
 - **Headline (measured).** Baseline: run-level 51/72 (70.8%), pass@1 17/24,
   pass^3 15/24. Post-fix: 52/72, 17/24, 16/24 — L05 0/3→3/3 as predicted,
   while set retrieval flipped recall→precision failures (spurious items from
-  the wider join), leaving the aggregate flat. Predictions right about
-  L05/L06/L07, wrong about the S-bucket — which is the finding. Per-case
-  movement: `evals/before-after.md`.
+  the wider join), leaving the aggregate flat. The fix round's prediction was
+  right about L05 and wrong about the S-bucket — which is the finding.
+  L06/L07's named fixes (prompt rules) were not part of this round; both
+  persist. Per-case movement: `evals/before-after.md`.
 
 Evidence: `evals/error-analysis/failure-modes.md`, `evals/report.md`,
 `evals/graders/`.

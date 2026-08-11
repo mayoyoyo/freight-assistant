@@ -38,8 +38,9 @@ usefully trigram-similar to `456012`.
 ## Consequences
 
 - **Closes the 38-row hole exactly**: MC resolution 55/55 on calls, 75/75
-  overall vs hand-derived gold, incl. a 19-record low-confidence hard set.
-  FTS cannot see those rows; no query tuning makes it.
+  overall vs hand-derived gold, incl. a 19-record hard set (every
+  `mcLowConfidence` call plus the named eval-critical records). FTS cannot
+  see those rows; no query tuning makes it.
 - **One store, one query language, transactional joins**
   (`extracted_load_reference → loads.load_id`); a vector store would need a
   second system plus a hand-rolled join for the spec's first example query.

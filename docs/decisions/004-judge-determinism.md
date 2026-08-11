@@ -4,9 +4,10 @@ Status: accepted (Phase 4B) · Date: 2026-08-07
 
 > **Update 2026-08-09: v2 RETRACTED — v3 is the default.** Codex adversarial
 > review of PR #4 (finding 5) caught calibration contamination: v2's rules 6/7
-> quoted sentences verbatim from the calibration drafts behind the v1 false
-> alarms (CAL05/06/07/17), so its calibration partly measured lookup, not
-> judgment; its numbers stand as a record but are disclaimed. v3 rewrites
+> quoted sentences verbatim from calibration drafts (CAL05/06/07/17) — the
+> items those rules were written to handle — so its calibration partly
+> measured lookup, not judgment; its numbers stand as a record but are
+> disclaimed. v3 rewrites
 > those examples held-out (rule semantics unchanged); a 5-word-shingle leakage
 > ratchet in `judge.test.ts` now screens every prompt version against every
 > calibration draft, with v2's five bespoke shingles pinned as an inverted
@@ -56,8 +57,8 @@ judge scores ~65–80% agreement here while catching zero failures;
   "same input, same verdict" — and imperfect: batching and kernel
   nondeterminism mean temp 0 is not bit-reproducible on a serving stack
   either. The measured flip rate bounds how much observed agent variance
-  could be judge variance: **0 flips in 12 cells (6 items × 2 checks × 3
-  repeats), for v2 and again for v3 (`stability-v3.json`).**
+  could be judge variance: **0 of 12 item×check cells flipped (6 items × 2
+  checks, 3 repeats each), for v2 and again for v3 (`stability-v3.json`).**
 - **v1 measured**: `no_invented_commitments` TPR 76.9% / TNR 100.0% / κ
   0.700; `professional_tone` 100/100/κ 1.000 (n=20). The commitments TPR
   missed the >80% target and was reported as missing it; all three errors
