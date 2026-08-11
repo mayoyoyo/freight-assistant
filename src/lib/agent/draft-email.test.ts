@@ -252,3 +252,41 @@ describe("info_request", () => {
     expect(r.reason).toContain("missing_info");
   });
 });
+
+describe("review-round regressions", () => {
+  it("a resolved name without an email address is still refused (dead letter)", () => {
+    const r = refusalOf(
+      composeDraft(
+        facts({
+          recipient: { name: "Tarek", email: null, carrier_mc: null },
+        }),
+      ),
+    );
+    expect(r.reason).toContain("email address");
+  });
+
+  it("a pickup date before REFERENCE_DATE is flagged as past, never restated as live", () => {
+    const stale = { ...LOAD, pickup_date: "2026-05-21" };
+    const r = draftOf(composeDraft(facts({ load: stale })));
+    expect(r.draft.body).toContain("has passed");
+    expect(r.draft.body).toContain("2026-05-21");
+    expect(r.draft.body).not.toContain("Pickup 2026-05-21");
+  });
+
+  it("availability_reply also flags a stale schedule", () => {
+    const stale = { ...LOAD, pickup_date: "2026-05-20" };
+    const r = draftOf(
+      composeDraft(
+        facts({ intent: "availability_reply", load: stale, rate_usd: null }),
+      ),
+    );
+    expect(r.draft.body).toContain("has passed");
+    expect(r.draft.body).not.toContain("Pickup 2026-05-20");
+  });
+
+  it("a future schedule still renders as live detail", () => {
+    const r = draftOf(composeDraft(facts()));
+    expect(r.draft.body).toContain("Pickup 2026-05-27");
+    expect(r.draft.body).not.toContain("has passed");
+  });
+});

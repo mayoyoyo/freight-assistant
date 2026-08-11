@@ -23,12 +23,18 @@ Last Updated: 2026-08-10 (session 5 — polish round; project LIVE, PR #6 open)
    prompt caching IMPLEMENTED — ADR 005. Deterministic template renderer
    (src/lib/agent/draft-email.ts), compliance gate in code (CONDITIONAL →
    mandatory contingency; expired/revoked → refuse), rate/pickup validated
-   vs DB. 19 new tests (260 total), build green. D-bucket rerun 15/15 with
-   draft_email 15/15, D03 caveat code-rendered 3/3
-   (runs-20260811T093603Z.jsonl). Caching: one ephemeral breakpoint at
-   route/run-agent/judge; measured 65.5% input cached on the rerun (~$1.07
-   vs $2.07 uncached; smoke 55%). D01-D05 required_tools label change dated
-   in cases.jsonl notes. Session spend ~$3.
+   vs DB. Codex review of the first cut: 1 blocker + 4 major, all real —
+   cross-load rate transplant, contradictory anchors, LIKE-wildcard ids,
+   stale schedules rendered live, PROMPT_VERSION not bumped — fixed with
+   regression tests (+ sp-v2, extractor-visible based_on ids, null-MC
+   carrier reach via resolved_carrier_id, email-required refusal, README
+   count). 27 new tests (268 total), build green. Final D-bucket rerun
+   15/15, draft_email 15/15, D03 caveat 3/3, D01/D05 stale flag rendered
+   (runs-20260811T100150Z.jsonl; superseded first-run file removed).
+   Caching: ephemeral breakpoint at route/run-agent/judge; measured 61.9%
+   input cached (~$1.15 vs $2.12 uncached). Flagged not fixed: grade-only
+   has no guard against re-grading pre-tool runs under new labels (human
+   warning in cases.jsonl notes + ADR). Session spend ~$5.
 Reminder standing: Deployment Protection OFF for demo — re-enable after
 the interview.
 

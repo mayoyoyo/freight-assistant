@@ -42,8 +42,10 @@ hand-written bodies.
 **Shipped alongside (same PR): prompt caching.** Anthropic cache breakpoints
 on the agent's system prompt (covers tools+system, route and eval runner
 mirrored) and the judge rubric — previously 0 cached tokens on 1.36M input in
-a sweep. Verified live by `cached_input_tokens > 0` in the run records.
-Caching changes billing and latency, never outputs.
+a sweep. Agent-side verified by `cached_input_tokens > 0` in the committed
+runs file; the judge carries the same breakpoint but its usage is not
+recorded in run records, so that leg is wired, not measured. Caching changes
+billing and latency, never outputs.
 
 ## Eval impact
 
@@ -57,25 +59,34 @@ Caching changes billing and latency, never outputs.
   `professional_tone` still run unchanged, against the same calibration set.
 - **Measured D-bucket before/after** (same cases, k=3, judge v3): before
   15/15 (freeform drafts, `runs-postfix-20260807.jsonl`) → after **15/15**
-  (`runs-20260811T093603Z.jsonl`), with `draft_email` called in **15/15 runs**
-  and D03's contingency caveat rendered by code in 3/3. Aggregate unchanged at
-  the bucket's ceiling — the win is invariance (figures and the gate can no
-  longer regress by prompt drift), not a score delta.
-- **Token accounting, stated honestly**: per-run input GREW ~67% (202,825 →
-  338,015 tokens for the bucket — one extra loop step plus a fifth tool
-  schema), while caching served **65.5%** of input from cache (221,340 /
-  338,015). Net: ~$1.07 for the after-bucket vs $1.44 the before-bucket cost
+  (`runs-20260811T100150Z.jsonl`, prompt sp-v2), with `draft_email` called in
+  **15/15 runs**, D03's contingency caveat rendered by code in 3/3, and
+  D01/D05's stale pickup date flagged as past by the template. Aggregate
+  unchanged at the bucket's ceiling — the win is invariance (figures and the
+  gate can no longer regress by prompt drift), not a score delta.
+- **Token accounting, stated honestly**: per-run input GREW ~72% (202,825 →
+  347,947 tokens for the bucket — one extra loop step plus a fifth tool
+  schema), while caching served **61.9%** of input from cache (215,412 /
+  347,947). Net: ~$1.15 for the after-bucket vs $1.44 the before-bucket cost
   uncached (read-discount arithmetic; the 1.25x write premium is not itemized
-  in the runs file). First smoke run cached 11,067 / 19,928 (55%) with zero
-  code beyond the breakpoint.
+  in the runs file). A first smoke probe cached ~55% (session log, not a
+  committed artifact — the committed runs file is the evidence).
+- **Adversarial review round (Codex, pre-merge) closed four substantive holes
+  in the first cut**: a cross-load rate transplant (an anchored inquiry's
+  quoted rate is now admissible only when the inquiry references the selected
+  load), contradictory recipient anchors (refused when inquiry and MC resolve
+  to different carriers), LIKE-metacharacter wildcarding in the inquiry-id
+  prefix (escaped; partial prefixes refuse), and stale schedules rendered as
+  live booking details (now flagged "has passed"). Each carries a regression
+  test; triage table on PR #6.
 
 ## Consequences
 
 - Two prompt-level guarantees are now code, each with a direct test: figure
   invention and ungated bookings are refusals, not graded model behavior.
-- 19 new tests (suite 241 → 260): 15 pure-renderer tests need no database or
-  model; 4 DB-backed tests pin recipient resolution and the CONDITIONAL trap
-  (`tools.test.ts`).
+- 27 new tests (suite 241 → 268): 19 pure-renderer tests need no database or
+  model; 8 DB-backed tests pin recipient resolution, the CONDITIONAL trap,
+  and the review-round regressions (`tools.test.ts`).
 - New failure surface, stated: an over-strict validator can refuse legitimate
   drafts (e.g. negotiating a NEW rate is not expressible — by design, a
   human decision); the refusal path is loud and the model relays the reason.

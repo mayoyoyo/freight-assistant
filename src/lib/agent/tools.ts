@@ -628,12 +628,17 @@ const draftEmail = tool({
 
     let inquiry = null;
     if (input.to_inquiry_id) {
-      // Same prefix tolerance as search_inquiries `ids`: call ids are long.
-      const [row] = await db()
+      // Prefix tolerance like search_inquiries `ids`, but a DRAFT must go to
+      // exactly one recipient: LIKE metacharacters in the input are escaped
+      // (so 'call_0%' can't wildcard), and a prefix matching several records
+      // is refused rather than silently resolved to an arbitrary first row.
+      const escaped = input.to_inquiry_id.replace(/([\\%_])/g, "\\$1");
+      const rows = await db()
         .select({
           id: inquiries.id,
           fromName: inquiries.fromName,
           fromEmail: inquiries.fromEmail,
+          resolvedCarrierId: inquiries.resolvedCarrierId,
           resolvedCarrierMc: inquiries.resolvedCarrierMc,
           extractedLoadReference: inquiries.extractedLoadReference,
           extractedRateUsd: inquiries.extractedRateUsd,
@@ -642,34 +647,68 @@ const draftEmail = tool({
         .where(
           or(
             eq(inquiries.id, input.to_inquiry_id),
-            like(inquiries.id, `${input.to_inquiry_id}\\_%`),
+            like(inquiries.id, `${escaped}\\_%`),
           ),
         )
-        .limit(1);
-      if (!row) {
+        .orderBy(inquiries.id)
+        .limit(2);
+      const exact = rows.find((r) => r.id === input.to_inquiry_id);
+      const match = exact ?? (rows.length === 1 ? rows[0] : undefined);
+      if (!match) {
         return {
           refused: true as const,
-          reason: `inquiry ${input.to_inquiry_id} not found`,
+          reason:
+            rows.length > 1
+              ? `inquiry id '${input.to_inquiry_id}' is ambiguous — give the exact id`
+              : `inquiry ${input.to_inquiry_id} not found`,
         };
       }
-      inquiry = row;
+      inquiry = match;
     }
 
-    const mcNumber = input.to_carrier_mc ?? inquiry?.resolvedCarrierMc ?? null;
-    let carrier = null;
-    if (mcNumber) {
+    // The inquiry's own carrier resolves by row id first — the id link
+    // reaches the corpus's null-MC carriers, which an MC-keyed lookup cannot.
+    let inquiryCarrier = null;
+    if (inquiry?.resolvedCarrierId != null) {
       const [row] = await db()
         .select()
         .from(carriers)
-        .where(eq(carriers.mcNumber, mcNumber))
+        .where(eq(carriers.id, inquiry.resolvedCarrierId))
         .limit(1);
-      carrier = row ?? null;
+      inquiryCarrier = row ?? null;
+    } else if (inquiry?.resolvedCarrierMc) {
+      const [row] = await db()
+        .select()
+        .from(carriers)
+        .where(eq(carriers.mcNumber, inquiry.resolvedCarrierMc))
+        .limit(1);
+      inquiryCarrier = row ?? null;
     }
-    if (input.to_carrier_mc && !carrier) {
-      return {
-        refused: true as const,
-        reason: `no carrier with MC ${input.to_carrier_mc}`,
-      };
+
+    let carrier = inquiryCarrier;
+    if (input.to_carrier_mc) {
+      const [mcCarrier] = await db()
+        .select()
+        .from(carriers)
+        .where(eq(carriers.mcNumber, input.to_carrier_mc))
+        .limit(1);
+      if (!mcCarrier) {
+        return {
+          refused: true as const,
+          reason: `no carrier with MC ${input.to_carrier_mc}`,
+        };
+      }
+      // Contradictory anchors would splice one carrier's facts into another
+      // carrier's inbox (and could dodge the stricter carrier's gate).
+      if (inquiryCarrier && inquiryCarrier.id !== mcCarrier.id) {
+        return {
+          refused: true as const,
+          reason: `anchors disagree: inquiry ${inquiry?.id} belongs to ${
+            inquiryCarrier.companyName ?? `MC ${inquiryCarrier.mcNumber}`
+          }, not MC ${input.to_carrier_mc} — use one anchor`,
+        };
+      }
+      carrier = mcCarrier;
     }
 
     const loadId = input.load_id ?? inquiry?.extractedLoadReference ?? null;
@@ -707,7 +746,7 @@ const draftEmail = tool({
         // Carrier record first: the name of record beats an ASR rendering.
         name: carrier?.primaryContact ?? inquiry?.fromName ?? null,
         email: carrier?.email ?? inquiry?.fromEmail ?? null,
-        carrier_mc: mcNumber,
+        carrier_mc: carrier?.mcNumber ?? null,
       },
       inquiry_id: inquiry?.id ?? null,
       load: load
@@ -725,9 +764,15 @@ const draftEmail = tool({
         : null,
       compliance,
       rate_usd: input.rate_usd ?? null,
-      allowed_rates: [load?.offeredRateUsd, inquiry?.extractedRateUsd].filter(
-        (n): n is number => n !== null && n !== undefined,
-      ),
+      // The inquiry's quoted rate is only admissible when the inquiry is
+      // about the selected load — otherwise CE0099's $890 (on load 29000138)
+      // could be transplanted into a confirmation for a different load.
+      allowed_rates: [
+        load?.offeredRateUsd,
+        loadId === null || inquiry?.extractedLoadReference === loadId
+          ? inquiry?.extractedRateUsd
+          : null,
+      ].filter((n): n is number => n !== null && n !== undefined),
       pickup_date: input.pickup_date ?? null,
       missing_info: input.missing_info ?? [],
     });
@@ -738,13 +783,27 @@ const draftEmail = tool({
       ...(carrier ? [`MC ${carrier.mcNumber}`] : []),
     ];
 
+    // Scalar id fields under the keys the eval's id extractor recognises
+    // (`id`, `load_id`, `mc_number`) — `sources` alone is invisible to it.
+    const basedOn = {
+      ...(inquiry ? { id: inquiry.id } : {}),
+      ...(load ? { load_id: load.loadId } : {}),
+      ...(carrier?.mcNumber ? { mc_number: carrier.mcNumber } : {}),
+    };
+
     if ("refused" in result) {
-      return { refused: true as const, reason: result.reason, sources };
+      return {
+        refused: true as const,
+        reason: result.reason,
+        based_on: basedOn,
+        sources,
+      };
     }
     return {
       draft: result.draft,
       compliance_caveat: result.compliance_caveat,
       compliance,
+      based_on: basedOn,
       sources,
     };
   },

@@ -17,7 +17,7 @@ pnpm install
 cp .env.example .env          # fill in DATABASE_URL + ANTHROPIC_API_KEY
 pnpm db:push && pnpm seed     # schema + committed dataset -> Postgres
 pnpm dev                      # chat UI at localhost:3000
-pnpm typecheck && pnpm lint && pnpm test   # 241 tests; CI runs the same
+pnpm typecheck && pnpm lint && pnpm test   # 260 tests; CI runs the same
 pnpm eval --dry-run           # eval harness structure, no API calls
 ```
 

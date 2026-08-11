@@ -85,4 +85,5 @@ export type RunRecord = {
  * Prompt version identifier written into every run record. Bump when
  * SYSTEM_PROMPT changes so before/after rows in the report are attributable.
  */
-export const PROMPT_VERSION = "sp-v1";
+// sp-v2 (2026-08-11): EMAIL DRAFTS section rewritten to mandate draft_email.
+export const PROMPT_VERSION = "sp-v2";

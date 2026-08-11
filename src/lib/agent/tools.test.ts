@@ -253,3 +253,52 @@ describe.skipIf(NO_DB)(
     });
   },
 );
+
+describe.skipIf(NO_DB)("draft_email — review-round regressions", () => {
+  it("refuses a cross-load rate transplant (CE0099's $890 belongs to 29000138, not 29372490)", async () => {
+    const r = await draft({
+      to_inquiry_id: "CE0099",
+      intent: "rate_confirm",
+      load_id: "29372490",
+      rate_usd: 890,
+    });
+    expect(r.refused).toBe(true);
+    expect(r.reason).toContain("$890");
+  });
+
+  it("refuses contradictory anchors (CE0066 belongs to MC 885432, not 68333)", async () => {
+    const r = await draft({
+      to_inquiry_id: "CE0066",
+      to_carrier_mc: "68333",
+      intent: "rate_confirm",
+      rate_usd: 950,
+    });
+    expect(r.refused).toBe(true);
+    expect(r.reason).toContain("anchors disagree");
+  });
+
+  it("escapes LIKE metacharacters — a partial prefix or wildcard cannot resolve to an arbitrary call", async () => {
+    // 'call_0' escapes to call\_0\_% — ids continue with a digit, not an
+    // underscore, so a partial prefix matches nothing rather than 55 calls.
+    const partial = await draft({ to_inquiry_id: "call_0", intent: "decline" });
+    expect(partial.refused).toBe(true);
+    expect(partial.reason).toContain("not found");
+    // An explicit wildcard is treated as a literal, not a pattern.
+    const wildcard = await draft({
+      to_inquiry_id: "call_%",
+      intent: "decline",
+    });
+    expect(wildcard.refused).toBe(true);
+    expect(wildcard.reason).toContain("not found");
+  });
+
+  it("reaches a null-MC carrier through the resolved_carrier_id link (call_038 -> Blue Eagle)", async () => {
+    const r = await draft({
+      to_inquiry_id: "call_038",
+      intent: "info_request",
+      missing_info: ["your MC number"],
+    });
+    expect(r.refused).toBeUndefined();
+    expect(r.draft.to_email).toBe("tariq.blueeagle@gmail.com");
+  });
+});

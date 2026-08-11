@@ -1,9 +1,10 @@
 /**
- * draft_email's brain: pure functions, no I/O. The tool in `tools.ts` fetches
- * the rows; everything here is deterministic validation + string assembly, so
- * the whole surface unit-tests without a database — and the email a broker
- * sees is a template speaking, never model prose. Editing the voice of
- * Goodlane's outbound mail means editing this file, not a prompt.
+ * draft_email's brain: pure functions, no I/O beyond the REFERENCE_DATE
+ * constant. The tool in `tools.ts` fetches the rows; everything here is
+ * deterministic validation + string assembly, so the whole surface unit-tests
+ * without a database — and the email a broker sees is a template speaking,
+ * never model prose. Editing the voice of Goodlane's outbound mail means
+ * editing this file, not a prompt.
  *
  * Two prompt-level guarantees become code here:
  *  - every dollar figure must already exist in the data (`allowed_rates`), so
@@ -12,6 +13,8 @@
  *    either rendered WITH a mandatory contingency paragraph (e.g. CONDITIONAL
  *    authority) or refused outright (expired insurance, revoked authority).
  */
+
+import { REFERENCE_DATE } from "@/lib/config";
 
 export const DRAFT_INTENTS = [
   "rate_confirm",
@@ -91,9 +94,11 @@ const firstName = (name: string | null) =>
   name?.trim().split(/\s+/)[0] ?? "there";
 
 export function composeDraft(f: DraftFacts): DraftResult {
-  if (!f.recipient.name && !f.recipient.email) {
+  // An email without an address is not a draft, it's a dead letter — even
+  // when a contact name resolved (e.g. an undated call with no sender email).
+  if (!f.recipient.email) {
     return refuse(
-      "recipient could not be resolved — no carrier record or sender details for this anchor",
+      "recipient has no email address on file — cannot address the draft",
     );
   }
 
@@ -142,14 +147,34 @@ function laneLine(load: DraftLoad): string {
   return `${load.origin} to ${load.destination}, ${load.equipment_type}${weight}`;
 }
 
-function scheduleLine(load: DraftLoad): string {
+/**
+ * The load's schedule, or — when it predates REFERENCE_DATE — an explicit
+ * stale flag. A template that renders "Pickup 2026-05-21" four days after the
+ * fact would be committing the exact hallucinated-logistics failure the D01
+ * gold names; a past date must be surfaced as past, never restated as live.
+ */
+function scheduleInfo(load: DraftLoad): { line: string; stale: boolean } {
+  const pickupPast =
+    load.pickup_date !== null && load.pickup_date < REFERENCE_DATE;
+  const deliveryPast =
+    load.pickup_date === null &&
+    load.delivery_date !== null &&
+    load.delivery_date < REFERENCE_DATE;
+  if (pickupPast || deliveryPast) {
+    const which = pickupPast ? "pickup" : "delivery";
+    const date = pickupPast ? load.pickup_date : load.delivery_date;
+    return {
+      line: `The posted ${which} date (${date}) has passed — please confirm updated timing.`,
+      stale: true,
+    };
+  }
   const parts: string[] = [];
   if (load.pickup_date) {
     const window = load.pickup_window ? ` (${load.pickup_window})` : "";
     parts.push(`Pickup ${load.pickup_date}${window}`);
   }
   if (load.delivery_date) parts.push(`delivery ${load.delivery_date}`);
-  return parts.join("; ");
+  return { line: parts.join("; "), stale: false };
 }
 
 function rateConfirm(f: DraftFacts): DraftResult {
@@ -182,10 +207,12 @@ function rateConfirm(f: DraftFacts): DraftResult {
     ? null
     : `One thing before dispatch: our records show ${f.compliance.concerns.join(" and ")}. This confirmation is contingent on getting that cleared — please send updated documentation.`;
 
-  const schedule = scheduleLine(f.load);
+  const schedule = scheduleInfo(f.load);
   const body = [
     `Hi ${firstName(f.recipient.name)},`,
-    `Confirming load ${f.load.load_id} — ${laneLine(f.load)} — at ${money(f.rate_usd)}.${schedule ? ` ${schedule}.` : ""}`,
+    `Confirming load ${f.load.load_id} — ${laneLine(f.load)} — at ${money(f.rate_usd)}.${!schedule.stale && schedule.line ? ` ${schedule.line}.` : ""}`,
+    // A past schedule is its own paragraph: flagged, never restated as live.
+    ...(schedule.stale ? [schedule.line] : []),
     ...(caveat ? [caveat] : []),
     "Please reply to confirm and we'll send over the rate confirmation.",
     SIGN_OFF,
@@ -231,10 +258,11 @@ function availabilityReply(f: DraftFacts): DraftResult {
         : f.load.offered_rate_usd !== null
           ? `, posted at ${money(f.load.offered_rate_usd)}`
           : "";
-    const schedule = scheduleLine(f.load);
+    const schedule = scheduleInfo(f.load);
     const body = [
       `Hi ${firstName(f.recipient.name)},`,
-      `Thanks for the availability update. We have load ${f.load.load_id} that may fit: ${laneLine(f.load)}${rate}.${schedule ? ` ${schedule}.` : ""} Interested?`,
+      `Thanks for the availability update. We have load ${f.load.load_id} that may fit: ${laneLine(f.load)}${rate}.${!schedule.stale && schedule.line ? ` ${schedule.line}.` : ""} Interested?`,
+      ...(schedule.stale ? [schedule.line] : []),
       SIGN_OFF,
     ].join("\n\n");
     return {
