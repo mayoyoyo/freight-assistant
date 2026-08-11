@@ -86,4 +86,7 @@ export type RunRecord = {
  * SYSTEM_PROMPT changes so before/after rows in the report are attributable.
  */
 // sp-v2 (2026-08-11): EMAIL DRAFTS section rewritten to mandate draft_email.
-export const PROMPT_VERSION = "sp-v2";
+// sp-v3 (2026-08-11): two generation-mode rules from the baseline failure
+// taxonomy — L06 ASR-name echo (resolved record name is canonical) and L07
+// verdict flip (compute before you lead, verdict stated once after figures).
+export const PROMPT_VERSION = "sp-v3";
