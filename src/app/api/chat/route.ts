@@ -36,8 +36,17 @@ export async function POST(req: Request) {
 
   const result = streamText({
     model: anthropic("claude-opus-5"),
-    // `instructions` is the v7 name for what used to be `system`.
-    instructions: SYSTEM_PROMPT,
+    // `instructions` is the v7 name for what used to be `system`. Message form
+    // so the cache breakpoint rides on it: tools + system are a fixed prefix
+    // re-read on every step of the loop, so steps 2..n (and any request inside
+    // the 5-min TTL) bill them at 0.1x instead of full price. Verified live via
+    // usage.inputTokenDetails.cacheReadTokens > 0. Caching never changes
+    // outputs, only billing/latency.
+    instructions: {
+      role: "system",
+      content: SYSTEM_PROMPT,
+      providerOptions: { anthropic: { cacheControl: { type: "ephemeral" } } },
+    },
     messages: await convertToModelMessages(history, { tools: freightTools }),
     tools: freightTools,
     stopWhen: stepCountIs(MAX_STEPS),

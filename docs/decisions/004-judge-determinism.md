@@ -2,87 +2,78 @@
 
 Status: accepted (Phase 4B) · Date: 2026-08-07
 
-> **Update 2026-08-07: all pending numbers below are now measured** (spend cap
-> raised); the original text is kept with measured values inserted. The
-> decision logic was applied as written: v2 measured better, so v2 is now the
-> default.
+> **Update 2026-08-09: v2 RETRACTED — v3 is the default.** Codex adversarial
+> review of PR #4 (finding 5) caught calibration contamination: v2's rules 6/7
+> quoted sentences verbatim from calibration drafts (CAL05/06/07/17) — the
+> items those rules were written to handle — so its calibration partly
+> measured lookup, not judgment; its numbers stand as a record but are
+> disclaimed. v3 rewrites
+> those examples held-out (rule semantics unchanged); a 5-word-shingle leakage
+> ratchet in `judge.test.ts` now screens every prompt version against every
+> calibration draft, with v2's five bespoke shingles pinned as an inverted
+> assertion. v3 on the untouched 20 items: commitments TPR 100% (13/13) / TNR
+> 100% (7/7) / κ 1.000; tone 100/100/κ 1.000; stability 12/12 unanimous.
+> `JUDGE_VERSION` = "v3". Full story: `evals/judge/versions.md`.
 >
-> **`[PENDING JUDGE BUDGET]` marks numbers that are not yet measured.** The
-> org spend cap was exhausted mid-phase; the v2 calibration and repeat-stability
-> runs are queued, not estimated. A fabricated calibration number would be the
-> worst artifact this harness could ship — the whole point of the judge is that
-> its error rates are *measured*.
+> **Update 2026-08-07: pending numbers measured** (spend cap raised); v2
+> measured better than v1 and became the default per the decision logic below
+> — later retracted, see above. The original draft marked unmeasured numbers
+> `[PENDING JUDGE BUDGET]` rather than estimating them: a fabricated
+> calibration number would be the worst artifact this harness could ship.
 
 ## Context
 
-The eval design doc pins the judge to `temperature: 0` for a correct reason: if
-the grader's own sampling wobbles, run-to-run variance in the headline is a
-mixture of agent and grader variance, and k=3 / pass^3 stop meaning what they
-claim. The grader must be the fixed instrument.
-
-**That instruction cannot be followed on this model.** `claude-opus-5` rejects
-`temperature`, `top_p` and `top_k` — HTTP 400 if any is present. There is no
-sampler knob to pin. The two bad answers: pass it anyway (every judge call
-breaks), or downgrade to an older model that accepts it, trading real capability
-for a nominal reproducibility claim.
+The eval design doc pins the judge to `temperature: 0` for a correct reason:
+if the grader's own sampling wobbles, headline variance mixes agent and
+grader variance, and k=3 / pass^3 stop meaning what they claim. **That
+instruction cannot be followed here**: `claude-opus-5` rejects `temperature`,
+`top_p` and `top_k` (HTTP 400). There is no sampler knob to pin, and
+downgrading models to get one trades real capability for a nominal claim.
 
 ## Decision
 
-Meet the design doc's **goal** by other means, and measure the result rather
-than assert it:
+Meet the design doc's **goal** by other means, and measure the result:
 
 1. **Constrained decode.** `generateObject` against a strict Zod schema:
-   `explanation`, then `label` (`PASS` | `FAIL`), then `confidence`. No
-   free-form text to drift in; the label is a two-element enum. **Field order is
-   load-bearing** — JSON generates left to right, so `explanation` first forces
-   reasoning before commitment. `judge.test.ts` asserts that order so a refactor
-   cannot silently reverse it.
-2. **Extended thinking disabled**, valid at the default `high` effort. Thinking
-   is on by default here and is a long, unconstrained, high-variance decode
-   path; the judge does not need it (explicit criteria, short inputs). Output is
-   additionally capped at 4096 tokens rather than the model's 128000 default.
-3. **Measured repeat-stability instead of assumed determinism.** `stability.ts`
-   runs the judge 3× over 6 calibration items and reports the flip rate — the
-   fraction of (item × check) cells whose labels are not unanimous.
+   `explanation`, then `label` (`PASS` | `FAIL`), then `confidence`. **Field
+   order is load-bearing** — JSON generates left to right, so
+   explanation-first forces reasoning before commitment; `judge.test.ts`
+   asserts the order.
+2. **Extended thinking disabled** (valid at the default `high` effort) — a
+   long, unconstrained, high-variance decode path the judge does not need.
+   Output capped at 4096 tokens vs the model's 128000 default.
+3. **Measured repeat-stability instead of assumed determinism.**
+   `stability.ts` runs the judge 3× over 6 calibration items and reports the
+   flip rate.
 
 Positive class is **PASS** everywhere: TPR is pass-recognition, **TNR is the
 failure-catching rate**. Raw agreement is never the headline — an always-PASS
-judge scores ~65–80% agreement on this set while catching zero failures, and
-`judge.test.ts` encodes that scenario as a regression test.
+judge scores ~65–80% agreement here while catching zero failures;
+`judge.test.ts` pins that scenario as a regression test.
 
 ## Consequences
 
-- **Part 3 is the substantive claim.** `temperature: 0` was only ever a proxy for
-  "same input, same verdict", and an imperfect one — batching and kernel
-  nondeterminism mean temp 0 is not bit-reproducible on a serving stack either;
-  it just stops you measuring. A measured flip rate puts a number on how much
-  observed agent variance could actually be judge variance.
-  **Flip rate (measured 2026-08-07, v2): 0/12 — 6 pinned calibration items x 2
-  checks x 3 repeats, every triplet unanimous (`stability-v2.json`).**
-- **v1 is measured and is therefore the default.** `no_invented_commitments`
-  TPR 76.9% / TNR 100.0% / κ 0.700; `professional_tone` 100% / 100% / κ 1.000
-  (n=20). The commitments TPR misses the >80% target and is reported as missing
-  it; all three errors are false alarms, zero missed failures.
-- **v2 exists, is diagnosed, and is NOT the default.** It addresses all three v1
-  false alarms, but its calibration run aborted on the spend cap, so
-  `JUDGE_VERSION` stays `"v1"`: the default must be the best *measured* prompt,
-  not the best *believed* one. **v2 metrics (measured 2026-08-07):
-  `no_invented_commitments` TPR 100% (13/13) / TNR 100% (7/7) / κ 1.000;
-  `professional_tone` 100%/100%/κ 1.000 (n=20; `calibration-v2.json`). All
-  three v1 false alarms resolved, zero new misses — so per this ADR's own
-  rule, `JUDGE_VERSION` is now `"v2"`. Caveat: 13/13 has a Wilson 95% interval
-  of [77.2%, 100%] — the cell reads "no observed misses", not "perfect
-  judge".**
-- **A stated resolution limit.** `professional_tone` has 4 negative labels, so
-  its TNR is quantized to 25-point steps — one miss reads as 75%. That is a
-  property of the label counts, not the prompt; report 75% with the caveat
-  rather than bolting an item-specific clause on to recover the cell. An
-  overfit judge is a worse deliverable than an honest 75%.
-- **Disabled thinking has a known failure mode** on this model (a tool call
-  written as plain text instead of a structured block). It surfaces as a
-  `generateObject` failure — loud, not silent — which is the right failure for
-  a grader.
+- **Part 3 is the substantive claim.** `temperature: 0` was only a proxy for
+  "same input, same verdict" — and imperfect: batching and kernel
+  nondeterminism mean temp 0 is not bit-reproducible on a serving stack
+  either. The measured flip rate bounds how much observed agent variance
+  could be judge variance: **0 of 12 item×check cells flipped (6 items × 2
+  checks, 3 repeats each), for v2 and again for v3 (`stability-v3.json`).**
+- **v1 measured**: `no_invented_commitments` TPR 76.9% / TNR 100.0% / κ
+  0.700; `professional_tone` 100/100/κ 1.000 (n=20). The commitments TPR
+  missed the >80% target and was reported as missing it; all three errors
+  were false alarms, zero missed failures.
+- **The default is the best *measured* prompt, never the best believed one.**
+  That rule promoted v2 only after calibration — and retracted it the same
+  way when the calibration proved contaminated (update above). Perfect cells
+  read "no observed misses", not "perfect judge": 13/13 has a Wilson 95%
+  interval of [77.2%, 100%].
+- **A stated resolution limit**: `professional_tone` has 4 negative labels,
+  so TNR is quantized to 25-point steps — one miss reads as 75%. Report that
+  with the caveat; an overfit judge is a worse deliverable than an honest 75%.
+- **Disabled thinking's known failure mode** (a tool call written as plain
+  text) surfaces as a `generateObject` failure — loud, not silent, the right
+  failure for a grader.
 
-Evidence: `evals/judge/versions.md` (per-version history and the resume protocol
-for when budget returns), `evals/judge/judge.ts`,
-`evals/judge/calibration-v1.json`.
+Evidence: `evals/judge/versions.md` (per-version history and the retraction),
+`evals/judge/judge.ts`, `evals/judge/calibration-v3.json`.

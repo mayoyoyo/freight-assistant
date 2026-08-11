@@ -76,8 +76,17 @@ export async function runAgent(
   try {
     const result = await generateText({
       model: resolveModel(model),
-      // `instructions` is the v7 name for what used to be `system`.
-      instructions: SYSTEM_PROMPT,
+      // `instructions` is the v7 name for what used to be `system`. Message
+      // form carries the Anthropic cache breakpoint (mirrors the route): the
+      // tools+system prefix is billed at 0.1x on every step after the first
+      // and across back-to-back runs inside the 5-min TTL — exactly the sweep
+      // shape. Ignored by the OpenAI leg (foreign providerOptions are
+      // dropped; OpenAI caches automatically anyway).
+      instructions: {
+        role: "system",
+        content: SYSTEM_PROMPT,
+        providerOptions: { anthropic: { cacheControl: { type: "ephemeral" } } },
+      },
       prompt: query,
       tools: freightTools,
       stopWhen: stepCountIs(MAX_STEPS),

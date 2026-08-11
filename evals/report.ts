@@ -339,8 +339,15 @@ function failureTaxonomy(groups: Graded[]): string {
           rows,
         ),
     "",
-    "**Fix effects are predictions, not results.** That is what makes this a baseline: the next",
-    "phase applies the fixes and this table gets a measured before/after column.",
+    ...(arg("--label")
+      ? [
+          "Failure-mode fix effects measured against the baseline are recorded in the",
+          "before/after table in the final summary.",
+        ]
+      : [
+          "**Fix effects are predictions, not results.** That is what makes this a baseline: the next",
+          "phase applies the fixes and this table gets a measured before/after column.",
+        ]),
     "",
     clean.length > 0
       ? `Modes with zero instances in the graded runs: ${clean.map((m) => m.name).join(", ")}.`
@@ -798,8 +805,9 @@ export function buildMarkdown(runsPath: string, casesPath?: string): string {
   const errored = runs.filter((r) => r.error).length;
   const label =
     errored === 0
-      ? "**BASELINE** — no agent or tool fixes applied"
-      : `**BASELINE (PARTIAL)** — no agent or tool fixes applied; ${errored}/${runs.length} runs could not be executed`;
+      ? (arg("--label") ?? "**BASELINE** — no agent or tool fixes applied")
+      : (arg("--label") ??
+        `**BASELINE (PARTIAL)** — no agent or tool fixes applied; ${errored}/${runs.length} runs could not be executed`);
 
   return [
     "# Freight assistant — eval report",
@@ -824,10 +832,18 @@ export function buildMarkdown(runsPath: string, casesPath?: string): string {
       ],
     ),
     "",
-    "This is the **baseline**. The two dominant failure modes from error analysis",
-    "(`equipment-blind`, `lane-join-blind`) are EXPECTED to fail cases here — 8 of the 24 cases",
-    "exist precisely to catch them. Nothing in the agent or the tools was changed to make this",
-    "report look better; the before/after comparison is the next phase's deliverable.",
+    ...(arg("--label")
+      ? [
+          "This run reflects the configuration named above; see the run label and the",
+          "adjudication notes in `cases.jsonl` for every change since the baseline, each",
+          "dated and tied to a verifying query.",
+        ]
+      : [
+          "This is the **baseline**. The two dominant failure modes from error analysis",
+          "(`equipment-blind`, `lane-join-blind`) are EXPECTED to fail cases here — 8 of the 24 cases",
+          "exist precisely to catch them. Nothing in the agent or the tools was changed to make this",
+          "report look better; the before/after comparison is the next phase's deliverable.",
+        ]),
     "",
     headline(groups),
     perBucket(groups),

@@ -174,3 +174,199 @@ describe.skipIf(NO_DB)(
     });
   },
 );
+
+// ---------------------------------------------------------------------------
+// draft_email — the DB-backed path. Renderer logic (templates, gate branches,
+// figure validation) is covered without a database in draft-email.test.ts;
+// these tests pin what only the integration can prove: recipient resolution
+// from real rows, rate validation against seeded data, and the compliance
+// gate firing on the corpus's actual CONDITIONAL carrier (D03's trap).
+// ---------------------------------------------------------------------------
+
+type DraftInput = Parameters<
+  NonNullable<typeof freightTools.draft_email.execute>
+>[0];
+
+async function draft(input: DraftInput) {
+  const execute = freightTools.draft_email.execute;
+  if (execute === undefined) throw new Error("draft_email has no execute");
+  const options = {
+    toolCallId: "test",
+    messages: [],
+  } as unknown as SearchOptions;
+  // biome-ignore lint/suspicious/noExplicitAny: test-side view of a union output
+  return (await execute(input, options)) as any;
+}
+
+describe.skipIf(NO_DB)(
+  "draft_email — resolution and the compliance gate",
+  () => {
+    it("CE0066 rate_confirm at the posted $950: renders with the CONDITIONAL contingency (D03)", async () => {
+      const r = await draft({
+        to_inquiry_id: "CE0066",
+        intent: "rate_confirm",
+        rate_usd: 950,
+      });
+      expect(r.refused).toBeUndefined();
+      // Recipient from the carrier record, load defaulted from the inquiry.
+      expect(r.draft.to_email).toBe("clint.frontier@gmail.com");
+      expect(r.draft.body).toContain("29372490");
+      expect(r.draft.body).toContain("$950");
+      // MC 885432 is CONDITIONAL: the caveat is forced, the draft still renders.
+      expect(r.compliance_caveat).toContain("CONDITIONAL");
+      expect(r.compliance.clear).toBe(false);
+      expect(r.sources).toEqual(["CE0066", "load 29372490", "MC 885432"]);
+    });
+
+    it("refuses a rate that exists nowhere in the data", async () => {
+      const r = await draft({
+        to_inquiry_id: "CE0066",
+        intent: "rate_confirm",
+        rate_usd: 1234,
+      });
+      expect(r.refused).toBe(true);
+      expect(r.reason).toContain("$1,234");
+      expect(r.reason).toContain("$950");
+    });
+
+    it("refuses an unknown carrier MC and an unknown inquiry", async () => {
+      const noCarrier = await draft({
+        to_carrier_mc: "000000",
+        intent: "decline",
+      });
+      expect(noCarrier.refused).toBe(true);
+      const noInquiry = await draft({
+        to_inquiry_id: "CE9999",
+        intent: "decline",
+      });
+      expect(noInquiry.refused).toBe(true);
+    });
+
+    it("accepts a call-id prefix, like search_inquiries does", async () => {
+      const r = await draft({
+        to_inquiry_id: "call_017",
+        intent: "info_request",
+        missing_info: ["current insurance certificate"],
+      });
+      expect(r.refused).toBeUndefined();
+      expect(r.sources[0]).toBe("call_017_availability_check");
+    });
+  },
+);
+
+describe.skipIf(NO_DB)("draft_email — review-round regressions", () => {
+  it("refuses a cross-load rate transplant (CE0099's $890 belongs to 29000138, not 29372490)", async () => {
+    const r = await draft({
+      to_inquiry_id: "CE0099",
+      intent: "rate_confirm",
+      load_id: "29372490",
+      rate_usd: 890,
+    });
+    expect(r.refused).toBe(true);
+    expect(r.reason).toContain("$890");
+  });
+
+  it("refuses contradictory anchors (CE0066 belongs to MC 885432, not 68333)", async () => {
+    const r = await draft({
+      to_inquiry_id: "CE0066",
+      to_carrier_mc: "68333",
+      intent: "rate_confirm",
+      rate_usd: 950,
+    });
+    expect(r.refused).toBe(true);
+    expect(r.reason).toContain("anchors disagree");
+  });
+
+  it("escapes LIKE metacharacters — a partial prefix or wildcard cannot resolve to an arbitrary call", async () => {
+    // 'call_0' escapes to call\_0\_% — ids continue with a digit, not an
+    // underscore, so a partial prefix matches nothing rather than 55 calls.
+    const partial = await draft({ to_inquiry_id: "call_0", intent: "decline" });
+    expect(partial.refused).toBe(true);
+    expect(partial.reason).toContain("not found");
+    // An explicit wildcard is treated as a literal, not a pattern.
+    const wildcard = await draft({
+      to_inquiry_id: "call_%",
+      intent: "decline",
+    });
+    expect(wildcard.refused).toBe(true);
+    expect(wildcard.reason).toContain("not found");
+  });
+
+  it("reaches a null-MC carrier through the resolved_carrier_id link (call_038 -> Blue Eagle)", async () => {
+    const r = await draft({
+      to_inquiry_id: "call_038",
+      intent: "info_request",
+      missing_info: ["your MC number"],
+    });
+    expect(r.refused).toBeUndefined();
+    expect(r.draft.to_email).toBe("tariq.blueeagle@gmail.com");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Adjudication-round fixes (2026-08-11): S06 lane fused-token; A05 name lookup
+// ---------------------------------------------------------------------------
+
+describe.skipIf(NO_DB)(
+  "search_inquiries — ASR-fused lane token (S06: lane-join blind)",
+  () => {
+    it("surfaces the PAMD calls on origin PA + dest MD", async () => {
+      // call_004/call_013 carry no load reference; their transcripts render
+      // the lane as the single token "PAMD". Pre-fix they were unreachable
+      // by any lane filter (S06 failed 0/3 at baseline AND post-fix).
+      const r = await search({
+        origin_state: "PA",
+        dest_state: "MD",
+        equipment: "Box Truck",
+        limit: 20,
+      });
+      expect(ids(r)).toContain("call_004_rate_negotiation");
+      expect(ids(r)).toContain("call_013_rate_negotiation");
+    });
+
+    it("does not leak fused-token matches into other lanes", async () => {
+      const r = await search({
+        origin_state: "PA",
+        dest_state: "DE",
+        limit: 20,
+      });
+      expect(ids(r)).not.toContain("call_004_rate_negotiation");
+      expect(ids(r)).not.toContain("call_013_rate_negotiation");
+    });
+  },
+);
+
+describe.skipIf(NO_DB)(
+  "carrier_history — company-name lookup (A05: unreachable carrier)",
+  () => {
+    type CarrierOut = Record<string, unknown> & {
+      candidates?: Array<{ company_name: string | null }>;
+    };
+    const lookup = async (input: Record<string, unknown>) => {
+      const execute = freightTools.carrier_history.execute as unknown as (
+        i: unknown,
+        o: unknown,
+      ) => Promise<CarrierOut>;
+      return execute(input, { toolCallId: "t", messages: [] });
+    };
+
+    it("reaches HKR LOGISTICS (null MC, null authority) by name", async () => {
+      const r = await lookup({ company_name: "HKR" });
+      expect(r.company_name).toBe("HKR LOGISTICS LLC");
+      expect(r.mc_number).toBeNull();
+      expect(r.authority_status).toBeNull();
+      expect(r.not_found).toBeUndefined();
+    });
+
+    it("returns candidates, not a guess, on an ambiguous name", async () => {
+      const r = await lookup({ company_name: "Logistics" });
+      expect(r.ambiguous).toBe(true);
+      expect((r.candidates ?? []).length).toBeGreaterThan(1);
+    });
+
+    it("still resolves by exact MC as before", async () => {
+      const r = await lookup({ mc_number: "776491" });
+      expect(r.company_name).toBe("SMR TRUCKING INC");
+    });
+  },
+);

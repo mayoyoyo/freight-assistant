@@ -22,6 +22,7 @@ import {
   desc,
   eq,
   gte,
+  ilike,
   inArray,
   like,
   lte,
@@ -32,6 +33,7 @@ import {
 import { z } from "zod";
 import { db } from "@/db";
 import { carriers, inquiries, loads, rateHistory } from "@/db/schema";
+import { composeDraft, DRAFT_INTENTS } from "@/lib/agent/draft-email";
 import { REFERENCE_DATE } from "@/lib/config";
 
 /** The only equipment vocabulary in the corpus. "Reefer" maps to Refrigerated. */
@@ -268,18 +270,26 @@ const searchInquiries = tool({
       input.since
         ? gte(inquiries.occurredAt, new Date(input.since))
         : undefined,
-      // Lane filters: the same `referencesLoad` subquery. No OR here — unlike
-      // equipment there is no inquiry-level lane column to OR against.
+      // Lane filters: the `referencesLoad` subquery, OR-ed with the ASR-fused
+      // lane token. Call transcripts render state pairs as one fused word
+      // ("the PAMD run", "PANJ") — see evals/components/fts-notes.md — and
+      // those calls carry no load reference, so without this OR they are
+      // unreachable by lane (S06 failure mode: lane-join blind).
       input.origin_state || input.dest_state
-        ? referencesLoad(
-            and(
-              input.origin_state
-                ? eq(loads.originState, input.origin_state)
-                : undefined,
-              input.dest_state
-                ? eq(loads.destinationState, input.dest_state)
-                : undefined,
+        ? or(
+            referencesLoad(
+              and(
+                input.origin_state
+                  ? eq(loads.originState, input.origin_state)
+                  : undefined,
+                input.dest_state
+                  ? eq(loads.destinationState, input.dest_state)
+                  : undefined,
+              ),
             ),
+            input.origin_state && input.dest_state
+              ? sql`${inquiries.search} @@ to_tsquery('english', ${`${input.origin_state}${input.dest_state}`.toLowerCase()})`
+              : undefined,
           )
         : undefined,
     ].filter((f) => f !== undefined);
@@ -354,41 +364,84 @@ const searchInquiries = tool({
 // 3. carrier_history
 // ---------------------------------------------------------------------------
 
+/**
+ * The one compliance computation, shared by `carrier_history` (which reports
+ * it) and `draft_email` (which gates on it). Always against REFERENCE_DATE,
+ * never the clock.
+ */
+function complianceFor(
+  authorityStatus: string | null,
+  insuranceExpiry: string | null,
+) {
+  const insuranceExpired =
+    insuranceExpiry === null ? null : insuranceExpiry < REFERENCE_DATE;
+  const authorityOk =
+    authorityStatus === null ? null : authorityStatus === "ACTIVE";
+
+  const concerns: string[] = [];
+  if (insuranceExpired === true)
+    concerns.push(
+      `insurance expired ${insuranceExpiry} (before ${REFERENCE_DATE})`,
+    );
+  if (insuranceExpired === null) concerns.push("insurance expiry unknown");
+  if (authorityOk === false)
+    concerns.push(`authority status is ${authorityStatus}, not ACTIVE`);
+  if (authorityOk === null) concerns.push("authority status unknown");
+
+  return { insuranceExpired, authorityOk, concerns };
+}
+
 const carrierHistory = tool({
   description:
-    "Full profile + compliance status + recent inquiry history for one carrier, by MC number. Call this before recommending, booking, or speaking positively about any carrier — it is the only place authority status and insurance expiry are visible.",
-  inputSchema: z.object({
-    mc_number: z.string().describe("MC number, digits only, no 'MC' prefix."),
-  }),
-  execute: async ({ mc_number }) => {
-    const [carrier] = await db()
-      .select()
-      .from(carriers)
-      .where(eq(carriers.mcNumber, mc_number))
-      .limit(1);
+    "Full profile + compliance status + recent inquiry history for one carrier, by MC number or company name. Call this before recommending, booking, or speaking positively about any carrier — it is the only place authority status and insurance expiry are visible. Some carriers have no MC on file; those are reachable only by company_name.",
+  inputSchema: z
+    .object({
+      mc_number: z
+        .string()
+        .describe("MC number, digits only, no 'MC' prefix.")
+        .optional(),
+      company_name: z
+        .string()
+        .describe(
+          "Company name (or a distinctive part of it) when no MC is known.",
+        )
+        .optional(),
+    })
+    .refine((v) => v.mc_number || v.company_name, {
+      message: "Provide mc_number or company_name.",
+    }),
+  execute: async ({ mc_number, company_name }) => {
+    // MC exact match first; name match is the fallback for the carriers that
+    // have no MC on file (A05 failure mode: unreachable carrier).
+    const matches = mc_number
+      ? await db()
+          .select()
+          .from(carriers)
+          .where(eq(carriers.mcNumber, mc_number))
+          .limit(2)
+      : await db()
+          .select()
+          .from(carriers)
+          .where(ilike(carriers.companyName, `%${company_name}%`))
+          .limit(4);
 
-    if (!carrier) return { not_found: true as const, mc_number };
+    if (matches.length === 0)
+      return { not_found: true as const, mc_number, company_name };
+    if (matches.length > 1)
+      return {
+        ambiguous: true as const,
+        candidates: matches.map((m) => ({
+          mc_number: m.mcNumber,
+          company_name: m.companyName,
+        })),
+      };
+    const carrier = matches[0] as (typeof matches)[number];
 
     const insuranceExpiry = asDate(carrier.insuranceExpiry);
-    // Compliance is evaluated against the frozen snapshot date, never the clock.
-    const insuranceExpired =
-      insuranceExpiry === null ? null : insuranceExpiry < REFERENCE_DATE;
-    const authorityOk =
-      carrier.authorityStatus === null
-        ? null
-        : carrier.authorityStatus === "ACTIVE";
-
-    const concerns: string[] = [];
-    if (insuranceExpired === true)
-      concerns.push(
-        `insurance expired ${insuranceExpiry} (before ${REFERENCE_DATE})`,
-      );
-    if (insuranceExpired === null) concerns.push("insurance expiry unknown");
-    if (authorityOk === false)
-      concerns.push(
-        `authority status is ${carrier.authorityStatus}, not ACTIVE`,
-      );
-    if (authorityOk === null) concerns.push("authority status unknown");
+    const { insuranceExpired, authorityOk, concerns } = complianceFor(
+      carrier.authorityStatus,
+      insuranceExpiry,
+    );
 
     const recent = await db()
       .select({
@@ -400,14 +453,14 @@ const carrierHistory = tool({
         rawText: inquiries.rawText,
       })
       .from(inquiries)
-      .where(eq(inquiries.resolvedCarrierMc, mc_number))
+      .where(eq(inquiries.resolvedCarrierId, carrier.id))
       .orderBy(sql`${inquiries.occurredAt} desc nulls last`, inquiries.id)
       .limit(10);
 
     const [totals] = await db()
       .select({ total: count() })
       .from(inquiries)
-      .where(eq(inquiries.resolvedCarrierMc, mc_number));
+      .where(eq(inquiries.resolvedCarrierId, carrier.id));
 
     return {
       mc_number: carrier.mcNumber,
@@ -550,6 +603,252 @@ const marketRate = tool({
   },
 });
 
+// ---------------------------------------------------------------------------
+// 5. draft_email
+// ---------------------------------------------------------------------------
+
+/**
+ * Structured drafting: the model selects the intent and fills the facts; a
+ * deterministic template (`draft-email.ts`) speaks. Everything the draft says
+ * is re-fetched and validated here — recipient from the carrier record (the
+ * name of record beats an ASR rendering), rate against the load/inquiry rows,
+ * compliance against the same computation `carrier_history` reports — so an
+ * invented figure or an ungated booking is a structured refusal, not prose.
+ */
+const draftEmail = tool({
+  description: [
+    "Render a reply email to a carrier from structured facts. ALWAYS use this to draft carrier emails — never compose an email body yourself.",
+    "Resolves the recipient from the database, verifies rate_usd against the load's posted rate or the anchored inquiry's quoted rate, and enforces the compliance gate on rate confirmations (blocked carriers are refused; concerns force a contingency paragraph).",
+    "Returns the finished draft plus the source ids to cite. If it refuses, relay the reason — do not write the email by hand.",
+  ].join(" "),
+  inputSchema: z.object({
+    to_inquiry_id: z
+      .string()
+      .optional()
+      .describe(
+        "Inquiry being replied to, e.g. 'CE0066' or 'call_017'. Preferred anchor: resolves the recipient, their quoted rate, and the referenced load.",
+      ),
+    to_carrier_mc: z
+      .string()
+      .optional()
+      .describe(
+        "Recipient carrier MC, digits only. Use when no specific inquiry is being answered.",
+      ),
+    intent: z.enum(DRAFT_INTENTS),
+    load_id: z
+      .string()
+      .optional()
+      .describe(
+        "Load the email is about. Defaults to the anchored inquiry's referenced load.",
+      ),
+    rate_usd: z
+      .number()
+      .optional()
+      .describe(
+        "Dollar figure the draft speaks. Must equal the load's posted rate or the anchored inquiry's quoted rate — anything else is refused.",
+      ),
+    pickup_date: z
+      .string()
+      .optional()
+      .describe("YYYY-MM-DD. Must match the load record if given."),
+    missing_info: z
+      .array(z.string())
+      .max(5)
+      .optional()
+      .describe("info_request only: the facts to ask the carrier for."),
+  }),
+  execute: async (input) => {
+    if (!input.to_inquiry_id && !input.to_carrier_mc) {
+      return {
+        refused: true as const,
+        reason:
+          "give to_inquiry_id or to_carrier_mc — a draft needs a recipient",
+      };
+    }
+
+    let inquiry = null;
+    if (input.to_inquiry_id) {
+      // Prefix tolerance like search_inquiries `ids`, but a DRAFT must go to
+      // exactly one recipient: LIKE metacharacters in the input are escaped
+      // (so 'call_0%' can't wildcard), and a prefix matching several records
+      // is refused rather than silently resolved to an arbitrary first row.
+      const escaped = input.to_inquiry_id.replace(/([\\%_])/g, "\\$1");
+      const rows = await db()
+        .select({
+          id: inquiries.id,
+          fromName: inquiries.fromName,
+          fromEmail: inquiries.fromEmail,
+          resolvedCarrierId: inquiries.resolvedCarrierId,
+          resolvedCarrierMc: inquiries.resolvedCarrierMc,
+          extractedLoadReference: inquiries.extractedLoadReference,
+          extractedRateUsd: inquiries.extractedRateUsd,
+        })
+        .from(inquiries)
+        .where(
+          or(
+            eq(inquiries.id, input.to_inquiry_id),
+            like(inquiries.id, `${escaped}\\_%`),
+          ),
+        )
+        .orderBy(inquiries.id)
+        .limit(2);
+      const exact = rows.find((r) => r.id === input.to_inquiry_id);
+      const match = exact ?? (rows.length === 1 ? rows[0] : undefined);
+      if (!match) {
+        return {
+          refused: true as const,
+          reason:
+            rows.length > 1
+              ? `inquiry id '${input.to_inquiry_id}' is ambiguous — give the exact id`
+              : `inquiry ${input.to_inquiry_id} not found`,
+        };
+      }
+      inquiry = match;
+    }
+
+    // The inquiry's own carrier resolves by row id first — the id link
+    // reaches the corpus's null-MC carriers, which an MC-keyed lookup cannot.
+    let inquiryCarrier = null;
+    if (inquiry?.resolvedCarrierId != null) {
+      const [row] = await db()
+        .select()
+        .from(carriers)
+        .where(eq(carriers.id, inquiry.resolvedCarrierId))
+        .limit(1);
+      inquiryCarrier = row ?? null;
+    } else if (inquiry?.resolvedCarrierMc) {
+      const [row] = await db()
+        .select()
+        .from(carriers)
+        .where(eq(carriers.mcNumber, inquiry.resolvedCarrierMc))
+        .limit(1);
+      inquiryCarrier = row ?? null;
+    }
+
+    let carrier = inquiryCarrier;
+    if (input.to_carrier_mc) {
+      const [mcCarrier] = await db()
+        .select()
+        .from(carriers)
+        .where(eq(carriers.mcNumber, input.to_carrier_mc))
+        .limit(1);
+      if (!mcCarrier) {
+        return {
+          refused: true as const,
+          reason: `no carrier with MC ${input.to_carrier_mc}`,
+        };
+      }
+      // Contradictory anchors would splice one carrier's facts into another
+      // carrier's inbox (and could dodge the stricter carrier's gate).
+      if (inquiryCarrier && inquiryCarrier.id !== mcCarrier.id) {
+        return {
+          refused: true as const,
+          reason: `anchors disagree: inquiry ${inquiry?.id} belongs to ${
+            inquiryCarrier.companyName ?? `MC ${inquiryCarrier.mcNumber}`
+          }, not MC ${input.to_carrier_mc} — use one anchor`,
+        };
+      }
+      carrier = mcCarrier;
+    }
+
+    const loadId = input.load_id ?? inquiry?.extractedLoadReference ?? null;
+    let load = null;
+    if (loadId) {
+      const [row] = await db()
+        .select()
+        .from(loads)
+        .where(eq(loads.loadId, loadId))
+        .limit(1);
+      if (!row) {
+        return { refused: true as const, reason: `load ${loadId} not found` };
+      }
+      load = row;
+    }
+
+    const insuranceExpiry = carrier ? asDate(carrier.insuranceExpiry) : null;
+    const gate = carrier
+      ? complianceFor(carrier.authorityStatus, insuranceExpiry)
+      : null;
+    const compliance =
+      carrier && gate
+        ? {
+            authority_status: carrier.authorityStatus,
+            insurance_expiry: insuranceExpiry,
+            insurance_expired: gate.insuranceExpired,
+            clear: gate.concerns.length === 0,
+            concerns: gate.concerns,
+          }
+        : null;
+
+    const result = composeDraft({
+      intent: input.intent,
+      recipient: {
+        // Carrier record first: the name of record beats an ASR rendering.
+        name: carrier?.primaryContact ?? inquiry?.fromName ?? null,
+        email: carrier?.email ?? inquiry?.fromEmail ?? null,
+        carrier_mc: carrier?.mcNumber ?? null,
+      },
+      inquiry_id: inquiry?.id ?? null,
+      load: load
+        ? {
+            load_id: load.loadId,
+            origin: `${load.originCity}, ${load.originState}`,
+            destination: `${load.destinationCity}, ${load.destinationState}`,
+            equipment_type: load.equipmentType,
+            weight_lbs: load.weightLbs,
+            pickup_date: asDate(load.pickupDate),
+            pickup_window: load.pickupWindow,
+            delivery_date: asDate(load.deliveryDate),
+            offered_rate_usd: load.offeredRateUsd,
+          }
+        : null,
+      compliance,
+      rate_usd: input.rate_usd ?? null,
+      // The inquiry's quoted rate is only admissible when the inquiry is
+      // about the selected load — otherwise CE0099's $890 (on load 29000138)
+      // could be transplanted into a confirmation for a different load.
+      allowed_rates: [
+        load?.offeredRateUsd,
+        loadId === null || inquiry?.extractedLoadReference === loadId
+          ? inquiry?.extractedRateUsd
+          : null,
+      ].filter((n): n is number => n !== null && n !== undefined),
+      pickup_date: input.pickup_date ?? null,
+      missing_info: input.missing_info ?? [],
+    });
+
+    const sources = [
+      ...(inquiry ? [inquiry.id] : []),
+      ...(load ? [`load ${load.loadId}`] : []),
+      ...(carrier ? [`MC ${carrier.mcNumber}`] : []),
+    ];
+
+    // Scalar id fields under the keys the eval's id extractor recognises
+    // (`id`, `load_id`, `mc_number`) — `sources` alone is invisible to it.
+    const basedOn = {
+      ...(inquiry ? { id: inquiry.id } : {}),
+      ...(load ? { load_id: load.loadId } : {}),
+      ...(carrier?.mcNumber ? { mc_number: carrier.mcNumber } : {}),
+    };
+
+    if ("refused" in result) {
+      return {
+        refused: true as const,
+        reason: result.reason,
+        based_on: basedOn,
+        sources,
+      };
+    }
+    return {
+      draft: result.draft,
+      compliance_caveat: result.compliance_caveat,
+      compliance,
+      based_on: basedOn,
+      sources,
+    };
+  },
+});
+
 /**
  * The registry. Adding a tool = one more key here.
  * `satisfies` (not `:`) so per-tool input/output types survive for
@@ -560,6 +859,7 @@ export const freightTools = {
   search_inquiries: searchInquiries,
   carrier_history: carrierHistory,
   market_rate: marketRate,
+  draft_email: draftEmail,
 };
 
 export type FreightTools = typeof freightTools;

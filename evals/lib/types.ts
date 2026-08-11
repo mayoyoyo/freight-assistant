@@ -15,7 +15,10 @@ export type EvalCase = {
   bucket: "factual_lookup" | "set_retrieval" | "email_draft" | "abstention";
   query: string;
   gold: Record<string, unknown>;
-  required_tools: { name: string; args_subset: Record<string, unknown> }[];
+  required_tools: (
+    | { name: string; args_subset: Record<string, unknown> }
+    | { any_of: { name: string; args_subset: Record<string, unknown> }[] }
+  )[];
   required_source_ids: string[];
   compliance_must_surface: string[];
   origin: "ground_truth" | "regression";
@@ -85,4 +88,8 @@ export type RunRecord = {
  * Prompt version identifier written into every run record. Bump when
  * SYSTEM_PROMPT changes so before/after rows in the report are attributable.
  */
-export const PROMPT_VERSION = "sp-v1";
+// sp-v2 (2026-08-11): EMAIL DRAFTS section rewritten to mandate draft_email.
+// sp-v3 (2026-08-11): two generation-mode rules from the baseline failure
+// taxonomy — L06 ASR-name echo (resolved record name is canonical) and L07
+// verdict flip (compute before you lead, verdict stated once after figures).
+export const PROMPT_VERSION = "sp-v3";

@@ -75,3 +75,14 @@ Readings, in the order they matter:
    2.8x pass@1 ratio. If per-query cost ever matters at Goodlane's scale, the
    play is a router (cheap model for lookups that pass, escalate on
    abstention/set queries), not a wholesale swap.
+
+## Addendum 2026-08-11 — sp-v3 generation-mode rules (L06/L07)
+
+Prompt sp-v3 added the taxonomy's two remaining named generation-mode fixes
+(L06: resolved record's company name is canonical over the ASR rendering;
+L07: compute before you lead — a comparative verdict is stated once, after
+its figures). Targeted rerun (k=3, judge v3, post-fix code+data):
+**L06 1/3 → 3/3, L07 1/3 → 3/3** (`runs-20260811T101013Z.jsonl`).
+n=3 per case: a strong signal, not a proof — the full-suite re-run is
+deferred on cost, so the headline numbers above remain the sp-v1/sp-v2
+measurements. The S-bucket intersection guidance remains the open next round.
