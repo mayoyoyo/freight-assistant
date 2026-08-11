@@ -302,3 +302,71 @@ describe.skipIf(NO_DB)("draft_email — review-round regressions", () => {
     expect(r.draft.to_email).toBe("tariq.blueeagle@gmail.com");
   });
 });
+
+// ---------------------------------------------------------------------------
+// Adjudication-round fixes (2026-08-11): S06 lane fused-token; A05 name lookup
+// ---------------------------------------------------------------------------
+
+describe.skipIf(NO_DB)(
+  "search_inquiries — ASR-fused lane token (S06: lane-join blind)",
+  () => {
+    it("surfaces the PAMD calls on origin PA + dest MD", async () => {
+      // call_004/call_013 carry no load reference; their transcripts render
+      // the lane as the single token "PAMD". Pre-fix they were unreachable
+      // by any lane filter (S06 failed 0/3 at baseline AND post-fix).
+      const r = await search({
+        origin_state: "PA",
+        dest_state: "MD",
+        equipment: "Box Truck",
+        limit: 20,
+      });
+      expect(ids(r)).toContain("call_004_rate_negotiation");
+      expect(ids(r)).toContain("call_013_rate_negotiation");
+    });
+
+    it("does not leak fused-token matches into other lanes", async () => {
+      const r = await search({
+        origin_state: "PA",
+        dest_state: "DE",
+        limit: 20,
+      });
+      expect(ids(r)).not.toContain("call_004_rate_negotiation");
+      expect(ids(r)).not.toContain("call_013_rate_negotiation");
+    });
+  },
+);
+
+describe.skipIf(NO_DB)(
+  "carrier_history — company-name lookup (A05: unreachable carrier)",
+  () => {
+    type CarrierOut = Record<string, unknown> & {
+      candidates?: Array<{ company_name: string | null }>;
+    };
+    const lookup = async (input: Record<string, unknown>) => {
+      const execute = freightTools.carrier_history.execute as unknown as (
+        i: unknown,
+        o: unknown,
+      ) => Promise<CarrierOut>;
+      return execute(input, { toolCallId: "t", messages: [] });
+    };
+
+    it("reaches HKR LOGISTICS (null MC, null authority) by name", async () => {
+      const r = await lookup({ company_name: "HKR" });
+      expect(r.company_name).toBe("HKR LOGISTICS LLC");
+      expect(r.mc_number).toBeNull();
+      expect(r.authority_status).toBeNull();
+      expect(r.not_found).toBeUndefined();
+    });
+
+    it("returns candidates, not a guess, on an ambiguous name", async () => {
+      const r = await lookup({ company_name: "Logistics" });
+      expect(r.ambiguous).toBe(true);
+      expect((r.candidates ?? []).length).toBeGreaterThan(1);
+    });
+
+    it("still resolves by exact MC as before", async () => {
+      const r = await lookup({ mc_number: "776491" });
+      expect(r.company_name).toBe("SMR TRUCKING INC");
+    });
+  },
+);

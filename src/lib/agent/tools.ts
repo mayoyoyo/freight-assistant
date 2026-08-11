@@ -22,6 +22,7 @@ import {
   desc,
   eq,
   gte,
+  ilike,
   inArray,
   like,
   lte,
@@ -269,18 +270,26 @@ const searchInquiries = tool({
       input.since
         ? gte(inquiries.occurredAt, new Date(input.since))
         : undefined,
-      // Lane filters: the same `referencesLoad` subquery. No OR here — unlike
-      // equipment there is no inquiry-level lane column to OR against.
+      // Lane filters: the `referencesLoad` subquery, OR-ed with the ASR-fused
+      // lane token. Call transcripts render state pairs as one fused word
+      // ("the PAMD run", "PANJ") — see evals/components/fts-notes.md — and
+      // those calls carry no load reference, so without this OR they are
+      // unreachable by lane (S06 failure mode: lane-join blind).
       input.origin_state || input.dest_state
-        ? referencesLoad(
-            and(
-              input.origin_state
-                ? eq(loads.originState, input.origin_state)
-                : undefined,
-              input.dest_state
-                ? eq(loads.destinationState, input.dest_state)
-                : undefined,
+        ? or(
+            referencesLoad(
+              and(
+                input.origin_state
+                  ? eq(loads.originState, input.origin_state)
+                  : undefined,
+                input.dest_state
+                  ? eq(loads.destinationState, input.dest_state)
+                  : undefined,
+              ),
             ),
+            input.origin_state && input.dest_state
+              ? sql`${inquiries.search} @@ to_tsquery('english', ${`${input.origin_state}${input.dest_state}`.toLowerCase()})`
+              : undefined,
           )
         : undefined,
     ].filter((f) => f !== undefined);
@@ -384,18 +393,49 @@ function complianceFor(
 
 const carrierHistory = tool({
   description:
-    "Full profile + compliance status + recent inquiry history for one carrier, by MC number. Call this before recommending, booking, or speaking positively about any carrier — it is the only place authority status and insurance expiry are visible.",
-  inputSchema: z.object({
-    mc_number: z.string().describe("MC number, digits only, no 'MC' prefix."),
-  }),
-  execute: async ({ mc_number }) => {
-    const [carrier] = await db()
-      .select()
-      .from(carriers)
-      .where(eq(carriers.mcNumber, mc_number))
-      .limit(1);
+    "Full profile + compliance status + recent inquiry history for one carrier, by MC number or company name. Call this before recommending, booking, or speaking positively about any carrier — it is the only place authority status and insurance expiry are visible. Some carriers have no MC on file; those are reachable only by company_name.",
+  inputSchema: z
+    .object({
+      mc_number: z
+        .string()
+        .describe("MC number, digits only, no 'MC' prefix.")
+        .optional(),
+      company_name: z
+        .string()
+        .describe(
+          "Company name (or a distinctive part of it) when no MC is known.",
+        )
+        .optional(),
+    })
+    .refine((v) => v.mc_number || v.company_name, {
+      message: "Provide mc_number or company_name.",
+    }),
+  execute: async ({ mc_number, company_name }) => {
+    // MC exact match first; name match is the fallback for the carriers that
+    // have no MC on file (A05 failure mode: unreachable carrier).
+    const matches = mc_number
+      ? await db()
+          .select()
+          .from(carriers)
+          .where(eq(carriers.mcNumber, mc_number))
+          .limit(2)
+      : await db()
+          .select()
+          .from(carriers)
+          .where(ilike(carriers.companyName, `%${company_name}%`))
+          .limit(4);
 
-    if (!carrier) return { not_found: true as const, mc_number };
+    if (matches.length === 0)
+      return { not_found: true as const, mc_number, company_name };
+    if (matches.length > 1)
+      return {
+        ambiguous: true as const,
+        candidates: matches.map((m) => ({
+          mc_number: m.mcNumber,
+          company_name: m.companyName,
+        })),
+      };
+    const carrier = matches[0] as (typeof matches)[number];
 
     const insuranceExpiry = asDate(carrier.insuranceExpiry);
     const { insuranceExpired, authorityOk, concerns } = complianceFor(
@@ -413,14 +453,14 @@ const carrierHistory = tool({
         rawText: inquiries.rawText,
       })
       .from(inquiries)
-      .where(eq(inquiries.resolvedCarrierMc, mc_number))
+      .where(eq(inquiries.resolvedCarrierId, carrier.id))
       .orderBy(sql`${inquiries.occurredAt} desc nulls last`, inquiries.id)
       .limit(10);
 
     const [totals] = await db()
       .select({ total: count() })
       .from(inquiries)
-      .where(eq(inquiries.resolvedCarrierMc, mc_number));
+      .where(eq(inquiries.resolvedCarrierId, carrier.id));
 
     return {
       mc_number: carrier.mcNumber,
