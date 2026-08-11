@@ -1,6 +1,26 @@
 # Implementation Status: Goodlane Freight Carrier Agent
 Plan: .claude/plans/goodlane-freight-agent-2026-08-06.md
-Last Updated: 2026-08-07 (session 3 FINAL — Phase 4 COMPLETE, PR #4 open)
+Last Updated: 2026-08-10 (session 5 — polish round; project LIVE, PR #6 open)
+
+## SESSION 5 (2026-08-10) — interview-prep polish round
+1. DONE ADR trim — PR #6 (docs/adr-trim): all 4 ADRs tightened (2,431→1,848
+   words), ADR 004 gains the missing v2-retraction update block, ADR 003 the
+   v3 re-grade note. Codex adversarial review: 6 findings, 5 accepted+fixed
+   (blocker: prediction claim over-reached — only L05's fix prediction was
+   validated; L06/L07 prompt-rule fixes were never applied). CI green.
+   ⛔ MERGE BLOCKED by tool-permission classifier — Hanson merges PR #6.
+   Follow-ups flagged, not fixed: report-postfix.md:5 stale "BASELINE" label
+   (report generator); versions.md:243 says CAL07/17 were v1 false alarms —
+   actual v1 misses CAL05/06/16 (calibration-v1.json) — needs a dated
+   correction note, never a silent edit.
+2. DONE draft_email tool DESIGN (not implemented) — private note
+   HANDOFF-2026-08-10-draft-email-design.md. Implementation reserved as the
+   live-extension rehearsal rep with Hanson (schema → tools.ts → prompt line
+   → live probe → D-bucket before/after, ~$5).
+3. DONE WALKTHROUGH.md restructured (gitignored): one-page overview + 5
+   headline numbers / per-layer detail / topic-indexed Q&A.
+Reminder standing: Deployment Protection OFF for demo — re-enable after
+the interview.
 
 ## Pre-implementation (done)
 - [x] Architecture diagram `docs/architecture.svg` — APPROVED by Hanson
