@@ -96,7 +96,17 @@ export const setF1 = {
     ]);
 
     const text = foldPunctuation(r.text ?? "");
-    const found = extractInquiryIds(text);
+    // ANSWER CONTRACT (2026-08-11 adjudication): a set answer may end with an
+    // explicit "Matches:" line; when present, that line IS the asserted set.
+    // Citations elsewhere in the prose (scope notes explaining why a record is
+    // excluded) no longer count as membership. Rationale: citation-anywhere
+    // semantics graded good answers as wrong — S01/S06 listed the correct set,
+    // then cited excluded records precisely to say they were excluded.
+    const matchesLine = /^\s*(?:\*+\s*)?matches\s*:?\**\s*(.*)$/im.exec(text);
+    const found =
+      matchesLine != null
+        ? extractInquiryIds(matchesLine[1] ?? "")
+        : extractInquiryIds(text);
     const scored = found.filter((id) => !neutral.has(id));
 
     const hits = scored.filter((id) => gold.has(id));

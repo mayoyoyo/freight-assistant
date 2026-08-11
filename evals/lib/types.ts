@@ -15,7 +15,10 @@ export type EvalCase = {
   bucket: "factual_lookup" | "set_retrieval" | "email_draft" | "abstention";
   query: string;
   gold: Record<string, unknown>;
-  required_tools: { name: string; args_subset: Record<string, unknown> }[];
+  required_tools: (
+    | { name: string; args_subset: Record<string, unknown> }
+    | { any_of: { name: string; args_subset: Record<string, unknown> }[] }
+  )[];
   required_source_ids: string[];
   compliance_must_surface: string[];
   origin: "ground_truth" | "regression";

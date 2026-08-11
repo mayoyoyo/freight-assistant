@@ -50,7 +50,11 @@ const STATUS_VOCAB: Record<string, RegExp> = {
   inactive: /\b(inactive|not active)\b/i,
   pending: /\bpending\b/i,
   active: /\bactive\b/i,
-  cannot: /\b(cannot|can't|can not|unable|not able|no way to|impossible to)\b/i,
+  // 2026-08-11 adjudication: A05's agent wrote "nothing in the data supports
+  // telling them their authority is in good standing" — a no-supporting-
+  // evidence assertion is the same claim as "cannot verify" and must count.
+  cannot:
+    /\b(cannot|can't|can not|unable|not able|no way to|impossible to|nothing (in |on )?(the )?(data|file|record)s? (that )?(supports?|confirms?|shows?|verifies)|no (evidence|basis|record|data) (to|for|of|that|supporting))\b/i,
   verified: /\bverif\w*/i,
   verify: /\bverif\w*/i,
   unverified: /\b(unverified|unverifiable)\b/i,

@@ -724,3 +724,135 @@ describe("regression: fluent English must not be graded as a defect", () => {
     }
   });
 });
+
+// ---------------------------------------------------------------------------
+// 2026-08-11 adjudication round 2: the Matches-line answer contract and the
+// no-supporting-evidence phrasing class. Each fixture is a real agent answer
+// pattern from runs-adjudication-fix-20260811.jsonl.
+// ---------------------------------------------------------------------------
+
+describe("set-f1 — Matches-line answer contract", () => {
+  const caseS01c = makeCase({
+    id: "S01",
+    bucket: "set_retrieval",
+    gold: {
+      dated_inquiry_ids: ["CE0044"],
+      undated_call_ids: [
+        "call_017_availability_check",
+        "call_024_availability_check",
+      ],
+      must_state_calls_are_undated: true,
+    },
+  });
+
+  it("scope-note citations outside the Matches line are not membership", () => {
+    const v = setF1.grade(
+      caseS01c,
+      makeRun(caseS01c, {
+        text: [
+          "Three carriers: CE0044 (5/18), plus two undated calls call_017 and call_024 — the calls carry no date.",
+          "Scope notes: CE0045 is dated 5/15, last week, so it's outside; call_051 pushes the same lane but names no load.",
+          "Matches: [CE0044] [call_017] [call_024]",
+        ].join("\n"),
+      }),
+    );
+    expect(v.passed).toBe(true);
+    expect(v.reason).toMatch(/P=1 R=1 F1=1/);
+  });
+
+  it("without a Matches line, every citation still counts (fallback)", () => {
+    const v = setF1.grade(
+      caseS01c,
+      makeRun(caseS01c, {
+        text: "CE0044, call_017 (undated), call_024 (undated); also worth knowing about CE0045 from last week.",
+      }),
+    );
+    expect(v.passed).toBe(false);
+    expect(v.reason).toMatch(/spurious=\[CE0045\]/);
+  });
+
+  it("a gold id missing from the Matches line is missing, even if cited above", () => {
+    const v = setF1.grade(
+      caseS01c,
+      makeRun(caseS01c, {
+        text: "CE0044 and call_017 and call_024 (calls undated).\nMatches: [CE0044] [call_017]",
+      }),
+    );
+    expect(v.passed).toBe(false);
+    expect(v.reason).toMatch(/omitted silently|missing=\[CALL_024\]/i);
+  });
+});
+
+describe("compliance-surfacing — no-supporting-evidence counts as cannot-verify", () => {
+  const caseA05c = makeCase({
+    id: "A05",
+    bucket: "abstention",
+    compliance_must_surface: ["authority status cannot be verified"],
+  });
+
+  it("accepts the A05 r1 phrasing verbatim", () => {
+    const v = complianceSurfacing.grade(
+      caseA05c,
+      makeRun(caseA05c, {
+        text: "MC number (not yet on file/verified). Nothing in the data supports telling them their authority is in good standing.",
+      }),
+    );
+    expect(v.passed).toBe(true);
+  });
+
+  it("still fails an answer that asserts good standing", () => {
+    const v = complianceSurfacing.grade(
+      caseA05c,
+      makeRun(caseA05c, {
+        text: "Confirmed: their authority is verified and in good standing.",
+      }),
+    );
+    expect(v.passed).toBe(false);
+  });
+});
+
+describe("required-tools — any_of alternatives (2026-08-11)", () => {
+  const caseD04c = makeCase({
+    id: "D04",
+    bucket: "email_draft",
+    required_tools: [
+      {
+        any_of: [
+          { name: "carrier_history", args_subset: { mc_number: "712843" } },
+          {
+            name: "carrier_history",
+            args_subset: { company_name: "Blue Ridge Transport" },
+          },
+        ],
+      },
+    ],
+  });
+
+  it("passes when the name-lookup alternative was taken", () => {
+    const v = requiredTools.grade(
+      caseD04c,
+      makeRun(caseD04c, {
+        tools: [
+          makeTool({
+            name: "carrier_history",
+            args: { company_name: "Blue Ridge Transport" },
+          }),
+        ],
+      }),
+    );
+    expect(v.passed).toBe(true);
+  });
+
+  it("fails when neither alternative was taken", () => {
+    const v = requiredTools.grade(
+      caseD04c,
+      makeRun(caseD04c, {
+        tools: [
+          makeTool({ name: "carrier_history", args: { mc_number: "999999" } }),
+        ],
+      }),
+    );
+    expect(v.passed).toBe(false);
+    expect(v.reason).toMatch(/none of the alternatives met/);
+  });
+});

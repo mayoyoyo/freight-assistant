@@ -87,6 +87,24 @@ export const requiredTools = {
 
     const failures: string[] = [];
     for (const req of c.required_tools) {
+      // 2026-08-11: `any_of` — a requirement satisfiable by alternative tool
+      // paths. Added when carrier_history gained company_name lookup: cases
+      // written against the MC-only surface (A04/D04) failed agents that took
+      // the new, equally-correct path.
+      if ("any_of" in req) {
+        const alternatives = req.any_of;
+        const met = alternatives.some((alt) =>
+          r.tools.some(
+            (t) => t.name === alt.name && argsSuperset(t.args, alt.args_subset),
+          ),
+        );
+        if (!met) {
+          failures.push(
+            `none of the alternatives met: ${alternatives.map((a) => `${a.name} ⊇ ${JSON.stringify(a.args_subset)}`).join(" OR ")}`,
+          );
+        }
+        continue;
+      }
       const sameName = r.tools.filter((t) => t.name === req.name);
       if (sameName.length === 0) {
         const called = r.tools.map((t) => t.name);
